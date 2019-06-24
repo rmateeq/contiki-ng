@@ -1,3 +1,8 @@
+#include "cc1200-const.h"
+#include "cc1200-conf.h"
+#include "cc1200-arch.h"
+#include "cc1200-rf-cfg.h"
+
 #include "contiki.h"
 #include "net/routing/routing.h"
 #include "random.h"
@@ -50,9 +55,10 @@ PROCESS_THREAD(udp_client_process, ev, data)
   PROCESS_BEGIN();
   //<<set tx power>>
   printf("tp before %d \n",RADIO_PARAM_TXPOWER);
-  int tx_level = 0;
-  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tx_level);
-  printf("tp state %d \n",rd);
+  //int tx_level = 0;
+  //int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tx_level);
+  update_txpower(0);
+  //printf("tp state %d \n",rd);
   printf("tp after %d \n",RADIO_PARAM_TXPOWER);
   //>>set tx power<<
          
