@@ -8,6 +8,7 @@
 #include "random.h"
 #include "net/netstack.h"
 #include "net/ipv6/simple-udp.h"
+#include "dev/radio.h"
 
 #include "sys/log.h"
 #define LOG_MODULE "App"
@@ -55,17 +56,18 @@ PROCESS_THREAD(udp_client_process, ev, data)
   PROCESS_BEGIN();
   //<<set tx power>>
   printf("tp before %d \n",RADIO_PARAM_TXPOWER);
-  //int tx_level = 0;
-  //int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tx_level);
-  update_txpower(0);
-  //printf("tp state %d \n",rd);
+  radio_value_t tx_level = 0;
+  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tx_level);
+  printf("tp state %d \n",rd);
   printf("tp after %d \n",RADIO_PARAM_TXPOWER);
   //>>set tx power<<
          
   /* Initialize UDP connection */
   simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
                       UDP_SERVER_PORT, udp_rx_callback);
-
+ //<<set tx power>>
+  printf("tp after %d \n",RADIO_PARAM_TXPOWER);
+  //>>set tx power<<
   etimer_set(&periodic_timer, random_rand() % SEND_INTERVAL);
   while(1) {
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
@@ -76,6 +78,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
       LOG_INFO_6ADDR(&dest_ipaddr);
       LOG_INFO_("\n");
       snprintf(str, sizeof(str), "hello %d", count);
+     //<<set tx power>>
+     printf("tp after %d \n",RADIO_PARAM_TXPOWER);
+  //>>set tx power<<
       simple_udp_sendto(&udp_conn, str, strlen(str), &dest_ipaddr);
       count++;
     } else {
