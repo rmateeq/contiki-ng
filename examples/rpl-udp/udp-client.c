@@ -11,9 +11,9 @@
 #define WITH_SERVER_REPLY  1
 #define UDP_CLIENT_PORT	8765
 #define UDP_SERVER_PORT	5678
-
-#define SEND_INTERVAL		  (60 * CLOCK_SECOND)
- 
+//<<set interval 10 instead of 60>>
+#define SEND_INTERVAL		  (10 * CLOCK_SECOND)
+ //>>set interval 10 instead of 60<<
 
 static struct simple_udp_connection udp_conn;
 
