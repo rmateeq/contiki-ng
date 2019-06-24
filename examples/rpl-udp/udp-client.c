@@ -13,6 +13,7 @@
 #define UDP_SERVER_PORT	5678
 
 #define SEND_INTERVAL		  (60 * CLOCK_SECOND)
+ 
 
 static struct simple_udp_connection udp_conn;
 
@@ -47,7 +48,13 @@ PROCESS_THREAD(udp_client_process, ev, data)
   uip_ipaddr_t dest_ipaddr;
 
   PROCESS_BEGIN();
-
+  //<<set tx power>>
+  printf("tp before %d \n",RADIO_PARAM_TXPOWER);
+  int tx_level = -16;
+  NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tx_level);
+  printf("tp after %d \n",RADIO_PARAM_TXPOWER);
+  //>>set tx power<<
+         
   /* Initialize UDP connection */
   simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
                       UDP_SERVER_PORT, udp_rx_callback);
