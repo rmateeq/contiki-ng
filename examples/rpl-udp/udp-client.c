@@ -61,9 +61,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
   //update_txpower((int8_t)-16);
   printf("tp state %d \n",rd);
   printf("tp after %d \n",RADIO_PARAM_TXPOWER);
-  int rv;
+  int *rv;
   NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, rv);
-  printf("....tp after %d \n",rv);
+  printf("....tp after %d \n",*rv);
   //>>set tx power<<
          
   /* Initialize UDP connection */
