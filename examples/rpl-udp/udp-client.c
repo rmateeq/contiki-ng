@@ -55,12 +55,13 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
   PROCESS_BEGIN();
   //<<set tx power>>
-  printf("tp before %d \n",RADIO_PARAM_TXPOWER);
+  //printf("tp before %d \n",RADIO_PARAM_TXPOWER);
  int val1;
   NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &val1);
   printf("....tp before %d \n",val1);
   //radio_value_t tx_level = -16;
-  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, CC1200_CONST_TX_POWER_MIN);
+  //int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, CC1200_CONST_TX_POWER_MIN);
+  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, 0);
   //update_txpower((int8_t)-16);
   printf("tp state %d \n",rd);
   printf("tp after %d \n",RADIO_PARAM_TXPOWER);
@@ -73,7 +74,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
                       UDP_SERVER_PORT, udp_rx_callback);
  //<<set tx power>>
-  printf("tp after %d \n",RADIO_PARAM_TXPOWER);
+  //printf("tp after %d \n",RADIO_PARAM_TXPOWER);
   //>>set tx power<<
   etimer_set(&periodic_timer, random_rand() % SEND_INTERVAL);
   while(1) {
@@ -86,7 +87,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
       LOG_INFO_("\n");
       snprintf(str, sizeof(str), "hello %d", count);
      //<<set tx power>>
-     printf("tp after %d \n",RADIO_PARAM_TXPOWER);
+     //printf("tp after %d \n",RADIO_PARAM_TXPOWER);
   //>>set tx power<<
       simple_udp_sendto(&udp_conn, str, strlen(str), &dest_ipaddr);
       count++;
