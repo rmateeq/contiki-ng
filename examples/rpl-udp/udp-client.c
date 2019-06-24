@@ -51,7 +51,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   //<<set tx power>>
   printf("tp before %d \n",RADIO_PARAM_TXPOWER);
   int tx_level = -16;
-  int rd = printfNETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tx_level);
+  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tx_level);
   printf("tp state %d \n",rd);
   printf("tp after %d \n",RADIO_PARAM_TXPOWER);
   //>>set tx power<<
