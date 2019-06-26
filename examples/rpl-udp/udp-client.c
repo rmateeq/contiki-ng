@@ -61,16 +61,17 @@ PROCESS_THREAD(udp_client_process, ev, data)
   static unsigned count;
   static char str[32];
   uip_ipaddr_t dest_ipaddr;
-
+  FILE * fp;
+ 
   PROCESS_BEGIN();
 
   //<<file>>
-  FILE * fp;
-  int i;
+  
+  //int i;
   const char filepath[] = "/groups/wall2../rt-mac/data/";
   //const char nodeid[] = ;
   char sbuf[1024];
-  sprintf (sbuf, "%s/%s", filepath, node_id);
+  sprintf (sbuf, "%s/%d", filepath, node_id);
   fp = fopen (sbuf,"a");
   //>>file<<
  
