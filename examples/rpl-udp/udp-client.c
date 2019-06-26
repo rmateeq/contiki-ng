@@ -61,7 +61,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   static unsigned count;
   static char str[32];
   uip_ipaddr_t dest_ipaddr;
-  FILE * fp NULL;
+  FILE * fp = NULL;
  
   PROCESS_BEGIN();
 
