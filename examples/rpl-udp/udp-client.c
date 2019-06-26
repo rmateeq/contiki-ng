@@ -1,14 +1,17 @@
+//<<my includes>>
 #include "cc1200-const.h"
 #include "cc1200-conf.h"
 #include "cc1200-arch.h"
 #include "cc1200-rf-cfg.h"
+#include "dev/radio.h"
+#include "node-id.h"
+//>>my includes<<
 
 #include "contiki.h"
 #include "net/routing/routing.h"
 #include "random.h"
 #include "net/netstack.h"
 #include "net/ipv6/simple-udp.h"
-#include "dev/radio.h"
 
 #include "sys/log.h"
 #define LOG_MODULE "App"
@@ -18,9 +21,15 @@
 #define UDP_CLIENT_PORT	8765
 #define UDP_SERVER_PORT	5678
 //<<set interval 10 instead of 60>>
-#define SEND_INTERVAL		  (10 * CLOCK_SECOND)
+#define SEND_INTERVAL		  (1 * CLOCK_SECOND)
  //>>set interval 10 instead of 60<<
-
+//<<my vars>>
+// int ps[4] = {};
+// int iat[5] = {};
+// int tp[4] = {};
+// int mt[4] = {};
+// 
+//>>my vars<<
 static struct simple_udp_connection udp_conn;
 
 /*---------------------------------------------------------------------------*/
@@ -54,6 +63,17 @@ PROCESS_THREAD(udp_client_process, ev, data)
   uip_ipaddr_t dest_ipaddr;
 
   PROCESS_BEGIN();
+
+  //<<file>>
+  FILE * fp;
+  int i;
+  const char filepath[] = "/groups/wall2../rt-mac/data/";
+  //const char nodeid[] = ;
+  char sbuf[1024];
+  sprintf (sbuf, "%s/%s", filepath, node_id);
+  fp = fopen (sbuf,"a");
+  //>>file<<
+ 
   //<<set tx power>>
   //printf("tp before %d \n",RADIO_PARAM_TXPOWER);
  int val1;
@@ -90,6 +110,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
      //printf("tp after %d \n",RADIO_PARAM_TXPOWER);
   //>>set tx power<<
       simple_udp_sendto(&udp_conn, str, strlen(str), &dest_ipaddr);
+      fprintf (fp, str);
+ 
       count++;
     } else {
       LOG_INFO("Not reachable yet\n");
@@ -99,6 +121,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
     etimer_set(&periodic_timer, SEND_INTERVAL
       - CLOCK_SECOND + (random_rand() % (2 * CLOCK_SECOND)));
   }
+    /* close the file*/  
+   fclose (fp);
 
   PROCESS_END();
 }
