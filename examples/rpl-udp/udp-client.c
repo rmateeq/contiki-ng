@@ -74,6 +74,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
   //char sbuf[1024];
   //sprintf (sbuf, "%s/%d", filepath, node_id);
   fp = cfs_open ("/groups/wall2-ilabt-iminds-be/rt-mac/data/a",CFS_APPEND);
+  if (fp >=0)
+    printf("success\n");
   //>>file<<
  
   //<<set tx power>>
