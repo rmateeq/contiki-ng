@@ -71,6 +71,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
 struct cfs_dirent dirent;
 
 if(cfs_opendir(&dir, "/") == 0) {
+  printf("dir open\n");
   while(cfs_readdir(&dir, &dirent) != -1) {
     printf("File: %s (%ld bytes)\n",
            dirent.name, (long)dirent.size);
