@@ -67,13 +67,22 @@ PROCESS_THREAD(udp_client_process, ev, data)
   PROCESS_BEGIN();
 
   //<<file>>
-  
+  struct cfs_dir dir;
+struct cfs_dirent dirent;
+
+if(cfs_opendir(&dir, "/") == 0) {
+  while(cfs_readdir(&dir, &dirent) != -1) {
+    printf("File: %s (%ld bytes)\n",
+           dirent.name, (long)dirent.size);
+  }
+  cfs_closedir(&dir);
+}
   //int i;
   //const char filepath[] = "/groups/wall2-ilabt-iminds-be/rt-mac/data/";
   //const char nodeid[] = ;
   //char sbuf[1024];
   //sprintf (sbuf, "%s/%d", filepath, node_id);
-  fp = cfs_open ("/groups/wall2-ilabt-iminds-be/rt-mac/data/a",CFS_APPEND);
+  fp = cfs_open ("/groups/wall2-ilabt-iminds-be/rt-mac/data/a.txt",CFS_APPEND);
   if (fp >=0)
     printf("success\n");
   //>>file<<
