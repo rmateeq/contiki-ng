@@ -5,6 +5,7 @@
 #include "cc1200-rf-cfg.h"
 #include "dev/radio.h"
 #include "node-id.h"
+#include "os/storage/cfs/cfs.h"
 //>>my includes<<
 
 #include "contiki.h"
@@ -18,10 +19,10 @@
 #define LOG_LEVEL LOG_LEVEL_INFO
 
 #define WITH_SERVER_REPLY  1
-#define UDP_CLIENT_PORT	8765
-#define UDP_SERVER_PORT	5678
+#define UDP_CLIENT_PORT 8765
+#define UDP_SERVER_PORT 5678
 //<<set interval 10 instead of 60>>
-#define SEND_INTERVAL		  (1 * CLOCK_SECOND)
+#define SEND_INTERVAL     (1 * CLOCK_SECOND)
  //>>set interval 10 instead of 60<<
 //<<my vars>>
 // int ps[4] = {};
@@ -61,7 +62,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   static unsigned count;
   static char str[32];
   uip_ipaddr_t dest_ipaddr;
-  FILE * fp = NULL;
+  int fp = -1;
  
   PROCESS_BEGIN();
 
@@ -72,7 +73,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   //const char nodeid[] = ;
   char sbuf[1024];
   sprintf (sbuf, "%s/%d", filepath, node_id);
-  fp = fopen (sbuf,"a");
+  fp = cfs_open (sbuf,CFS_APPEND);
   //>>file<<
  
   //<<set tx power>>
@@ -111,7 +112,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
      //printf("tp after %d \n",RADIO_PARAM_TXPOWER);
   //>>set tx power<<
       simple_udp_sendto(&udp_conn, str, strlen(str), &dest_ipaddr);
-      fprintf (fp, str);
+      cfs_write (fp, str, sizeof(str));
  
       count++;
     } else {
@@ -123,7 +124,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
       - CLOCK_SECOND + (random_rand() % (2 * CLOCK_SECOND)));
   }
     /* close the file*/  
-   fclose (fp);
+   cfs_close (fp);
 
   PROCESS_END();
 }
