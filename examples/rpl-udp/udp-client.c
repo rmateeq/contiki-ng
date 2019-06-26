@@ -69,11 +69,11 @@ PROCESS_THREAD(udp_client_process, ev, data)
   //<<file>>
   
   //int i;
-  const char filepath[] = "/groups/wall2-ilabt-iminds-be/rt-mac/data/";
+  //const char filepath[] = "/groups/wall2-ilabt-iminds-be/rt-mac/data/";
   //const char nodeid[] = ;
-  char sbuf[1024];
-  sprintf (sbuf, "%s/%d", filepath, node_id);
-  fp = cfs_open (sbuf,CFS_APPEND);
+  //char sbuf[1024];
+  //sprintf (sbuf, "%s/%d", filepath, node_id);
+  fp = cfs_open ("/groups/wall2-ilabt-iminds-be/rt-mac/data/a",CFS_APPEND);
   //>>file<<
  
   //<<set tx power>>
