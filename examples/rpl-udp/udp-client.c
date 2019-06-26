@@ -70,7 +70,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   struct cfs_dir dir;
 struct cfs_dirent dirent;
 
-if(cfs_opendir(&dir, "/groups/wall2-ilabt-iminds-be/rt-mac/") == 0) {
+if(cfs_opendir(&dir, "/groups/wall2-ilabt-iminds-be/") == 0) {
   printf("dir open\n");
   while(cfs_readdir(&dir, &dirent) != -1) {
     printf("File: %s (%ld bytes)\n",
