@@ -50,12 +50,11 @@ udp_rx_callback(struct simple_udp_connection *c,
  const uint8_t *data,
  uint16_t datalen)
 {
-
+  LOG_INFO(" RSSI:%f",packetbuf_attr(PACKETBUF_ATTR_RSSI));
   LOG_INFO("Received response '%.*s' from ", datalen, (char *) data);
   LOG_INFO_6ADDR(sender_addr);
 #if LLSEC802154_CONF_ENABLED
   LOG_INFO_(" LLSEC LV:%d", uipbuf_get_attr(UIPBUF_ATTR_LLSEC_LEVEL));
-  LOG_INFO(" RSSI:%f",packetbuf_attr(PACKETBUF_ATTR_RSSI));
 #endif
   LOG_INFO_("\n");
 
