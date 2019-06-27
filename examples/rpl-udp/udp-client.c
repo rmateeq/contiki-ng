@@ -127,7 +127,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   printf("rssi state %d \n",rd);
   printf("current rssi: %d \n",rssi_val);
   int mt_val = 1;
-  rd = NETSTACK_RADIO.set_value(CSMA_MAX_FRAME_RETRIES, &mt_val);
+  rd = NETSTACK_RADIO.set_value(CSMA_MAX_FRAME_RETRIES, mt_val);
   NETSTACK_RADIO.get_value(CSMA_MAX_FRAME_RETRIES, &mt_val);
   printf("mt state %d \n",rd);
   printf("current mt: %d \n",mt_val);
