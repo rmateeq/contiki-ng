@@ -21,7 +21,7 @@
 #ifndef LOG_MODULE
 #define LOG_MODULE "App"
 #endif
-#ifndef LOG_LEVE:
+#ifndef LOG_LEVEL
 #define LOG_LEVEL LOG_LEVEL_INFO
 #endif
 
