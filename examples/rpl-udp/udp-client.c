@@ -18,8 +18,12 @@
 #include "net/ipv6/simple-udp.h"
 
 #include "sys/log.h"
+#ifndef LOG_MODULE
 #define LOG_MODULE "App"
+#endif
+#ifndef LOG_LEVE:
 #define LOG_LEVEL LOG_LEVEL_INFO
+#endif
 
 #define WITH_SERVER_REPLY  1
 #define UDP_CLIENT_PORT 8765
@@ -52,9 +56,9 @@ udp_rx_callback(struct simple_udp_connection *c,
  const uint8_t *data,
  uint16_t datalen)
 {
- // LOG_INFO("RSSI: %f",packetbuf_get_attr(PACKETBUF_ATTR_RSSI));
-  //LOG_INFO("Received response '%.*s' from ", datalen, (char *) data);
-  //LOG_INFO_6ADDR(sender_addr);
+  LOG_INFO("RSSI: %f",packetbuf_get_attr(PACKETBUF_ATTR_RSSI));
+  LOG_INFO("Received response '%.*s' from ", datalen, (char *) data);
+  LOG_INFO_6ADDR(sender_addr);
 #if LLSEC802154_CONF_ENABLED
   LOG_INFO_(" LLSEC LV:%d", uipbuf_get_attr(UIPBUF_ATTR_LLSEC_LEVEL));
 #endif
