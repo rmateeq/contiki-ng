@@ -25,6 +25,34 @@
 #define LOG_LEVEL LOG_LEVEL_INFO
 #endif
 
+/* macMinBE: Initial backoff exponent. Range 0--CSMA_MAX_BE */
+ #ifdef CSMA_CONF_MIN_BE
+ #define CSMA_MIN_BE CSMA_CONF_MIN_BE
+ #else
+ #define CSMA_MIN_BE 3
+ #endif
+ 
+ /* macMaxBE: Maximum backoff exponent. Range 3--8 */
+ #ifdef CSMA_CONF_MAX_BE
+ #define CSMA_MAX_BE CSMA_CONF_MAX_BE
+ #else
+ #define CSMA_MAX_BE 5
+ #endif
+ 
+/* macMaxCSMABackoffs: Maximum number of backoffs in case of channel busy/collision. Range 0--5 */
+ #ifdef CSMA_CONF_MAX_BACKOFF
+ #define CSMA_MAX_BACKOFF CSMA_CONF_MAX_BACKOFF
+ #else
+ #define CSMA_MAX_BACKOFF 5
+ #endif
+ 
+ /* macMaxFrameRetries: Maximum number of re-transmissions attampts. Range 0--7 */
+ #ifdef CSMA_CONF_MAX_FRAME_RETRIES
+ #define CSMA_MAX_FRAME_RETRIES CSMA_CONF_MAX_FRAME_RETRIES
+ #else
+ #define CSMA_MAX_FRAME_RETRIES 7
+ #endif
+
 #define WITH_SERVER_REPLY  1
 #define UDP_CLIENT_PORT 8765
 #define UDP_SERVER_PORT 5678
