@@ -5,7 +5,7 @@
 #include "cc1200-rf-cfg.h"
 #include "dev/radio.h"
 #include "node-id.h"
-#include "csma-output.c"
+#include "os/net/mac/csma/csma-output.c"
 //#include "os/storage/cfs/cfs.h"
 //>>my includes<<
 
