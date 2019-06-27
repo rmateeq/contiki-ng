@@ -5,8 +5,8 @@
 #include "cc1200-rf-cfg.h"
 #include "dev/radio.h"
 #include "node-id.h"
-//#include "os/net/mac/csma/csma-output.c"
-#include "os/net/mac/csma/csma.h"
+#include "os/net/mac/csma/csma-output.c"
+//#include "os/net/mac/csma/csma.h"
 
 //#include "os/storage/cfs/cfs.h"
 //>>my includes<<
@@ -18,8 +18,8 @@
 #include "net/ipv6/simple-udp.h"
 
 #include "sys/log.h"
-//#define LOG_MODULE "App"
-//#define LOG_LEVEL LOG_LEVEL_INFO
+#define LOG_MODULE "App"
+#define LOG_LEVEL LOG_LEVEL_INFO
 
 #define WITH_SERVER_REPLY  1
 #define UDP_CLIENT_PORT 8765
