@@ -5,6 +5,7 @@
 #include "cc1200-rf-cfg.h"
 #include "dev/radio.h"
 #include "node-id.h"
+#include "csma-output.c"
 //#include "os/storage/cfs/cfs.h"
 //>>my includes<<
 
@@ -81,27 +82,27 @@ PROCESS_THREAD(udp_client_process, ev, data)
 //update_txpower((int8_t)-16);
   printf("tp state: %d \n",rd);
   int ch_val;
-  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_CHANNEL, ch_val);
+  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_CHANNEL, &ch_val);
   printf("channel state %d \n",rd);
   printf("current channel: %d \n",ch_val);
   int lqi_val;
-  rd = NETSTACK_RADIO.get_value(PACKETBUF_ATTR_LINK_QUALITY, lqi_val);
+  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_LINK_QUALITY, &lqi_val);
   printf("lqi state %d \n",rd);
   printf("current lqi: %d \n",lqi_val);
   int rssi_val;
-  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_RSSI, rssi_val);
+  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_RSSI, &rssi_val);
   printf("rssi state %d \n",rd);
   printf("current rssi: %d \n",rssi_val);
   int mt_val;
-  rd = NETSTACK_RADIO.get_value(CSMA_MAX_FRAME_RETRIES, mt_val);
+  rd = NETSTACK_RADIO.get_value(CSMA_MAX_FRAME_RETRIES, &mt_val);
   printf("mt state %d \n",rd);
   printf("current mt: %d \n",mt_val);
   int minbe_val;
-  rd = NETSTACK_RADIO.get_value(CSMA_MIN_BE, minbe_val);
+  rd = NETSTACK_RADIO.get_value(CSMA_MIN_BE, &minbe_val);
   printf("minbe state %d \n",rd);
   printf("current minbe: %d \n",minbe_val);
   int maxbe_val;
-  rd = NETSTACK_RADIO.get_value(CSMA_MAX_BE, maxbe_val);
+  rd = NETSTACK_RADIO.get_value(CSMA_MAX_BE, &maxbe_val);
   printf("maxbe state %d \n",rd);
   printf("current maxbe: %d \n",maxbe_val);
   printf("current buff: %d \n",PACKETBUF_SIZE);
