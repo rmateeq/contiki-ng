@@ -123,7 +123,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   printf("lqi state %d \n",rd);
   printf("current lqi: %d \n",lqi_val);
   int rssi_val;
-  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_RSSI, &rssi_val);
+  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_RSSI, &rssi_val); //RADIO_PARAM_LAST_RSSI, RADIO_PARAM_LAST_PACKET_TIMESTAMP
   printf("rssi state %d \n",rd);
   printf("current rssi: %d \n",rssi_val);
   int mt_val = 1;
