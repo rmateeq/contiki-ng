@@ -5,8 +5,8 @@
 #include "cc1200-rf-cfg.h"
 #include "dev/radio.h"
 #include "node-id.h"
-#include "os/net/mac/csma/csma-output.c"
-//#include "os/net/mac/csma/csma.h"
+//#include "os/net/mac/csma/csma-output.c"
+#include "os/net/mac/csma/csma.h"
 
 //#include "os/storage/cfs/cfs.h"
 //>>my includes<<
@@ -113,7 +113,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, CC1200_CONST_TX_POWER_MIN);
 //  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, -16);
 //update_txpower((int8_t)-16);
-  printf("tp state: %d \n",rd);
+/*  printf("tp state: %d \n",rd);
   int ch_val;
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_CHANNEL, &ch_val);
   printf("channel state %d \n",rd);
@@ -129,9 +129,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
 //  int mt_val = 1;
 //  rd = NETSTACK_RADIO.set_value(CSMA_MAX_FRAME_RETRIES, mt_val);
 //  NETSTACK_RADIO.get_value(CSMA_MAX_FRAME_RETRIES, &mt_val);
-//  printf("mt state %d \n",rd);
+//  printf("mt state %d \n",rd); */
   printf("current mt: %d \n",CSMA_MAX_FRAME_RETRIES);
-  int minbe_val;
+/*  int minbe_val;
   rd = NETSTACK_RADIO.get_value(CSMA_MIN_BE, &minbe_val);
   printf("minbe state %d \n",rd);
   printf("current minbe: %d \n",minbe_val);
@@ -139,7 +139,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   rd = NETSTACK_RADIO.get_value(CSMA_MAX_BE, &maxbe_val);
   printf("maxbe state %d \n",rd);
   printf("current maxbe: %d \n",maxbe_val);
-  printf("current buff: %d \n",PACKETBUF_SIZE);
+  printf("current buff: %d \n",PACKETBUF_SIZE); */
 //  printf("tp after %d \n",RADIO_PARAM_TXPOWER);
 //  int val;
 //  NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &val);
