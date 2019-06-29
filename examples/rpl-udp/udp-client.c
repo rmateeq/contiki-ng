@@ -131,7 +131,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
 //  rd = NETSTACK_RADIO.set_value(CSMA_MAX_FRAME_RETRIES, mt_val);
 //  NETSTACK_RADIO.get_value(CSMA_MAX_FRAME_RETRIES, &mt_val);
 //  printf("mt state %d \n",rd); */
- uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, 5);
+ //Works end-to-end if UIP_CONF_TAG_TC_WITH_VARIABLE_RETRANSMISSIONS is set to 1.
+ uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, 1);
  //packetbuf_set_attr(PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS,2);
  printf("current mt: %d \n",UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS);
  printf("current mt: %d \n",PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS);
