@@ -113,8 +113,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, CC1200_CONST_TX_POWER_MIN);
 //  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, -16);
 //update_txpower((int8_t)-16);
-/*  printf("tp state: %d \n",rd);
-  int ch_val;
+  printf("tp state: %d \n",rd);
+/*  int ch_val;
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_CHANNEL, &ch_val);
   printf("channel state %d \n",rd);
   printf("current channel: %d \n",ch_val);
@@ -130,7 +130,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
 //  rd = NETSTACK_RADIO.set_value(CSMA_MAX_FRAME_RETRIES, mt_val);
 //  NETSTACK_RADIO.get_value(CSMA_MAX_FRAME_RETRIES, &mt_val);
 //  printf("mt state %d \n",rd); */
-  printf("current mt: %d \n",CSMA_MAX_FRAME_RETRIES);
+  printf("current mt: %d \n",TSCH_MAC_MAX_FRAME_RETRIES); //CSMA_MAX_FRAME_RETRIES
 /*  int minbe_val;
   rd = NETSTACK_RADIO.get_value(CSMA_MIN_BE, &minbe_val);
   printf("minbe state %d \n",rd);
