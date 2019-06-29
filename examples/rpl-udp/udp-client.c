@@ -7,7 +7,7 @@
 //#include "node-id.h"
 //#include "os/net/mac/csma/csma-output.c"
 #include "net/mac/csma/csma.h"
-#include "net/packetbuff.h"
+#include "net/packetbuf.h"
 
 //#include "os/storage/cfs/cfs.h"
 //>>my includes<<
