@@ -6,7 +6,7 @@
 #include "dev/radio.h"
 #include "node-id.h"
 //#include "os/net/mac/csma/csma-output.c"
-#include "os/net/mac/csma/csma.h"
+#include "net/mac/csma/csma.c"
 
 //#include "os/storage/cfs/cfs.h"
 //>>my includes<<
