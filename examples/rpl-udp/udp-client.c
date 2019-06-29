@@ -131,7 +131,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
 //  rd = NETSTACK_RADIO.set_value(CSMA_MAX_FRAME_RETRIES, mt_val);
 //  NETSTACK_RADIO.get_value(CSMA_MAX_FRAME_RETRIES, &mt_val);
 //  printf("mt state %d \n",rd); */
-  printf("current mt: %d \n",PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS); //CSMA_MAX_FRAME_RETRIES
+ PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS = 2;
+  printf("current mt: %d \n",PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS); //1-UIP_MAX_MAC_TRANSMISSIONS_UNDEFINED (0),
+ //2-UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS,4- CSMA_MAX_FRAME_RETRIES
 /*  int minbe_val;
   rd = NETSTACK_RADIO.get_value(CSMA_MIN_BE, &minbe_val);
   printf("minbe state %d \n",rd);
