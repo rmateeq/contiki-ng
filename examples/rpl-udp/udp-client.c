@@ -6,7 +6,8 @@
 #include "dev/radio.h"
 //#include "node-id.h"
 //#include "os/net/mac/csma/csma-output.c"
-#include "net/mac/csma/csma.c"
+#include "net/mac/csma/csma.h"
+#include "net/packetbuff.h"
 
 //#include "os/storage/cfs/cfs.h"
 //>>my includes<<
@@ -130,7 +131,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
 //  rd = NETSTACK_RADIO.set_value(CSMA_MAX_FRAME_RETRIES, mt_val);
 //  NETSTACK_RADIO.get_value(CSMA_MAX_FRAME_RETRIES, &mt_val);
 //  printf("mt state %d \n",rd); */
-  printf("current mt: %d \n",CSMA_MAX_FRAME_RETRIES); //CSMA_MAX_FRAME_RETRIES
+  printf("current mt: %d \n",PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS); //CSMA_MAX_FRAME_RETRIES
 /*  int minbe_val;
   rd = NETSTACK_RADIO.get_value(CSMA_MIN_BE, &minbe_val);
   printf("minbe state %d \n",rd);
