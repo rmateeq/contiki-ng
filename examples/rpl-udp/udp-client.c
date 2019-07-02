@@ -109,6 +109,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   printf("tp state: %d \n",rd); */
   int tp_val;
   int rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
+ LOG_INFO_("tp state %d \n",rd);
  LOG_INFO("current tp: %d \n",tp_val); 
 /*  int ch_val;
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_CHANNEL, &ch_val);
