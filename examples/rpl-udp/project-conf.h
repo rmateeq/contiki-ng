@@ -3,9 +3,9 @@
 
 /*** Application Layer ***/
 // traffic rate (inter-packet delay in seconds) [4 * 3 options]
-#define APP_CONF_SEND_INTERVAL (1 * CLOCK_SECOND)
+//#define APP_CONF_SEND_INTERVAL (1 * CLOCK_SECOND)
 // application packet size in bytes [3 options]
-#define APP_CONF_PKT_SIZE 40
+//#define APP_CONF_PKT_SIZE 40
 
 /*** Transport Layer ***/
 // All communication is carried out using UDP
@@ -20,35 +20,47 @@
 
 /*** MAC Layer ***/
 // select MAC protocol [2+1 options]
-#define NETSTACK_CONF_MAC nullmac_driver //tschmac_driver,csma_driver
+//#define NETSTACK_CONF_MAC nullmac_driver //tschmac_driver,csma_driver
 
 // CSMA MAC Parameters [1-4-3 options]
-#define CSMA_CONF_MAX_BE 5
-#define CSMA_CONF_MIN_BE 0
-#define CSMA_CONF_MAX_FRAME_RETRIES 7
+//#ifndef CSMA_CONF_MAX_BE
+//#define CSMA_CONF_MAX_BE 5
+//#endif
+//#ifndef CSMA_CONF_MIN_BE
+//#define CSMA_CONF_MIN_BE 0
+//#endif
+//#ifndef CSMA_CONF_MAX_FRAME_RETRIES
+//#define CSMA_CONF_MAX_FRAME_RETRIES 7
+//#endif
 
 // TSCH MAC Parameters [1-4-3 options] 
-#define TSCH_CONF_MAC_MAX_BE 5
-#define TSCH_CONF_MAC_MAX_BE 1
-#define TSCH_CONF_MAC_MAX_FRAME_RETRIES 7
-
+//#ifndef TSCH_CONF_MAC_MAX_BE
+//#define TSCH_CONF_MAC_MAX_BE 5
+//#endif
+//#ifndef TSCH_CONF_MAC_MIN_BE
+//#define TSCH_CONF_MAC_MAX_BE 1
+//#endif
+//#ifndef TSCH_CONF_MAC_MAX_FRAME_RETRIES
+//#define TSCH_CONF_MAC_MAX_FRAME_RETRIES 7
+//#endif
 //#define NETSTACK_CONF_RADIO   cc2538_rf_driver
 //#define RS232_BAUDRATE USART_BAUD_38400
 
 /*** PHY Layer ***/
 // Re-Mote channel and power configuration 
-#ifndef CC2538_RF_CONF_CHANNEL
-#define CC2538_RF_CONF_CHANNEL 26
-#endif /* CC2538_RF_CONF_CHANNEL */
-// Transmissions power [4 options]
-//#define CC2538_RF_CONF_TX_POWER -40
-
+//#ifndef CC2538_RF_CONF_CHANNEL
+//#define CC2538_RF_CONF_CHANNEL 26
+//#endif /* CC2538_RF_CONF_CHANNEL */
+// Transmissions power [4 options] 0x00(-24),42(-15),58(-13),62(-11),72(-9),88(-7),91(-5),A1(-3),B0(-1),B6(0),C5(1),D5(3),ED(5),FF(7)
+//#ifndef CC2538_RF_CONF_TX_POWER
+#define CC2538_RF_CONF_TX_POWER 0x00
+//#endif
 /***Logging***/
-#define LOG_CONF_LEVEL_IPV6                        LOG_LEVEL_DBG
-#define LOG_CONF_LEVEL_RPL                         LOG_LEVEL_DBG
-#define LOG_CONF_LEVEL_6LOWPAN                     LOG_LEVEL_DBG
-#define LOG_CONF_LEVEL_TCPIP                       LOG_LEVEL_DBG
-#define LOG_CONF_LEVEL_MAC                         LOG_LEVEL_DBG
-#define LOG_CONF_LEVEL_FRAMER                      LOG_LEVEL_DBG
+//#define LOG_CONF_LEVEL_IPV6                        LOG_LEVEL_DBG
+//#define LOG_CONF_LEVEL_RPL                         LOG_LEVEL_DBG
+//#define LOG_CONF_LEVEL_6LOWPAN                     LOG_LEVEL_DBG
+//#define LOG_CONF_LEVEL_TCPIP                       LOG_LEVEL_DBG
+//#define LOG_CONF_LEVEL_MAC                         LOG_LEVEL_DBG
+//#define LOG_CONF_LEVEL_FRAMER                      LOG_LEVEL_DBG
 
 #endif /* PROJECT_CONF_H_ */
