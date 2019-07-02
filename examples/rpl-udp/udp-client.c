@@ -3,8 +3,8 @@
 #include "dev/radio.h"
 //#include "node-id.h"
 //#include "os/net/mac/csma/csma-output.c"
-#include "net/mac/csma/csma.h"
-#include "net/packetbuf.h"
+//#include "net/mac/csma/csma.h"
+//#include "net/packetbuf.h"
 
 //#include "os/storage/cfs/cfs.h"
 //>>my includes<<
