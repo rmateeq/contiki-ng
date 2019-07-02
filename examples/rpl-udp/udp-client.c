@@ -1,4 +1,5 @@
 //<<my includes>>
+#include "cc2538-rf.h"
 #include "dev/radio.h"
 //#include "node-id.h"
 //#include "os/net/mac/csma/csma-output.c"
@@ -107,7 +108,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
 //  NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &val1);
  // printf("....tp before %d \n",val1);
 //radio_value_t tx_level = -16;
-  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, CC1200_CONST_TX_POWER_MIN);
+  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, CC2538_RF_TX_POWER_RECOMMENDED);
 //  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, -16);
 //update_txpower((int8_t)-16);
   printf("tp state: %d \n",rd);
