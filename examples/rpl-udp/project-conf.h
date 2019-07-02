@@ -4,9 +4,15 @@
 /*** Application Layer ***/
 // traffic rate (inter-packet delay in seconds) [4 * 3 options]
 //#define SEND_INTERVAL (1 * CLOCK_SECOND)
-// application packet size in bytes [3 options]
-//#define PKT_SIZE 40
+
+//Current App layer Packet Size out of [45,80, and 115]
+//#define PKT_SIZE 45
+
+//Total number of packets to be transmitted against each parameter configuration
 //#define NUM_PKTS 200
+
+//Enforce MAC_MAX_TRANSMISSIONS across all nodes
+//#define UIP_CONF_TAG_TC_WITH_VARIABLE_RETRANSMISSIONS 1
 /*** Transport Layer ***/
 // All communication is carried out using UDP
 
