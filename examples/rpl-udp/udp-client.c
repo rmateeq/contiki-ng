@@ -103,18 +103,13 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
 
 //<<set tx power>>
-//printf("tp before %d \n",RADIO_PARAM_TXPOWER);
-//  int val1;
-//  NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &val1);
- // printf("....tp before %d \n",val1);
-//radio_value_t tx_level = -16;
-  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, CC2538_RF_TX_POWER_RECOMMENDED);
+/*  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, CC2538_RF_TX_POWER_RECOMMENDED);
 //  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, -16);
 //update_txpower((int8_t)-16);
   printf("tp state: %d \n",rd);
   int tp_val;
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
- LOG_INFO("current tp: %d \n",tp_val);
+ LOG_INFO("current tp: %d \n",tp_val); */
 /*  int ch_val;
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_CHANNEL, &ch_val);
   printf("channel state %d \n",rd);
@@ -132,10 +127,10 @@ PROCESS_THREAD(udp_client_process, ev, data)
 //  NETSTACK_RADIO.get_value(CSMA_MAX_FRAME_RETRIES, &mt_val);
 //  printf("mt state %d \n",rd); */
  //Works end-to-end if UIP_CONF_TAG_TC_WITH_VARIABLE_RETRANSMISSIONS is set to 1.
- uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, 11);
+// uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, 11);
  //packetbuf_set_attr(PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS,2);
- LOG_INFO("current mt: %d \n",uipbuf_get_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS));
- printf("current mt: %d \n",PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS);
+ //LOG_INFO("current mt: %d \n",uipbuf_get_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS));
+ //printf("current mt: %d \n",PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS);
   //printf("current mt: %d \n",CSMA_MAX_FRAME_RETRIES); //1-UIP_MAX_MAC_TRANSMISSIONS_UNDEFINED (0),
  //2-UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS,4- CSMA_MAX_FRAME_RETRIES
 /*  int minbe_val;
