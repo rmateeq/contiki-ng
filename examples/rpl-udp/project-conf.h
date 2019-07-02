@@ -3,10 +3,10 @@
 
 /*** Application Layer ***/
 // traffic rate (inter-packet delay in seconds) [4 * 3 options]
-//#define APP_CONF_SEND_INTERVAL (1 * CLOCK_SECOND)
+//#define SEND_INTERVAL (1 * CLOCK_SECOND)
 // application packet size in bytes [3 options]
-//#define APP_CONF_PKT_SIZE 40
-
+//#define PKT_SIZE 40
+//#define NUM_PKTS 200
 /*** Transport Layer ***/
 // All communication is carried out using UDP
 
