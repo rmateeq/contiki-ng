@@ -1,8 +1,4 @@
 //<<my includes>>
-#include "cc1200-const.h"
-#include "cc1200-conf.h"
-#include "cc1200-arch.h"
-#include "cc1200-rf-cfg.h"
 #include "dev/radio.h"
 //#include "node-id.h"
 //#include "os/net/mac/csma/csma-output.c"
