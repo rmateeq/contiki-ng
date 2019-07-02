@@ -106,10 +106,10 @@ PROCESS_THREAD(udp_client_process, ev, data)
 /*  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, CC2538_RF_TX_POWER_RECOMMENDED);
 //  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, -16);
 //update_txpower((int8_t)-16);
-  printf("tp state: %d \n",rd);
+  printf("tp state: %d \n",rd); */
   int tp_val;
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
- LOG_INFO("current tp: %d \n",tp_val); */
+ LOG_INFO("current tp: %d \n",tp_val); 
 /*  int ch_val;
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_CHANNEL, &ch_val);
   printf("channel state %d \n",rd);
