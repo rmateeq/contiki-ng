@@ -7,7 +7,9 @@
 
 //Current App layer Packet Size out of [45,80, and 115]
 //#define PKT_SIZE 45
-
+//#define PACKETBUF_CONF_SIZE in bytes
+//RADIO_CONST_MAX_PAYLOAD_LEN, MAX_PAYLOAD_LEN, TSCH_PACKET_MAX_LEN
+//MAX_NUM_QUEUED_PACKETS,
 //Total number of packets to be transmitted against each parameter configuration
 //#define NUM_PKTS 200
 
