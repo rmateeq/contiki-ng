@@ -1,6 +1,7 @@
 #ifndef PROJECT_CONF_H_
 #define PROJECT_CONF_H_
-
+/*** Sensniff ***/
+#define SICSLOWPAN_CONF_ADDR_CONTEXT_0 { addr_contexts[0].prefix[0]=0xbb; addr_contexts[0].prefix[1]=0xbb; }
 /*** Application Layer ***/
 // traffic rate (inter-packet delay in seconds) [4 * 3 options]
 //#define SEND_INTERVAL (1 * CLOCK_SECOND)
