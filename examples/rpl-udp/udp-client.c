@@ -55,7 +55,7 @@
 #define UDP_CLIENT_PORT 8765
 #define UDP_SERVER_PORT 5678
 //<<set interval 10 instead of 60>>
-#define SEND_INTERVAL     (0.05 * CLOCK_SECOND)
+#define SEND_INTERVAL     (0.1 * CLOCK_SECOND)
 //>>set interval 10 instead of 60<<
 //<<my vars>>
 //int ps[4] = {39,74,109};
