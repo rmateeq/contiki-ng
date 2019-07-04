@@ -55,7 +55,7 @@
 #define UDP_CLIENT_PORT 8765
 #define UDP_SERVER_PORT 5678
 //<<set interval 10 instead of 60>>
-#define SEND_INTERVAL     (1 * CLOCK_SECOND)
+#define SEND_INTERVAL     (0.05 * CLOCK_SECOND)
 //>>set interval 10 instead of 60<<
 //<<my vars>>
 //int ps[4] = {39,74,109};
@@ -153,7 +153,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
     UDP_SERVER_PORT, udp_rx_callback);
   etimer_set(&periodic_timer, random_rand() % SEND_INTERVAL);
-  while(1) { //count <= 3 
+  while(count <= 30) { //count <= 3 
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
     if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) {
