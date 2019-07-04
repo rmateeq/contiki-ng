@@ -1,7 +1,7 @@
 #ifndef PROJECT_CONF_H_
 #define PROJECT_CONF_H_
 /*** Sensniff ***/
-#define SICSLOWPAN_CONF_ADDR_CONTEXT_0 { addr_contexts[0].prefix[0]=0xbb; addr_contexts[0].prefix[1]=0xbb; }
+//#define SICSLOWPAN_CONF_ADDR_CONTEXT_0 { addr_contexts[0].prefix[0]=0xbb; addr_contexts[0].prefix[1]=0xbb; }
 /*** Application Layer ***/
 // traffic rate (inter-packet delay in seconds) [4 * 3 options]
 //#define SEND_INTERVAL (1 * CLOCK_SECOND)
@@ -66,7 +66,7 @@
 //#endif
 /***Logging***/
 //#define LOG_CONF_LEVEL_IPV6                        LOG_LEVEL_INFO
-#define LOG_CONF_LEVEL_RPL                         LOG_LEVEL_INFO
+//#define LOG_CONF_LEVEL_RPL                         LOG_LEVEL_INFO
 //#define LOG_CONF_LEVEL_6LOWPAN                     LOG_LEVEL_DBG
 //#define LOG_CONF_LEVEL_TCPIP                       LOG_LEVEL_DBG
 //#define LOG_CONF_LEVEL_MAC                         LOG_LEVEL_DBG
