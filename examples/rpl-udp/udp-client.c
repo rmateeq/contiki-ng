@@ -179,8 +179,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
     }
 
   /* Add some jitter */
-//    etimer_set(&periodic_timer, SEND_INTERVAL
-//      - CLOCK_SECOND + (random_rand() % (2 * CLOCK_SECOND)));
+    etimer_set(&periodic_timer, SEND_INTERVAL
+      - CLOCK_SECOND + (random_rand() % (2 * CLOCK_SECOND)));
   }
   /* close the file*/  
 // cfs_close (fp);
