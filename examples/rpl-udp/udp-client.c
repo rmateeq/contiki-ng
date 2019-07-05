@@ -96,7 +96,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
 {
   static struct etimer periodic_timer;
   static int count = 1;
-  static char str[40];
+  static char str[120];
   uip_ipaddr_t dest_ipaddr;
 
   PROCESS_BEGIN();
@@ -161,12 +161,14 @@ PROCESS_THREAD(udp_client_process, ev, data)
       LOG_INFO("Sending request %d to ", count);
       LOG_INFO_6ADDR(&dest_ipaddr);
       LOG_INFO_("\n");
+     //abcdefghijklmnopqrstuvwxyzabcdefghij---36
+     //abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef---110
       if (count < 10)
-        snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghij00%d", count);
+        snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef00%d", count);
       else if (count < 100)
-        snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghij0%d", count);
+        snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef0%d", count);
       else
-        snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghij%d", count);
+        snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef%d", count);
    
       simple_udp_sendto(&udp_conn, str, strlen(str), &dest_ipaddr);
   //  cfs_write (fp, str, sizeof(str));
@@ -177,8 +179,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
     }
 
   /* Add some jitter */
-    etimer_set(&periodic_timer, SEND_INTERVAL
-      - CLOCK_SECOND + (random_rand() % (2 * CLOCK_SECOND)));
+//    etimer_set(&periodic_timer, SEND_INTERVAL
+//      - CLOCK_SECOND + (random_rand() % (2 * CLOCK_SECOND)));
   }
   /* close the file*/  
 // cfs_close (fp);
