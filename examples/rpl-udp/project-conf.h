@@ -62,14 +62,14 @@
 //#endif /* CC2538_RF_CONF_CHANNEL */
 // Transmissions power [4 options] 0x00(-24),42(-15),58(-13),62(-11),72(-9),88(-7),91(-5),A1(-3),B0(-1),B6(0),C5(1),D5(3),ED(5),FF(7)
 //#ifndef CC2538_RF_CONF_TX_POWER
-#define CC2538_RF_CONF_TX_POWER 0xFF
+#define CC2538_RF_CONF_TX_POWER 0xB6
 //#endif
 /***Logging***/
 //#define LOG_CONF_LEVEL_IPV6                        LOG_LEVEL_DBG
-#define LOG_CONF_LEVEL_RPL                         LOG_LEVEL_DBG
+//#define LOG_CONF_LEVEL_RPL                         LOG_LEVEL_DBG
 //#define LOG_CONF_LEVEL_6LOWPAN                     LOG_LEVEL_DBG
 //#define LOG_CONF_LEVEL_TCPIP                       LOG_LEVEL_DBG
-#define LOG_CONF_LEVEL_MAC                         LOG_LEVEL_DBG
+//#define LOG_CONF_LEVEL_MAC                         LOG_LEVEL_DBG
 //#define LOG_CONF_LEVEL_FRAMER                      LOG_LEVEL_DBG
 //#define LOG_LEVEL_NULLNET                          LOG_LEVEL_DBG
 //#define LOG_LEVEL_6TOP                             LOG_LEVEL_DBG
