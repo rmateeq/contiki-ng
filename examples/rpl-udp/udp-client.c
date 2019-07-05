@@ -155,7 +155,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
     UDP_SERVER_PORT, udp_rx_callback);
   etimer_set(&periodic_timer, SEND_INTERVAL); //random_rand() % SEND_INTERVAL
-  while(count <= 300) { //count <= 3 
+  while(count <= 30) { //count <= 3 
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
     if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) {
