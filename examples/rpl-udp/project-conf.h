@@ -39,7 +39,7 @@
 
 //#define UIP_CONF_IPV6_RPL 1
 
-#define UIP_CONF_ND6_SEND_RA 1
+//#define UIP_CONF_ND6_SEND_RA 1
 #define UIP_CONF_IP_FORWARD  1
 // #define RPL_CONF_SUPPORTED_OFS
 // #define RPL_CONF_OF_OCP
