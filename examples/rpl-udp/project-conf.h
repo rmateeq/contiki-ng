@@ -20,9 +20,7 @@
 // All communication is carried out using UDP
 
 /*** Network Layer ***/
-// 
-
-Parameters [2 options]
+// Parameters [2 options]
 #define UIP_CONF_IPV6 1
 #ifndef NBR_TABLE_CONF_MAX_NEIGHBORS
 #define NBR_TABLE_CONF_MAX_NEIGHBORS 20
