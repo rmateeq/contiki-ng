@@ -21,21 +21,21 @@
 
 /*** Network Layer ***/
 // Parameters [2 options]
-#define UIP_CONF_IPV6 1
-#ifndef NBR_TABLE_CONF_MAX_NEIGHBORS
-#define NBR_TABLE_CONF_MAX_NEIGHBORS 5
-#endif
-#ifndef UIP_CONF_MAX_ROUTES
-#define UIP_CONF_MAX_ROUTES 8
-#endif
-#ifndef UIP_CONF_BUFFER_SIZE
-#define UIP_CONF_BUFFER_SIZE 800
-#endif
-#define UIP_CONF_IPV6_QUEUE_PKT 1
+//#define UIP_CONF_IPV6 1
+//#ifndef NBR_TABLE_CONF_MAX_NEIGHBORS
+//#define NBR_TABLE_CONF_MAX_NEIGHBORS 5
+//#endif
+//#ifndef UIP_CONF_MAX_ROUTES
+//#define UIP_CONF_MAX_ROUTES 8
+//#endif
+//#ifndef UIP_CONF_BUFFER_SIZE
+//#define UIP_CONF_BUFFER_SIZE 800
+//#endif
+//#define UIP_CONF_IPV6_QUEUE_PKT 1
 
-#ifndef UIP_CONF_ROUTER
-#define UIP_CONF_ROUTER 1
-#endif
+//#ifndef UIP_CONF_ROUTER
+//#define UIP_CONF_ROUTER 1
+//#endif
 
 //#define UIP_CONF_IPV6_RPL 1
 
@@ -85,8 +85,8 @@
 #define CC2538_RF_CONF_TX_POWER 0xD5
 //#endif
 /***Logging***/
-#define LOG_CONF_LEVEL_IPV6                        LOG_LEVEL_INFO
-#define LOG_CONF_LEVEL_RPL                         LOG_LEVEL_INFO
+//#define LOG_CONF_LEVEL_IPV6                        LOG_LEVEL_INFO
+//#define LOG_CONF_LEVEL_RPL                         LOG_LEVEL_INFO
 //#define LOG_CONF_LEVEL_6LOWPAN                     LOG_LEVEL_DBG
 //#define LOG_CONF_LEVEL_TCPIP                       LOG_LEVEL_DBG
 //#define LOG_CONF_LEVEL_MAC                         LOG_LEVEL_DBG
