@@ -83,13 +83,24 @@ udp_rx_callback(struct simple_udp_connection *c,
  uint16_t datalen)
 {
 //  LOG_INFO("RSSI: %d",packetbuf_attr(PACKETBUF_ATTR_RSSI));
-  LOG_INFO("Received response '%.*s' from ", datalen, (char *) data);
+  //LOG_INFO("Received response '%.*s' from ", datalen, (char *) data);
+  LOG_INFO("Received response from ");
   LOG_INFO_6ADDR(sender_addr);
   LOG_INFO("At node ");
   LOG_INFO_6ADDR(receiver_addr);
+  int lqi_val;
+  int rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_LINK_QUALITY, &lqi_val);
+  LOG_INFO("lqi state %d",rd);
+  LOG_INFO("lqi: %d",lqi_val);
+  int rssi_val;
+  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_RSSI, &rssi_val); //RADIO_PARAM_LAST_RSSI, RADIO_PARAM_LAST_PACKET_TIMESTAMP
+  LOG_INFO("rssi state %d \n",rd);
+  LOG_INFO("rssi: %d \n",rssi_val);
+
 #if LLSEC802154_CONF_ENABLED
   LOG_INFO_(" LLSEC LV:%d", uipbuf_get_attr(UIPBUF_ATTR_LLSEC_LEVEL));
 #endif
+  LOG_INFO_("\n");
   LOG_INFO_("\n");
 
 }
@@ -109,10 +120,10 @@ PROCESS_THREAD(udp_client_process, ev, data)
 //  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, -16);
 //update_txpower((int8_t)-16);
   printf("tp state: %d \n",rd); */
-  //int tp_val;
-  //int rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
- //LOG_INFO_("tp state %d \n",rd);
- //LOG_INFO("current tp: %d \n",tp_val); 
+  int tp_val;
+  int rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
+ LOG_INFO("tp state %d \n",rd);
+ LOG_INFO("tp: %d \n",tp_val); 
 /*  int ch_val;
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_CHANNEL, &ch_val);
   printf("channel state %d \n",rd);
@@ -132,7 +143,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
  //Works end-to-end if UIP_CONF_TAG_TC_WITH_VARIABLE_RETRANSMISSIONS is set to 1.
 // uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, 11);
  //packetbuf_set_attr(PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS,2);
- //LOG_INFO("current mt: %d \n",uipbuf_get_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS));
+ LOG_INFO("current mt: %d \n",uipbuf_get_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS));
  //printf("current mt: %d \n",PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS);
   //printf("current mt: %d \n",CSMA_MAX_FRAME_RETRIES); //1-UIP_MAX_MAC_TRANSMISSIONS_UNDEFINED (0),
  //2-UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS,4- CSMA_MAX_FRAME_RETRIES
