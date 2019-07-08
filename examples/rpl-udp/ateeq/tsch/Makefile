@@ -4,4 +4,7 @@ all: $(CONTIKI_PROJECT)
 DEFINES+=PROJECT_CONF_H=\"project-conf.h\"
 
 CONTIKI=../../../../
+
+MAKE_MAC = MAKE_MAC_TSCH
+
 include $(CONTIKI)/Makefile.include
