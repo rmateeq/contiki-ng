@@ -55,7 +55,7 @@
 #define UDP_CLIENT_PORT 8765
 #define UDP_SERVER_PORT 5678
 //<<set interval 10 instead of 60>>
-#define SEND_INTERVAL     (10 * CLOCK_SECOND)
+#define SEND_INTERVAL     (5 * CLOCK_SECOND)
 //>>set interval 10 instead of 60<<
 //<<my vars>>
 //int ps[4] = {39,74,109};
@@ -164,7 +164,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
     UDP_SERVER_PORT, udp_rx_callback);
   etimer_set(&periodic_timer, SEND_INTERVAL); //random_rand() % SEND_INTERVAL
-  while(count <= 30) { //count <= 3 
+  while(count <= 900) { //count <= 3 
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
     if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) {
@@ -178,11 +178,11 @@ PROCESS_THREAD(udp_client_process, ev, data)
      //abcdefghijklmnopqrstuvwxyzabcdefghij---36
      //abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef---110
       if (count < 10)
-        snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef00%d", count);
+        snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrs00%d", count);
       else if (count < 100)
-        snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef0%d", count);
+        snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrs0%d", count);
       else
-        snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef%d", count);
+        snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrs%d", count);
    
       simple_udp_sendto(&udp_conn, str, strlen(str), &dest_ipaddr);
   //  cfs_write (fp, str, sizeof(str));
