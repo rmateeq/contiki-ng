@@ -5,6 +5,7 @@ DEFINES+=PROJECT_CONF_H=\"project-conf.h\"
 
 CONTIKI=../../../../
 
-MAKE_MAC = MAKE_MAC_CSMA
+MAKE_MAC = MAKE_MAC_TSCH
+#MAKE_MAC = MAKE_MAC_CSMA
 
 include $(CONTIKI)/Makefile.include
