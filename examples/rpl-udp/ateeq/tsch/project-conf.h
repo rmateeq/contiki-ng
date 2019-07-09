@@ -15,7 +15,7 @@
 //#define NUM_PKTS 200
 
 //Enforce MAC_MAX_TRANSMISSIONS across all nodes
-//#define UIP_CONF_TAG_TC_WITH_VARIABLE_RETRANSMISSIONS 1
+#define UIP_CONF_TAG_TC_WITH_VARIABLE_RETRANSMISSIONS 1
 /*** Transport Layer ***/
 // All communication is carried out using UDP
 
