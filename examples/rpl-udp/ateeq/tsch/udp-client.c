@@ -55,7 +55,7 @@
 #define UDP_CLIENT_PORT 8765
 #define UDP_SERVER_PORT 5678
 //<<set interval 10 instead of 60>>
-#define SEND_INTERVAL     (5 * CLOCK_SECOND)
+#define SEND_INTERVAL     (2 * CLOCK_SECOND)
 //>>set interval 10 instead of 60<<
 //<<my vars>>
 //int ps[4] = {39,74,109};
@@ -109,6 +109,7 @@ udp_rx_callback(struct simple_udp_connection *c,
 PROCESS_THREAD(udp_client_process, ev, data)
 {
   static struct etimer periodic_timer;
+  static struct etimer init_timer;
   static int count = 1;
   static char str[120];
   uip_ipaddr_t dest_ipaddr;
@@ -116,54 +117,10 @@ PROCESS_THREAD(udp_client_process, ev, data)
   PROCESS_BEGIN();
 
 
-//<<set tx power>>
-/*  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, CC2538_RF_TX_POWER_RECOMMENDED);
-//  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, -16);
-//update_txpower((int8_t)-16);
-  printf("tp state: %d \n",rd); */
-  int tp_val;
-  int rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
- LOG_INFO("tp state %d \n",rd);
- LOG_INFO("tp: %d \n",tp_val); 
-/*  int ch_val;
-  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_CHANNEL, &ch_val);
-  printf("channel state %d \n",rd);
-  printf("current channel: %d \n",ch_val);
-  int lqi_val;
-  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_LINK_QUALITY, &lqi_val);
-  printf("lqi state %d \n",rd);
-  printf("current lqi: %d \n",lqi_val);
-  int rssi_val;
-  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_RSSI, &rssi_val); //RADIO_PARAM_LAST_RSSI, RADIO_PARAM_LAST_PACKET_TIMESTAMP
-  printf("rssi state %d \n",rd);
-  printf("current rssi: %d \n",rssi_val);
-//  int mt_val = 1;
-//  rd = NETSTACK_RADIO.set_value(CSMA_MAX_FRAME_RETRIES, mt_val);
-//  NETSTACK_RADIO.get_value(CSMA_MAX_FRAME_RETRIES, &mt_val);
-//  printf("mt state %d \n",rd); */
- //Works end-to-end if UIP_CONF_TAG_TC_WITH_VARIABLE_RETRANSMISSIONS is set to 1.
- 
- //printf("current mt: %d \n",PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS);
-  //printf("current mt: %d \n",CSMA_MAX_FRAME_RETRIES); //1-UIP_MAX_MAC_TRANSMISSIONS_UNDEFINED (0),
- //2-UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS,4- CSMA_MAX_FRAME_RETRIES
-/*  int minbe_val;
-  rd = NETSTACK_RADIO.get_value(CSMA_MIN_BE, &minbe_val);
-  printf("minbe state %d \n",rd);
-  printf("current minbe: %d \n",minbe_val);
-  int maxbe_val;
-  rd = NETSTACK_RADIO.get_value(CSMA_MAX_BE, &maxbe_val);
-  printf("maxbe state %d \n",rd);
-  printf("current maxbe: %d \n",maxbe_val);
-  printf("current buff: %d \n",PACKETBUF_SIZE); */
-//  printf("tp after %d \n",RADIO_PARAM_TXPOWER);
-//  int val;
-//  NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &val);
-//  printf("....tp after %d \n",val);
-//>>set tx power<<
-
 /* Initialize UDP connection */
   simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
     UDP_SERVER_PORT, udp_rx_callback);
+ etimer_set(&periodic_init, 100); //random_rand() % SEND_INTERVAL
   etimer_set(&periodic_timer, SEND_INTERVAL); //random_rand() % SEND_INTERVAL
   while(count <= 900) { //count <= 3 
    if (count == 1)
@@ -172,6 +129,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
     if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) {
+     if (count ==1) {
+      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&init_timer));
+     }
      uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, 3);
  //packetbuf_set_attr(PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS,3);
  //LOG_INFO("current mt: %d \n",uipbuf_get_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS));
