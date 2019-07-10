@@ -109,7 +109,6 @@ udp_rx_callback(struct simple_udp_connection *c,
 PROCESS_THREAD(udp_client_process, ev, data)
 {
   static struct etimer periodic_timer;
-  static struct etimer init_timer;
   static int count = 1;
   static char str[120];
   uip_ipaddr_t dest_ipaddr;
