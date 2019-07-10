@@ -120,8 +120,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
 /* Initialize UDP connection */
   simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
     UDP_SERVER_PORT, udp_rx_callback);
- etimer_set(&init_timer, 100); //random_rand() % SEND_INTERVAL
-  etimer_set(&periodic_timer, SEND_INTERVAL); //random_rand() % SEND_INTERVAL
+   etimer_set(&periodic_timer, SEND_INTERVAL); //random_rand() % SEND_INTERVAL
   while(count <= 900) { //count <= 3 
    if (count == 1)
     ct_start = clock_time();
@@ -129,9 +128,6 @@ PROCESS_THREAD(udp_client_process, ev, data)
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
     if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) {
-     if (count ==1) {
-      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&init_timer));
-     }
      uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, 3);
  //packetbuf_set_attr(PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS,3);
  //LOG_INFO("current mt: %d \n",uipbuf_get_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS));
