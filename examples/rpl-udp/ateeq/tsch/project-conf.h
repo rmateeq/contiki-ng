@@ -13,7 +13,7 @@
 //MAX_NUM_QUEUED_PACKETS,
 //Total number of packets to be transmitted against each parameter configuration
 //#define NUM_PKTS 200
-
+#define UIP_CONF_UDP_CONNS 35
 //Enforce MAC_MAX_TRANSMISSIONS across all nodes
 #define UIP_CONF_TAG_TC_WITH_VARIABLE_RETRANSMISSIONS 1
 /*** Transport Layer ***/
