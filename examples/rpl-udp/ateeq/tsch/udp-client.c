@@ -17,7 +17,7 @@
 #define LOG_LEVEL LOG_LEVEL_INFO
 #endif
 
-#define WITH_SERVER_REPLY  1
+#define WITH_SERVER_REPLY  0
 #define UDP_CLIENT_PORT 8765
 #define UDP_SERVER_PORT 5678
 //<<set interval 10 instead of 60>>
@@ -77,10 +77,57 @@ PROCESS_THREAD(udp_client_process, ev, data)
 /* Initialize UDP connection */
   simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
     UDP_SERVER_PORT, udp_rx_callback);
-   etimer_set(&periodic_timer, SEND_INTERVAL); //random_rand() % SEND_INTERVAL
+   etimer_set(&periodic_timer, random_rand() % SEND_INTERVAL); //
      ct_start = clock_seconds();
    printf("start time: %lu\n", ct_start);
+for (i = 0; i <= 5; i++ ){
+ // Transmissions power [4 options] 0x00(-24),42(-15),58(-13),62(-11),72(-9),88(-7),91(-5),A1(-3),B0(-1),B6(0),C5(1),D5(3),ED(5),FF(7)
+//#ifndef CC2538_RF_CONF_TX_POWER
+//#define CC2538_RF_CONF_TX_POWER 0xC5
 
+ int tp_val;
+ if (i == 0){
+  tp_val = -3
+  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
+  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
+  LOG_INFO("tp state %d",rd);
+  LOG_INFO("new tp %d",tp_val);
+ }
+ else if (i == 1){
+  tp_val = -1
+  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
+  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
+  LOG_INFO("tp state %d",rd);
+  LOG_INFO("new tp %d",tp_val);
+ }
+ else if (i == 2){
+  tp_val = 0
+  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
+  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
+  LOG_INFO("tp state %d",rd);
+  LOG_INFO("new tp %d",tp_val);
+ }
+ else if (i == 3){
+  tp_val = 1
+  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
+  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
+  LOG_INFO("tp state %d",rd);
+  LOG_INFO("new tp %d",tp_val);
+ }
+ else if (i == 4){
+  tp_val = 3
+  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
+  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
+  LOG_INFO("tp state %d",rd);
+  LOG_INFO("new tp %d",tp_val);
+ }
+ else if (i == 5){
+  tp_val = 5
+  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
+  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
+  LOG_INFO("tp state %d",rd);
+  LOG_INFO("new tp %d",tp_val);
+ }
   while(count <= 300) { //count <= 3    
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
@@ -121,7 +168,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
   /* Add some jitter */
     etimer_set(&periodic_timer, SEND_INTERVAL
       - CLOCK_SECOND + (random_rand() % (2 * CLOCK_SECOND)));
-  }
+  } //while ends here
+}//for ends here
   /* close the file*/  
 // cfs_close (fp);
 
