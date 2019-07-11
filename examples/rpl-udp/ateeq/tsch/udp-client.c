@@ -68,8 +68,8 @@
 // #define NETSTACK_CONF_MAC nullmac_driver
 //>>my vars<<
 static struct simple_udp_connection udp_conn;
-static clock_time_t ct_start;
-static clock_time_t ct_end;
+unsigned long ct_start;
+unsigned long ct_end;
 /*---------------------------------------------------------------------------*/
 PROCESS(udp_client_process, "UDP client");
 AUTOSTART_PROCESSES(&udp_client_process);
@@ -122,11 +122,13 @@ PROCESS_THREAD(udp_client_process, ev, data)
    etimer_set(&periodic_timer, SEND_INTERVAL); //random_rand() % SEND_INTERVAL
   while(count <= 900) { //count <= 3 
    if (count == 1)
-    ct_start = clock_time();
+    ct_start = clock_seconds();
+   printf("start time: %lu\n", ct_start);
    
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
     if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) {
+     printf("reachability time: %lu\n", clock_seconds());
      uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, 3);
  //packetbuf_set_attr(PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS,3);
  //LOG_INFO("current mt: %d \n",uipbuf_get_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS));
@@ -147,9 +149,13 @@ PROCESS_THREAD(udp_client_process, ev, data)
   //  cfs_write (fp, str, sizeof(str));
 
       count++;
-     if (count == 901) {
-       ct_end = clock_time();
-      printf("clock difference: %ld\n", (ct_end - ct_start));
+     if ((clock_seconds() - ct_start) > 5400) {
+      printf("clock difference abrupt: %lu\n", (clock_seconds() - ct_start));
+      break;
+     }
+     else if (count == 901) {
+       ct_end = clock_seconds();
+      printf("clock difference: %lu\n", (ct_end - ct_start));
      }
     } else {
       LOG_INFO("Not reachable yet\n");
