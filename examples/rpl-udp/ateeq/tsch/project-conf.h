@@ -23,13 +23,11 @@
 // Parameters [2 options]
 //#define UIP_CONF_IPV6 1
 //#ifndef NBR_TABLE_CONF_MAX_NEIGHBORS
-//#define NBR_TABLE_CONF_MAX_NEIGHBORS 5
+#define NBR_TABLE_CONF_MAX_NEIGHBORS 10
 //#endif
-//#ifndef UIP_CONF_MAX_ROUTES
-//#define UIP_CONF_MAX_ROUTES 8
-//#endif
+
 //#ifndef UIP_CONF_BUFFER_SIZE
-//#define UIP_CONF_BUFFER_SIZE 800
+#define UIP_CONF_BUFFER_SIZE 300
 //#endif
 //#define UIP_CONF_IPV6_QUEUE_PKT 1
 
@@ -38,9 +36,9 @@
 //#endif
 
 //#define UIP_CONF_IPV6_RPL 1
-
+//-----------------------------------------------------------------------------
 //#define UIP_CONF_ND6_SEND_RA 1
-#define UIP_CONF_IP_FORWARD  1
+//#define UIP_CONF_IP_FORWARD  1
 // #define RPL_CONF_SUPPORTED_OFS
 // #define RPL_CONF_OF_OCP
 // #define RPL_CONF_PROBING_SEND_FUNC
