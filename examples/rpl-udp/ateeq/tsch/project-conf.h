@@ -40,7 +40,12 @@
 //#define UIP_CONF_ND6_SEND_RA 1
 //#define UIP_CONF_IP_FORWARD  1
 // #define RPL_CONF_SUPPORTED_OFS
-// #define RPL_CONF_OF_OCP
+ #define RPL_CONF_OF_OCP RPL_OCP_OF0
+ #define RPL_CONF_TRICKLE_REFRESH_DAO_ROUTES 8 //by default dao refreshal is done every 4secs.
+ #define RPL_CONF_DIO_INTERVAL_MIN 13 //results in 8sec. default is 12, resulting in 4 sec.
+ #define RPL_CONF_DEFAULT_LIFETIME_UNIT 60 //defualt redefined due to confusion in rpl-conf.h
+ #define RPL_CONF_DEFAULT_LIFETIME 30 // same as above
+ #define RPL_CONF_DAO_RETRANSMISSION_TIMEOUT (10 * CLOCK_SECOND) //default 5
 // #define RPL_CONF_PROBING_SEND_FUNC
 // #define LINK_STATS_CONF_INIT_ETX_FROM_RSSI
 // #define RPL_MRHOF_CONF_SQUARED_ETX
