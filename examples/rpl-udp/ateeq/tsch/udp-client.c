@@ -79,10 +79,11 @@ PROCESS_THREAD(udp_client_process, ev, data)
   simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
     UDP_SERVER_PORT, udp_rx_callback);
    etimer_set(&periodic_timer, random_rand() % SEND_INTERVAL); //
-     ct_start = clock_seconds();
-   printf("start time: %lu\n", ct_start);
+     
  //int i;
  for (i = 0; i <= 5; i = i+1 ){
+  ct_start = clock_seconds();
+   printf("%d start time: %lu\n",i, ct_start);
  // Transmissions power [4 options] 0x00(-24),42(-15),58(-13),62(-11),72(-9),88(-7),91(-5),A1(-3),B0(-1),B6(0),C5(1),D5(3),ED(5),FF(7)
 //#ifndef CC2538_RF_CONF_TX_POWER
 //#define CC2538_RF_CONF_TX_POWER 0xC5
@@ -133,7 +134,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
  LOG_INFO_("...............................................................................");
  LOG_INFO_("..............................NEW RUN..........................................");
  LOG_INFO_("...............................................................................");
-  while((clock_seconds()-ct_start) <= 1000) { //count <= 3    
+  while((clock_seconds()-ct_start) <= 1800) { //count <= 3    
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
     if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) {
