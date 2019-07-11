@@ -87,35 +87,35 @@ for (i = 0; i <= 5; i++ ){
 
  int tp_val;
  if (i == 0){
-  tp_val = -3
+  tp_val = -3;
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
   LOG_INFO("tp state %d",rd);
   LOG_INFO("new tp %d",tp_val);
  }
  else if (i == 1){
-  tp_val = -1
+  tp_val = -1;
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
   LOG_INFO("tp state %d",rd);
   LOG_INFO("new tp %d",tp_val);
  }
  else if (i == 2){
-  tp_val = 0
+  tp_val = 0;
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
   LOG_INFO("tp state %d",rd);
   LOG_INFO("new tp %d",tp_val);
  }
  else if (i == 3){
-  tp_val = 1
+  tp_val = 1;
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
   LOG_INFO("tp state %d",rd);
   LOG_INFO("new tp %d",tp_val);
  }
  else if (i == 4){
-  tp_val = 3
+  tp_val = 3;
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
   LOG_INFO("tp state %d",rd);
@@ -128,7 +128,7 @@ for (i = 0; i <= 5; i++ ){
   LOG_INFO("tp state %d",rd);
   LOG_INFO("new tp %d",tp_val);
  }
- LOG_INFO_("...............................................................................")'
+ LOG_INFO_("...............................................................................");
  LOG_INFO_("..............................NEW RUN..........................................");
  LOG_INFO_("...............................................................................");
   while(count <= 300) { //count <= 3    
