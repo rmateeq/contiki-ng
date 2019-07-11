@@ -70,6 +70,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   static int count = 1;
   static char str[120];
   uip_ipaddr_t dest_ipaddr;
+  static int i = 0;
 
   PROCESS_BEGIN();
 
@@ -80,7 +81,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
    etimer_set(&periodic_timer, random_rand() % SEND_INTERVAL); //
      ct_start = clock_seconds();
    printf("start time: %lu\n", ct_start);
- int i;
+ //int i;
  for (i = 0; i <= 5; i = i+1 ){
  // Transmissions power [4 options] 0x00(-24),42(-15),58(-13),62(-11),72(-9),88(-7),91(-5),A1(-3),B0(-1),B6(0),C5(1),D5(3),ED(5),FF(7)
 //#ifndef CC2538_RF_CONF_TX_POWER
