@@ -122,7 +122,7 @@ for (int i = 0; i <= 5; i++ ){
   LOG_INFO("new tp %d",tp_val);
  }
  else if (i == 5){
-  tp_val = 5
+  tp_val = 5;
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
   LOG_INFO("tp state %d",rd);
