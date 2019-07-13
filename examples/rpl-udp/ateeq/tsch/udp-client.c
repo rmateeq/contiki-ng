@@ -24,10 +24,19 @@
 #define SEND_INTERVAL     (4 * CLOCK_SECOND)
 //>>set interval 10 instead of 60<<
 //<<my vars>>
-//>>my vars<<
-static struct simple_udp_connection udp_conn;
 unsigned long ct_start;
 unsigned long ct_end;
+int tp[7] = [-13,-9,-5,-1,1,3,5];
+int ps[3] = [25,50,75,100];
+int mt[4] = [1,2,3,4,5];
+//bidirectional:yes,no
+int iat[4] = [1,2,4,6,8,10]
+//number of nodes: 8(d,s),16(d,s),24,32
+//dt: real
+//mac: tsch,mac
+//of: 0,mrh
+//>>my vars<<
+static struct simple_udp_connection udp_conn;
 /*---------------------------------------------------------------------------*/
 PROCESS(udp_client_process, "UDP client");
 AUTOSTART_PROCESSES(&udp_client_process);
