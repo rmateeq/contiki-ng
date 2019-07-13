@@ -118,9 +118,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
     mts = mt[mt_c];
     printf("new mt:::: %d",mts);
  
- LOG_INFO_("...............................................................................");
- LOG_INFO_("..............................NEW RUN..........................................");
- LOG_INFO_("...............................................................................");
+ //LOG_INFO_("...............................................................................");
+ //LOG_INFO_("..............................NEW RUN..........................................");
+ //LOG_INFO_("...............................................................................");
 
 
 /* Initialize UDP connection */
@@ -173,7 +173,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
      // printf("clock difference: %lu\n", (ct_end - ct_start));
     // }
     } else if ((clock_seconds()-ct_start) <= 10){
-      LOG_INFO("Not reachable yet\n");
+   //   LOG_INFO("Not reachable yet\n");
+      printf("Not reachable yet\n");
     } else break;
 
   /* Add some jitter */
