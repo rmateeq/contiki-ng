@@ -31,6 +31,12 @@ static int ps[2] = {25,100}; //[25,50,75,100];
 static int mt[2] = {1,5}; //[1,2,3,4,5];
 //bidirectional:yes,no
 static int iat[3] = {2,6,10}; //[1,2,4,6,8,10];
+static int tp_c = 0;
+  static int ps_c = 0;
+  static int mt_c = 0;
+  static int iat_c = 0;
+
+  static int i = 0;
 //number of nodes: 8(d,s),16(d,s),24,32
 //dt: real
 //mac: tsch,mac
@@ -79,12 +85,6 @@ PROCESS_THREAD(udp_client_process, ev, data)
   static int count = 1;
   static char str[120];
   uip_ipaddr_t dest_ipaddr;
-  static int tp_c = 0;
-  static int ps_c = 0;
-  static int mt_c = 0;
-  static int iat_c = 0;
-
-  static int i = 0;
 
   PROCESS_BEGIN();
   
@@ -109,7 +109,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
    
    for (; iat_c <= 2; iat_c++ ){
     int SEND_INTERVAL = (iat[iat_c] * CLOCK_SECOND);
-    LOG_INFO("new iat:::: %d",SEND_INTERVAL);
+    LOG_INFO("new iat:::: %d",iat[iat_c]);
    
    for (; mt_c <= 1; mt_c++ ){
     int mts = mt[mt_c];
@@ -126,7 +126,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
    etimer_set(&periodic_timer, random_rand() % SEND_INTERVAL); //
      
  //int i;
-   while((clock_seconds()-ct_start) <= 900) { //count <= 3    
+   while((clock_seconds()-ct_start) <= 100) { //count <= 3  //900-1800sec
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
     if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) {
