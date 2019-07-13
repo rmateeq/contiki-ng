@@ -49,15 +49,23 @@ PROCESS_THREAD(udp_server_process, ev, data)
   /* Initialize DAG root */
          
     if ((clock_seconds() - ct_start) >= 100){
-           printf("restarting\n");
+           printf("restarting1\n\n\n");
            PROCESS_RESTART();
   }
 
   NETSTACK_ROUTING.root_start();
+  if ((clock_seconds() - ct_start) >= 100){
+           printf("restarting2\n\n\n");
+           PROCESS_RESTART();
+  }
 
   /* Initialize UDP connection */
   simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                       UDP_CLIENT_PORT, udp_rx_callback);
+  if ((clock_seconds() - ct_start) >= 100){
+           printf("restarting3\n\n\n");
+           PROCESS_RESTART();
+  }
   
   PROCESS_END();
 }
