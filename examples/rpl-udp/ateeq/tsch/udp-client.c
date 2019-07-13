@@ -129,10 +129,10 @@ PROCESS_THREAD(udp_client_process, ev, data)
    etimer_set(&periodic_timer, random_rand() % SEND_INTERVAL); //
      
  //int i;
-   while((clock_seconds()-ct_start) <= 100) { //count <= 3  //900-1800sec
+   while((clock_seconds()-ct_start) <= 10) { //count <= 3  //900-1800sec
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
-    if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) {
+    if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr) && ((clock_seconds()-ct_start) <= 10)) {
      printf("reachability time:::: %lu\n", clock_seconds());
      uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, mts);
  //packetbuf_set_attr(PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS,3);
