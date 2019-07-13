@@ -21,20 +21,16 @@
 #define UDP_CLIENT_PORT 8765
 #define UDP_SERVER_PORT 5678
 //<<set interval 10 instead of 60>>
-#define SEND_INTERVAL     (4 * CLOCK_SECOND)
+//#define SEND_INTERVAL     (4 * CLOCK_SECOND)
 //>>set interval 10 instead of 60<<
 //<<my vars>>
 unsigned long ct_start;
-unsigned long ct_end;
-int tp[7] = [-13,-9,-5,-1,1,3,5];
-int ps[3] = [25,50,75,100];
-int mt[4] = [1,2,3,4,5];
+//unsigned long ct_end;
+int tp[4] = [-11,-5,1,7];//[-13,-9,-5,-1,1,3,5];
+int ps[2] = [25,100];//[25,50,75,100];
+int mt[2] = [1,5];//[1,2,3,4,5];
 //bidirectional:yes,no
-int iat[4] = [1,2,4,6,8,10]
-int tp_c = 0;
-int ps_c = 0;
-int mt_c = 0;
-int iat_c = 0;
+int iat[3] = [2,6,10]
 //number of nodes: 8(d,s),16(d,s),24,32
 //dt: real
 //mac: tsch,mac
@@ -83,67 +79,42 @@ PROCESS_THREAD(udp_client_process, ev, data)
   static int count = 1;
   static char str[120];
   uip_ipaddr_t dest_ipaddr;
-  //static int i = 0;
+  static int tp_c = 0;
+  static int ps_c = 0;
+  static int mt_c = 0;
+  static int iat_c = 0;
+
+  static int i = 0;
 
   PROCESS_BEGIN();
-
- //for (i = 0; i <= 6; i = i+1 ){
+  
   ct_start = clock_seconds();
-   printf("%d start time: %lu\n",i, ct_start);
- // Transmissions power [4 options] 0x00(-24),42(-15),58(-13),62(-11),72(-9),88(-7),91(-5),A1(-3),B0(-1),B6(0),C5(1),D5(3),ED(5),FF(7)
-//#ifndef CC2538_RF_CONF_TX_POWER
-//#define CC2538_RF_CONF_TX_POWER 0xC5
-
- int tp_val;
- if (i == 0){
-  tp_val = -15;
-  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
-  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
-  LOG_INFO("tp state %d",rd);
-  LOG_INFO("new tp %d",tp_val);
- }
- else if (i == 1){
-  tp_val = -11;
-  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
-  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
-  LOG_INFO("tp state %d",rd);
-  LOG_INFO("new tp %d",tp_val);
- }
- else if (i == 2){
-  tp_val = -7;
-  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
-  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
-  LOG_INFO("tp state %d",rd);
-  LOG_INFO("new tp %d",tp_val);
- }
- else if (i == 3){
-  tp_val = -3;
-  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
-  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
-  LOG_INFO("tp state %d",rd);
-  LOG_INFO("new tp %d",tp_val);
- }
- else if (i == 4){
-  tp_val = 0;
-  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
-  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
-  LOG_INFO("tp state %d",rd);
-  LOG_INFO("new tp %d",tp_val);
- }
- else if (i == 5){
-  tp_val = 3;
-  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
-  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
-  LOG_INFO("tp state %d",rd);
-  LOG_INFO("new tp %d",tp_val);
- }
- else if (i == 6){
-  tp_val = 5;
-  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
-  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
-  LOG_INFO("tp state %d",rd);
-  LOG_INFO("new tp %d",tp_val);
- }
+  printf("%d start time:::: %lu\n",i, ct_start);
+ 
+  for (; tp_c <= 3; tp_c++ ){
+   // Transmissions power [4 options] 0x00(-24),42(-15),58(-13),62(-11),72(-9),88(-7),91(-5),A1(-3),B0(-1),B6(0),C5(1),D5(3),ED(5),FF(7)
+   int tp_val = -99;
+   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp[tp_c]);
+   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
+   LOG_INFO("tp state:::: %d",rd);
+   LOG_INFO("new tp:::: %d",tp_val);
+  
+  for (; ps_c <= 1; ps_c++ ){
+   //static const char alphanum[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+   //for (int j = 0; j < ps[ps_c] - 3; ++j) {
+   //     str[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
+   // }
+   // str[ps[ps_c]-3] = 0;
+    LOG_INFO("new ps:::: %d",ps[ps_c]);
+   
+   for (; iat_c <= 2; iat_c++ ){
+    int SEND_INTERVAL = (iat[iat_c] * CLOCK_SECOND);
+    LOG_INFO("new iat:::: %d",SEND_INTERVAL);
+   
+   for (; mt_c <= 1; mt_c++ ){
+    int mts = mt[mt_c];
+    LOG_INFO_("new mt:::: %d",mts);
+ 
  LOG_INFO_("...............................................................................");
  LOG_INFO_("..............................NEW RUN..........................................");
  LOG_INFO_("...............................................................................");
@@ -159,8 +130,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
     if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) {
-     printf("reachability time: %lu\n", clock_seconds());
-     uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, 3);
+     printf("reachability time:::: %lu\n", clock_seconds());
+     uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, mts);
  //packetbuf_set_attr(PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS,3);
  //LOG_INFO("current mt: %d \n",uipbuf_get_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS));
     /* Send to DAG root */
@@ -169,12 +140,22 @@ PROCESS_THREAD(udp_client_process, ev, data)
       LOG_INFO_("\n");
      //abcdefghijklmnopqrstuvwxyzabcdefghij---36
      //abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef---110
+     if (ps[ps_c] == 25) { 
+      if (count < 10)
+        snprintf(str, sizeof(str), "abcdefghijklmnopqrstuv00%d", count);
+      else if (count < 100)
+        snprintf(str, sizeof(str), "abcdefghijklmnopqrstuv0%d", count);
+      else
+        snprintf(str, sizeof(str), "abcdefghijklmnopqrstuv%d", count);
+     }
+     else if (ps[ps_c] == 100)
       if (count < 10)
         snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrs00%d", count);
       else if (count < 100)
         snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrs0%d", count);
       else
         snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrs%d", count);
+     }
    
       simple_udp_sendto(&udp_conn, str, strlen(str), &dest_ipaddr);
   //  cfs_write (fp, str, sizeof(str));
@@ -196,14 +177,21 @@ PROCESS_THREAD(udp_client_process, ev, data)
     etimer_set(&periodic_timer, SEND_INTERVAL
       - CLOCK_SECOND + (random_rand() % (2 * CLOCK_SECOND)));
   } //while ends here
-  /* close the file*/  
-// cfs_close (fp);
+    i = i+1;
+    PROCESS_RESTART();
+  }//mt for ends here
   i = i+1;
-  if (i <=6)
+  //if (i <=6)
+    PROCESS_RESTART();
+  }//iat for ends here
+   i = i+1;
    PROCESS_RESTART();
+  }//ps for ends here
+   i = i+1;
+   PROCESS_RESTART();
+  }//tp for ends here
   PROCESS_END();
-  //}//for ends here
- ct_end = clock_seconds();
-   printf("%d end time: %lu\n",i, ct_end);
+
+   printf("%d end time: %lu\n",i, clock_seconds());
 }
 /*---------------------------------------------------------------------------*/
