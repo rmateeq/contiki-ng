@@ -181,5 +181,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
   PROCESS_END();
   }//for ends here
+ ct_end = clock_seconds();
+   printf("%d end time: %lu\n",i, ct_end);
 }
 /*---------------------------------------------------------------------------*/
