@@ -187,7 +187,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
 // cfs_close (fp);
   i = i+1;
   if (i <=6)
-   PT_RESTART(&udp_client_process);
+   PROCESS_RESTART();
   PROCESS_END();
   //}//for ends here
  ct_end = clock_seconds();
