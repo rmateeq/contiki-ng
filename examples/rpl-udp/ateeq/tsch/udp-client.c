@@ -72,7 +72,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   uip_ipaddr_t dest_ipaddr;
   static int i = 0;
 
- for (i = 0; i <= 5; i = i+1 ){
+ for (i = 0; i <= 6; i = i+1 ){
   ct_start = clock_seconds();
    printf("%d start time: %lu\n",i, ct_start);
  // Transmissions power [4 options] 0x00(-24),42(-15),58(-13),62(-11),72(-9),88(-7),91(-5),A1(-3),B0(-1),B6(0),C5(1),D5(3),ED(5),FF(7)
@@ -81,27 +81,27 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
  int tp_val;
  if (i == 0){
-  tp_val = -3;
+  tp_val = -15;
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
   LOG_INFO("tp state %d",rd);
   LOG_INFO("new tp %d",tp_val);
  }
  else if (i == 1){
-  tp_val = -1;
+  tp_val = -11;
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
   LOG_INFO("tp state %d",rd);
   LOG_INFO("new tp %d",tp_val);
  }
- else if (i == 2){
+ else if (i == -7){
   tp_val = 0;
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
   LOG_INFO("tp state %d",rd);
   LOG_INFO("new tp %d",tp_val);
  }
- else if (i == 3){
+ else if (i == -3){
   tp_val = 1;
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
@@ -109,14 +109,21 @@ PROCESS_THREAD(udp_client_process, ev, data)
   LOG_INFO("new tp %d",tp_val);
  }
  else if (i == 4){
-  tp_val = 3;
+  tp_val = 0;
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
   LOG_INFO("tp state %d",rd);
   LOG_INFO("new tp %d",tp_val);
  }
  else if (i == 5){
-  tp_val = 5;
+  tp_val = 3;
+  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
+  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
+  LOG_INFO("tp state %d",rd);
+  LOG_INFO("new tp %d",tp_val);
+ }
+ else if (i == 6){
+  tp_val = 7;
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
   LOG_INFO("tp state %d",rd);
