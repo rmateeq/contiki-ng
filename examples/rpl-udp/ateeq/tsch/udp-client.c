@@ -31,6 +31,10 @@ int ps[3] = [25,50,75,100];
 int mt[4] = [1,2,3,4,5];
 //bidirectional:yes,no
 int iat[4] = [1,2,4,6,8,10]
+int tp_c = 0;
+int ps_c = 0;
+int mt_c = 0;
+int iat_c = 0;
 //number of nodes: 8(d,s),16(d,s),24,32
 //dt: real
 //mac: tsch,mac
@@ -79,7 +83,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   static int count = 1;
   static char str[120];
   uip_ipaddr_t dest_ipaddr;
-  static int i = 0;
+  //static int i = 0;
 
   PROCESS_BEGIN();
 
