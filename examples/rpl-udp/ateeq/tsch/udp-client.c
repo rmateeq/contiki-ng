@@ -35,7 +35,7 @@ static int tp_c = 0;
   static int ps_c = 0;
   static int mt_c = 0;
   static int iat_c = 0;
-static int mts = 0;
+//static int mts = 0;
 static int SEND_INTERVAL = 0;
 
   static int i = 0;
@@ -113,8 +113,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
     printf("new iat:::: %d",iat[iat_c]);
    
    for (; mt_c <= 1; mt_c++ ){
-    mts = mt[mt_c];
-    printf("new mt:::: %d",mts);
+    //mts = mt[mt_c];
+    printf("new mt:::: %d",mt[mt_c]);
  
  //LOG_INFO_("...............................................................................");
  //LOG_INFO_("..............................NEW RUN..........................................");
@@ -134,7 +134,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
     if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) {
      printf("reachability time:::: %lu\n", clock_seconds());
-     uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, mts);
+     uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, mt[mt_c]);
  //packetbuf_set_attr(PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS,3);
  //LOG_INFO("current mt: %d \n",uipbuf_get_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS));
     /* Send to DAG root */
