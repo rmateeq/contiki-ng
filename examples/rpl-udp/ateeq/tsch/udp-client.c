@@ -72,7 +72,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
   uip_ipaddr_t dest_ipaddr;
   static int i = 0;
 
- for (i = 0; i <= 6; i = i+1 ){
+  PROCESS_BEGIN();
+
+ //for (i = 0; i <= 6; i = i+1 ){
   ct_start = clock_seconds();
    printf("%d start time: %lu\n",i, ct_start);
  // Transmissions power [4 options] 0x00(-24),42(-15),58(-13),62(-11),72(-9),88(-7),91(-5),A1(-3),B0(-1),B6(0),C5(1),D5(3),ED(5),FF(7)
@@ -133,8 +135,6 @@ PROCESS_THREAD(udp_client_process, ev, data)
  LOG_INFO_("..............................NEW RUN..........................................");
  LOG_INFO_("...............................................................................");
 
-  PROCESS_BEGIN();
-
 
 /* Initialize UDP connection */
   simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
@@ -185,9 +185,11 @@ PROCESS_THREAD(udp_client_process, ev, data)
   } //while ends here
   /* close the file*/  
 // cfs_close (fp);
-
+  i = i+1;
+  if (i <=6)
+   PROCESS_RESTART();
   PROCESS_END();
-  }//for ends here
+  //}//for ends here
  ct_end = clock_seconds();
    printf("%d end time: %lu\n",i, ct_end);
 }
