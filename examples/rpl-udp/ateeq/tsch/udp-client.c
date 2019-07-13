@@ -91,7 +91,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   PROCESS_BEGIN();
   
    
-  for (; tp_c <= 3; tp_c++ ){
+  for (tp_c = 0; tp_c <= 3; tp_c++ ){
     
    // Transmissions power [4 options] 0x00(-24),42(-15),58(-13),62(-11),72(-9),88(-7),91(-5),A1(-3),B0(-1),B6(0),C5(1),D5(3),ED(5),FF(7)
    int tp_val = -99;
@@ -100,7 +100,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
    printf("tp state:::: %d",rd);
    printf("new tp:::: %d",tp_val);
   
-  for (; ps_c <= 1; ps_c++ ){
+  for (ps_c = 0; ps_c <= 1; ps_c++ ){
    //static const char alphanum[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
    //for (int j = 0; j < ps[ps_c] - 3; ++j) {
    //     str[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
@@ -108,11 +108,11 @@ PROCESS_THREAD(udp_client_process, ev, data)
    // str[ps[ps_c]-3] = 0;
     printf("new ps:::: %d",ps[ps_c]);
    
-   for (; iat_c <= 2; iat_c++ ){
+   for (iat_c = 0; iat_c <= 2; iat_c++ ){
     SEND_INTERVAL = (iat[iat_c] * CLOCK_SECOND);
     printf("new iat:::: %d",iat[iat_c]);
    
-   for (; mt_c <= 1; mt_c++ ){
+   for (mt_c = 0; mt_c <= 1; mt_c++ ){
     //mts = mt[mt_c];
     printf("new mt:::: %d%d",mt_c,mt[mt_c]);
  
