@@ -96,15 +96,15 @@ PROCESS_THREAD(udp_client_process, ev, data)
   LOG_INFO("tp state %d",rd);
   LOG_INFO("new tp %d",tp_val);
  }
- else if (i == -7){
-  tp_val = 0;
+ else if (i == 2){
+  tp_val = -7;
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
   LOG_INFO("tp state %d",rd);
   LOG_INFO("new tp %d",tp_val);
  }
- else if (i == -3){
-  tp_val = 1;
+ else if (i == 3){
+  tp_val = -3;
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
   LOG_INFO("tp state %d",rd);
@@ -125,7 +125,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   LOG_INFO("new tp %d",tp_val);
  }
  else if (i == 6){
-  tp_val = 7;
+  tp_val = 5;
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
   LOG_INFO("tp state %d",rd);
@@ -142,7 +142,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
    etimer_set(&periodic_timer, random_rand() % SEND_INTERVAL); //
      
  //int i;
-   while((clock_seconds()-ct_start) <= 1800) { //count <= 3    
+   while((clock_seconds()-ct_start) <= 900) { //count <= 3    
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
     if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) {
