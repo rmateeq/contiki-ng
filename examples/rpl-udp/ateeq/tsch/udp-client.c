@@ -26,11 +26,11 @@
 //<<my vars>>
 unsigned long ct_start;
 //unsigned long ct_end;
-int tp[4] = [-11,-5,1,7]; //[-13,-9,-5,-1,1,3,5];
-int ps[2] = [25,100]; //[25,50,75,100];
-int mt[2] = [1,5]; //[1,2,3,4,5];
+static int tp[4] = [-11,-5,1,7]; //[-13,-9,-5,-1,1,3,5];
+static int ps[2] = [25,100]; //[25,50,75,100];
+static int mt[2] = [1,5]; //[1,2,3,4,5];
 //bidirectional:yes,no
-int iat[3] = [2,6,10]; //[1,2,4,6,8,10];
+static int iat[3] = [2,6,10]; //[1,2,4,6,8,10];
 //number of nodes: 8(d,s),16(d,s),24,32
 //dt: real
 //mac: tsch,mac
@@ -108,7 +108,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
     LOG_INFO("new ps:::: %d",ps[ps_c]);
    
    for (; iat_c <= 2; iat_c++ ){
-    int SEND_INTERVAL = (iat[iat_c] * CLOCK_SECOND);
+    static int SEND_INTERVAL = (iat[iat_c] * CLOCK_SECOND);
     LOG_INFO("new iat:::: %d",SEND_INTERVAL);
    
    for (; mt_c <= 1; mt_c++ ){
@@ -192,6 +192,6 @@ PROCESS_THREAD(udp_client_process, ev, data)
   }//tp for ends here
   PROCESS_END();
 
-   printf("%d end time: %lu\n",i, clock_seconds());
+   printf("end time: %lu\n", clock_seconds());
 }
 /*---------------------------------------------------------------------------*/
