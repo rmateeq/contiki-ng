@@ -148,7 +148,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
       else
         snprintf(str, sizeof(str), "abcdefghijklmnopqrstuv%d", count);
      }
-     else if (ps[ps_c] == 100)
+     else if (ps[ps_c] == 100) {
       if (count < 10)
         snprintf(str, sizeof(str), "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrs00%d", count);
       else if (count < 100)
@@ -192,6 +192,6 @@ PROCESS_THREAD(udp_client_process, ev, data)
   }//tp for ends here
   PROCESS_END();
 
-   printf("end time: %lu\n", clock_seconds());
+   printf("%d end time: %lu\n",i, clock_seconds());
 }
 /*---------------------------------------------------------------------------*/
