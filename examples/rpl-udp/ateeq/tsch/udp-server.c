@@ -34,10 +34,6 @@ udp_rx_callback(struct simple_udp_connection *c,
   LOG_INFO("Sending response.\n");
   simple_udp_sendto(&udp_conn, data, datalen, sender_addr);
 #endif /* WITH_SERVER_REPLY */
-  if ((clock_seconds() - ct_start) >= 100){
-           printf("restarting\n");
-           PROCESS_RESTART();
-  }
 }
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(udp_server_process, ev, data)
@@ -51,6 +47,12 @@ PROCESS_THREAD(udp_server_process, ev, data)
    LOG_INFO("tp state server:::: %d\n",rd);
    LOG_INFO("current tp server:::: %d\n",tp_val);
   /* Initialize DAG root */
+         
+    if ((clock_seconds() - ct_start) >= 100){
+           printf("restarting\n");
+           PROCESS_RESTART();
+  }
+
   NETSTACK_ROUTING.root_start();
 
   /* Initialize UDP connection */
