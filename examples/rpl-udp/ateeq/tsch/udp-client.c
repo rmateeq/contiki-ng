@@ -72,15 +72,6 @@ PROCESS_THREAD(udp_client_process, ev, data)
   uip_ipaddr_t dest_ipaddr;
   static int i = 0;
 
-  PROCESS_BEGIN();
-
-
-/* Initialize UDP connection */
-  simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
-    UDP_SERVER_PORT, udp_rx_callback);
-   etimer_set(&periodic_timer, random_rand() % SEND_INTERVAL); //
-     
- //int i;
  for (i = 0; i <= 5; i = i+1 ){
   ct_start = clock_seconds();
    printf("%d start time: %lu\n",i, ct_start);
@@ -134,7 +125,17 @@ PROCESS_THREAD(udp_client_process, ev, data)
  LOG_INFO_("...............................................................................");
  LOG_INFO_("..............................NEW RUN..........................................");
  LOG_INFO_("...............................................................................");
-  while((clock_seconds()-ct_start) <= 1800) { //count <= 3    
+
+  PROCESS_BEGIN();
+
+
+/* Initialize UDP connection */
+  simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
+    UDP_SERVER_PORT, udp_rx_callback);
+   etimer_set(&periodic_timer, random_rand() % SEND_INTERVAL); //
+     
+ //int i;
+   while((clock_seconds()-ct_start) <= 1800) { //count <= 3    
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
     if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) {
@@ -175,10 +176,10 @@ PROCESS_THREAD(udp_client_process, ev, data)
     etimer_set(&periodic_timer, SEND_INTERVAL
       - CLOCK_SECOND + (random_rand() % (2 * CLOCK_SECOND)));
   } //while ends here
-}//for ends here
   /* close the file*/  
 // cfs_close (fp);
 
   PROCESS_END();
+  }//for ends here
 }
 /*---------------------------------------------------------------------------*/
