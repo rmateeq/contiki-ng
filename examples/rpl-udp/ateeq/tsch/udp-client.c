@@ -114,7 +114,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
    
    for (; mt_c <= 1; mt_c++ ){
     //mts = mt[mt_c];
-    printf("new mt:::: %d",mt[mt_c]);
+    printf("new mt:::: %d%d",mt_c,mt[mt_c]);
  
  //LOG_INFO_("...............................................................................");
  //LOG_INFO_("..............................NEW RUN..........................................");
