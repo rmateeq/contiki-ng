@@ -12,6 +12,7 @@
 #define UDP_SERVER_PORT	5678
 
 static struct simple_udp_connection udp_conn;
+static unsigned long ct_start;
 
 PROCESS(udp_server_process, "UDP server");
 AUTOSTART_PROCESSES(&udp_server_process);
@@ -33,24 +34,29 @@ udp_rx_callback(struct simple_udp_connection *c,
   LOG_INFO("Sending response.\n");
   simple_udp_sendto(&udp_conn, data, datalen, sender_addr);
 #endif /* WITH_SERVER_REPLY */
+  if ((clock_seconds() - ct_start) >= 100){
+           printf("restarting\n");
+           PROCESS_RESTART();
+  }
 }
 /*---------------------------------------------------------------------------*/
-unsigned long ct_start;
 PROCESS_THREAD(udp_server_process, ev, data)
 {
   PROCESS_BEGIN();
   ct_start = clock_seconds();
   printf("start time: %lu\n", ct_start);
+  int tp_val = -99;
+  //int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp[tp_c]);
+  int rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
+   LOG_INFO("tp state server:::: %d\n",rd);
+   LOG_INFO("current tp server:::: %d\n",tp_val);
   /* Initialize DAG root */
   NETSTACK_ROUTING.root_start();
 
   /* Initialize UDP connection */
   simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                       UDP_CLIENT_PORT, udp_rx_callback);
-  if ((clock_seconds() - ct_start) >= 100){
-           printf("restarting\n");
-           PROCESS_RESTART();
-  }
+  
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
