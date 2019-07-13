@@ -109,11 +109,11 @@ PROCESS_THREAD(udp_client_process, ev, data)
     LOG_INFO("new ps:::: %d",ps[ps_c]);
    
    for (; iat_c <= 2; iat_c++ ){
-    int SEND_INTERVAL = (iat[iat_c] * CLOCK_SECOND);
+    static int SEND_INTERVAL = (iat[iat_c] * CLOCK_SECOND);
     LOG_INFO("new iat:::: %d",iat[iat_c]);
    
    for (; mt_c <= 1; mt_c++ ){
-    int mts = mt[mt_c];
+    static int mts = mt[mt_c];
     LOG_INFO_("new mt:::: %d",mts);
  
  LOG_INFO_("...............................................................................");
