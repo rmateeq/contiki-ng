@@ -118,6 +118,7 @@ typedef unsigned char process_num_events_t;
  * \hideinitializer
  */
 #define PROCESS_BEGIN()             PT_BEGIN(process_pt)
+#define PROCESS_RESTART()           PT_RESTART(process_pt)
 
 /**
  * Define the end of a process.
