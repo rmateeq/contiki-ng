@@ -106,15 +106,15 @@ PROCESS_THREAD(udp_client_process, ev, data)
    //     str[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
    // }
    // str[ps[ps_c]-3] = 0;
-    printf("new ps:::: %d",ps[ps_c]);
+    printf("new ps: %d::",ps[ps_c]);
    
    for (iat_c = 0; iat_c <= 2; iat_c++ ){
     SEND_INTERVAL = (iat[iat_c] * CLOCK_SECOND);
-    printf("new iat:::: %d",iat[iat_c]);
+    printf("new iat: %d::",iat[iat_c]);
    
    for (mt_c = 0; mt_c <= 1; mt_c++ ){
     //mts = mt[mt_c];
-    printf("new mt:::: %d%d\n",mt_c,mt[mt_c]);
+    printf("new mt: %d::",mt[mt_c]);
  
  //LOG_INFO_("...............................................................................");
  //LOG_INFO_("..............................NEW RUN..........................................");
@@ -126,21 +126,22 @@ PROCESS_THREAD(udp_client_process, ev, data)
     UDP_SERVER_PORT, udp_rx_callback);
    etimer_set(&periodic_timer, random_rand() % SEND_INTERVAL); //
     ct_start = clock_seconds();
-  printf("%d start time:::: %lu\n",i, ct_start);
+  printf("run: %d:: start-time: %lu::",i, ct_start);
  
  //int i;
-   while((clock_seconds()-ct_start) <= 10) { //count <= 3  //900-1800sec
+   while((clock_seconds()-ct_start) <= 500) { //count <= 3  //900-1800sec
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
     if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) {
-     printf("reachability time:::: %lu\n", clock_seconds());
+     printf("reachability time: %lu::", clock_seconds());
      uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, mt[mt_c]);
  //packetbuf_set_attr(PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS,3);
  //LOG_INFO("current mt: %d \n",uipbuf_get_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS));
     /* Send to DAG root */
-      LOG_INFO("Sending request %d to ", count);
-      LOG_INFO_6ADDR(&dest_ipaddr);
-      LOG_INFO_("\n");
+      printf("Seq-Num: %d::", count);
+      //LOG_INFO("Sending request %d to ", count);
+      //LOG_INFO_6ADDR(&dest_ipaddr);
+      //LOG_INFO_("\n");
      //abcdefghijklmnopqrstuvwxyzabcdefghij---36
      //abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef---110
      if (ps[ps_c] == 25) { 
@@ -172,9 +173,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
      //  ct_end = clock_seconds();
      // printf("clock difference: %lu\n", (ct_end - ct_start));
     // }
-    } else if ((clock_seconds()-ct_start) <= 10){
+    } else if ((clock_seconds()-ct_start) <= 500){
    //   LOG_INFO("Not reachable yet\n");
-      printf("Not reachable yet\n");
+      //printf("Not reachable yet\n");
     } else break;
 
   /* Add some jitter */
@@ -196,6 +197,6 @@ PROCESS_THREAD(udp_client_process, ev, data)
   }//tp for ends here
   PROCESS_END();
 
-   printf("%d end time: %lu\n",i, clock_seconds());
+   printf("run: %d end-time: %lu:::\n",i, clock_seconds());
 }
 /*---------------------------------------------------------------------------*/
