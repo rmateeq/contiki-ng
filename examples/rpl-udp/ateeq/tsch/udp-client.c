@@ -31,12 +31,12 @@ static int ps[2] = {25,100}; //[25,50,75,100];
 static int mt[2] = {1,5}; //[1,2,3,4,5];
 //bidirectional:yes,no
 static int iat[3] = {2,6,10}; //[1,2,4,6,8,10];
-static int tp_c = 0;
-  static int ps_c = 0;
-  static int mt_c = 0;
-  static int iat_c = 0;
+int tp_c = 0;
+int ps_c = 0;
+int mt_c = 0;
+int iat_c = 0;
 //static int mts = 0;
-static int SEND_INTERVAL = 0;
+int SEND_INTERVAL = 0;
 
   static int i = 0;
 //number of nodes: 8(d,s),16(d,s),24,32
