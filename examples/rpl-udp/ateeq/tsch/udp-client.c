@@ -37,7 +37,7 @@ int mt_c = 0;
 int iat_c = 0;
 //static int mts = 0;
 int SEND_INTERVAL = 0;
-
+int sim_time = 100;
   static int i = 0;
 //number of nodes: 8(d,s),16(d,s),24,32
 //dt: real
@@ -129,7 +129,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   printf("run: %d:: start-time: %lu::",i, ct_start);
  
  //int i;
-   while((clock_seconds()-ct_start) <= 500) { //count <= 3  //900-1800sec
+   while((clock_seconds()-ct_start) <= sim_time) { //count <= 3  //900-1800sec
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
     if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) {
@@ -173,9 +173,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
      //  ct_end = clock_seconds();
      // printf("clock difference: %lu\n", (ct_end - ct_start));
     // }
-    } else if ((clock_seconds()-ct_start) <= 500){
+    } else if ((clock_seconds()-ct_start) <= sim_time){
    //   LOG_INFO("Not reachable yet\n");
-      //printf("Not reachable yet\n");
+      printf("Not reachable yet\n");
     } else break;
 
   /* Add some jitter */
