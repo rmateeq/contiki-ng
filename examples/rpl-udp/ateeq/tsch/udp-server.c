@@ -13,6 +13,9 @@
 
 static struct simple_udp_connection udp_conn;
 static unsigned long ct_start;
+int sim_time = 600;
+static int tp[4] = {7,3,0,-3};
+static int tp_index = 0;
 
 PROCESS(udp_server_process, "UDP server");
 AUTOSTART_PROCESSES(&udp_server_process);
@@ -39,6 +42,16 @@ udp_rx_callback(struct simple_udp_connection *c,
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_RSSI, &rssi_val); //RADIO_PARAM_LAST_RSSI, RADIO_PARAM_LAST_PACKET_TIMESTAMP
   printf("rssi-state: %d::",rd);
   printf("rssi: %d::\n",rssi_val);
+         
+  if (clock_seconds() - ct_start >= sim_time){
+  int tp_val = tp[tp_index++];
+  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
+  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
+  printf("tp state server:::: %d\n",rd);
+  printf("changed tp of server to:::: %d\n",tp_val);
+  ct_start = clock_seconds();
+  }
+         
 #if WITH_SERVER_REPLY
   /* send back the same string to the client as an echo reply */
   LOG_INFO("Sending response.\n");
