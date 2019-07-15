@@ -37,7 +37,7 @@ int mt_c = 0;
 int iat_c = 0;
 //static int mts = 0;
 int SEND_INTERVAL = 0;
-int sim_time = 100;
+int sim_time = 600;
   static int i = 0;
 //number of nodes: 8(d,s),16(d,s),24,32
 //dt: real
