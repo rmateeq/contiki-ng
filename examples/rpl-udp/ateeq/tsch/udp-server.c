@@ -57,7 +57,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
    LOG_INFO("tp state server:::: %d\n",rd);
    LOG_INFO("current tp server:::: %d\n",tp_val);
   /* Initialize DAG root */
-         
+  NETSTACK_ROUTING.root_start();
   /* Initialize UDP connection */
   simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                       UDP_CLIENT_PORT, udp_rx_callback);
