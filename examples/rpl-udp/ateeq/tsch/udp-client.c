@@ -26,11 +26,11 @@
 //<<my vars>>
 unsigned long ct_start;
 //unsigned long ct_end;
-static int tp[4] = {-11,-5,1,7}; //[-13,-9,-5,-1,1,3,5];
+static int tp[4] = {7,1,-5,-11}; //[-13,-9,-5,-1,1,3,5];
 static int ps[2] = {25,100}; //[25,50,75,100];
-static int mt[2] = {1,5}; //[1,2,3,4,5];
+static int mt[2] = {5,1}; //[1,2,3,4,5];
 //bidirectional:yes,no
-static int iat[3] = {2,6,10}; //[1,2,4,6,8,10];
+static int iat[3] = {10,6,2}; //[1,2,4,6,8,10];
 int tp_c = 0;
 int ps_c = 0;
 int mt_c = 0;
