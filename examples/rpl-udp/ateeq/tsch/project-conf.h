@@ -86,6 +86,7 @@
 // Transmissions power [4 options] 0x00(-24),42(-15),58(-13),62(-11),72(-9),88(-7),91(-5),A1(-3),B0(-1),B6(0),C5(1),D5(3),ED(5),FF(7)
 //#ifndef CC2538_RF_CONF_TX_POWER
 //#define CC2538_RF_CONF_TX_POWER 0xC5
+#define ENERGEST_CONF_ON 1
 //#endif
 /***Logging***/
 //#define LOG_CONF_LEVEL_IPV6                        LOG_LEVEL_INFO
