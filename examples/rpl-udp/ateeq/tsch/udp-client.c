@@ -27,7 +27,8 @@
 #define UDP_SERVER_PORT 5678
 
 //<<my vars>>
-static unsigned long ct_start = 0, ct_reach = 0, ct_unreach = 0; ct_reach_total = 0; ct_unreach_total = 0;
+static unsigned long ct_start, ct_reach, ct_unreach;
+static unsigned long ct_reach_total = 0, ct_unreach_total = 0;
 static struct timer reset_timer;
 //unsigned long ct_end;
 static int tp[4] = {7,3,0,-3}; //[-13,-9,-5,-1,1,3,5];
@@ -157,7 +158,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
 {
   static struct etimer periodic_timer;
   static int count = 1;
-  static char str[120];
+  //static char str[120];
   uip_ipaddr_t dest_ipaddr;
 
   PROCESS_BEGIN();
