@@ -13,7 +13,7 @@
 //MAX_NUM_QUEUED_PACKETS,
 //Total number of packets to be transmitted against each parameter configuration
 //#define NUM_PKTS 200
-#define UIP_CONF_UDP_CONNS 35
+#define UIP_CONF_UDP_CONNS 30
 //Enforce MAC_MAX_TRANSMISSIONS across all nodes
 #define UIP_CONF_TAG_TC_WITH_VARIABLE_RETRANSMISSIONS 1
 /*** Transport Layer ***/
@@ -23,11 +23,11 @@
 // Parameters [2 options]
 //#define UIP_CONF_IPV6 1
 //#ifndef NBR_TABLE_CONF_MAX_NEIGHBORS
-#define NBR_TABLE_CONF_MAX_NEIGHBORS 10
+#define NBR_TABLE_CONF_MAX_NEIGHBORS 10 //default 16
 //#endif
 
 //#ifndef UIP_CONF_BUFFER_SIZE
-#define UIP_CONF_BUFFER_SIZE 300
+#define UIP_CONF_BUFFER_SIZE 150
 //#endif
 //#define UIP_CONF_IPV6_QUEUE_PKT 1
 
@@ -53,8 +53,9 @@
 /*** MAC Layer ***/
 // select MAC protocol [2+1 options]
 #define NETSTACK_CONF_MAC tschmac_driver //csma_driver //nullmac_driver,
-
+#define SICSLOWPAN_CONF_FRAG 0
 // CSMA MAC Parameters [1-4-3 options]
+#define QUEUEBUF_CONF_NUM 6 //default 8
 //#ifndef CSMA_CONF_MAX_BE
 //#define CSMA_CONF_MAX_BE 5
 //#endif
