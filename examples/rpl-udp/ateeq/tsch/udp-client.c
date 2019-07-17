@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "sys/energest.h"
 #include "net/mac/tsch/tsch.h"
-#include "sys/node-id.h"
+//#include "sys/node-id.h"
 //>>my includes<<
 
 #include "contiki.h"
