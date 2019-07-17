@@ -42,7 +42,7 @@ static int mt_c = 0;
 static int iat_c = 0;
 //static int mts = 0;
 static int SEND_INTERVAL = 0;
-static int run_time = 600;
+static int run_time = 15; //600
 static int conf_num = 1;
 static int REACH = 0;
 //number of nodes: 8(d,s),16(d,s),24,32
