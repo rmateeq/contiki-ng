@@ -28,7 +28,7 @@
 
 //<<my vars>>
 static unsigned long ct_start, ct_reach, ct_unreach;
-static unsigned long ct_reach_total = 0, ct_unreach_total = 0;
+static unsigned long ct_reach_total = 0;//, ct_unreach_total = 0;
 static struct etimer reset_timer;
 //unsigned long ct_end;
 static int tp[4] = {7,3,0,-3}; //[-13,-9,-5,-1,1,3,5];
@@ -201,11 +201,11 @@ PROCESS_THREAD(udp_client_process, ev, data)
               {
                 printf("\nM__REACHTIME-%lu:-:\n", clock_seconds());
               }
-              if ((ct_reach > ct_unreach) && (REACH == 0))
-              {
-                ct_unreach_total += (ct_reach - ct_unreach);
+              //if ((ct_reach > ct_unreach) && (REACH == 0))
+              //{
+              //  ct_unreach_total += (ct_reach - ct_unreach);
                 REACH = 1;
-              }
+              //}
 
               uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, mt[mt_c]);
               //LOG_INFO("current mt: %d \n",uipbuf_get_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS));
@@ -228,9 +228,12 @@ PROCESS_THREAD(udp_client_process, ev, data)
               ct_unreach = clock_seconds();
               if ((ct_unreach > ct_reach) && (REACH == 1))
               {
-                ct_reach_total += (ct_unreach - ct_reach); 
-                REACH = 0;
+                ct_reach_total += (ct_unreach - ct_reach);
               }
+              //if ()
+              //{
+                REACH = 0;
+              //}
               //printf("M__UNREACHTIME %lu:-:\n", clock_seconds());
             } 
             //else break;
@@ -242,7 +245,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           log_energy();
           count = 1;
           printf("M__STARTED-%lu:-:M__ENDED-%lu:-:M__TOTAL-%lu\n", ct_start , clock_seconds() , (clock_seconds()-ct_start));
-          printf("M__UNREACHTIME-%lu:-:M__REACHTIME-%lu\n", ct_unreach_total,ct_reach_total);
+          printf(M__REACHTIME-%lu\n", ct_reach_total);
           printf("M__CONFNUM-%d ENDS\n<***>\n<***>\n",conf_num++);
         }//mt for ends here
       }//iat for ends here
