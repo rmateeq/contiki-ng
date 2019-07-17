@@ -29,7 +29,7 @@
 //<<my vars>>
 static unsigned long ct_start, ct_reach, ct_unreach;
 static unsigned long ct_reach_total = 0, ct_unreach_total = 0;
-static struct timer reset_timer;
+static struct etimer reset_timer;
 //unsigned long ct_end;
 static int tp[4] = {7,3,0,-3}; //[-13,-9,-5,-1,1,3,5];
 static int ps[2] = {25,100}; //[25,50,75,100];
@@ -179,8 +179,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
           simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
 
           /* 20sec pause before starting each new configuration run */
-          timer_set(&reset_timer, random_rand() % (CLOCK_SECOND*20));
-          PROCESS_WAIT_EVENT_UNTIL(timer_expired(&reset_timer)); 
+          etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*20));
+          PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
 
           /*Note the start time of current run*/
           ct_start = clock_seconds();
