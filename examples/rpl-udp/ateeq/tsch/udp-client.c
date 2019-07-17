@@ -86,7 +86,7 @@ char* constructPacket(
 static void set_params() 
 {
   // Transmissions power [4 options] 0x00(-24),42(-15),58(-13),62(-11),72(-9),88(-7),91(-5),A1(-3),B0(-1),B6(0),C5(1),D5(3),ED(5),FF(7)
-  printf("\n________Configuration Number________%d\n",conf_num++);
+  printf("\n________Configuration Number________%d\n",conf_num);
   int tp_val = -99;
   NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp[tp_c]);
   NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
@@ -243,7 +243,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           count = 1;
           printf("M__STARTED-%lu:-:M__ENDED-%lu:-:M__TOTAL-%lu\n", ct_start , clock_seconds() , (clock_seconds()-ct_start));
           printf("M__UNREACHTIME-%lu:-:M__REACHTIME-%lu\n", ct_unreach_total,ct_reach_total);
-          printf("M__CONFNUM-%d ENDS\n<***>\n<***>\n",conf_num);
+          printf("M__CONFNUM-%d ENDS\n<***>\n<***>\n",conf_num++);
         }//mt for ends here
       }//iat for ends here
     }//ps for ends here
