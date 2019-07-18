@@ -1,6 +1,7 @@
 #include "contiki.h"
 #include "net/routing/routing.h"
 #include "net/netstack.h"
+#include "net/ipv6/uiplib.h"
 #include "net/ipv6/simple-udp.h"
 #include "net/mac/tsch/tsch.h"
 #include "sys/log.h"
@@ -10,7 +11,7 @@
 #define WITH_SERVER_REPLY  0
 #define UDP_CLIENT_PORT	8765
 #define UDP_SERVER_PORT	5678
-#define UIPLIB_IPV6_MAX_STR_LEN 40
+//#define UIPLIB_IPV6_MAX_STR_LEN 40
 
 static struct simple_udp_connection udp_conn;
 static unsigned long ct_start;
