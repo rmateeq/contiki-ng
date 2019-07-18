@@ -31,18 +31,18 @@ static unsigned long ct_start, ct_reach, ct_unreach;
 static unsigned long ct_reach_total = 0;//, ct_unreach_total = 0;
 static struct etimer reset_timer;
 //unsigned long ct_end;
-static int tp[3] = {7,3,0};//,-3}; //[-13,-9,-5,-1,1,3,5];
-static int ps[2] = {85,60};//,35}; //[25,50,75,100];
-static int mt[1] = {5}; //[1,2,3,4,5];
+static int tp[5] = [-5,-3,-1,1,3]; //{7,3,0};//,-3}; //
+static int ps[3] = {85,60,35};//,35}; //[25,50,75,100];
+static int mt[3] = {1,3,6}; //[1,2,3,4,5];
 //bidirectional:yes,no
-static int iat[1] = {2}; //[1,2,4,6,8,10];
+static int iat[3] = [2,6,12];
 static int tp_c = 0;
 static int ps_c = 0;
 static int mt_c = 0;
 static int iat_c = 0;
 //static int mts = 0;
 static int SEND_INTERVAL = 0;
-static int run_time = 15; //600
+static int run_time = 600; //600
 static int conf_num = 1;
 static int REACH = 0;
 static int counter = 0;
@@ -252,8 +252,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
           } //while ends here
 
           log_energy();
-          printf("M__TOTALPKTSSENT-%d:-:",counter);
-          counter = 0;
+          //printf("M__TOTALPKTSSENT-%d:-:",counter);
+          //counter = 0;
           printf("M__STARTED-%lu:-:M__ENDED-%lu:-:M__TOTAL-%lu\n", ct_start , clock_seconds() , (clock_seconds()-ct_start));
           printf("M__REACHTIME-%lu\n", ct_reach_total);
           printf("M__CONFNUM-%d ENDS\n<***>\n<***>\n",conf_num++);
@@ -261,7 +261,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
       }//iat for ends here
     }//ps for ends here
   }//tp for ends here
-  
+  printf("M__TOTALPKTSSENT-%d:-:",counter);
   printf("\nM__ENDTIME-%lu\n<**********>\n<**********>\n", clock_seconds());
 
   PROCESS_END();
