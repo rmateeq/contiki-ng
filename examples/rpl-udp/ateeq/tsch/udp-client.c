@@ -62,7 +62,7 @@ char* constructPacket(
   unsigned long networkUptime,
   int count
 ) {
-  const pads[] = "a quick brown fox jumps over the lazy dog.a quick brown fox jumps over the lazy dog.";
+  const char pads[] = "a quick brown fox jumps over the lazy dog.a quick brown fox jumps over the lazy dog.";
   //printf("pktlen: %d",packSize);
   char* pack = (char*)malloc((packSize+1) * sizeof(char));
   char *countBuffer = (char*)malloc(5 * sizeof(char));
