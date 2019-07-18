@@ -55,7 +55,7 @@
 #define NETSTACK_CONF_MAC tschmac_driver //csma_driver //nullmac_driver,
 #define SICSLOWPAN_CONF_FRAG 0
 // CSMA MAC Parameters [1-4-3 options]
-#define QUEUEBUF_CONF_NUM 6 //default 8
+#define QUEUEBUF_CONF_NUM 4 //default 8
 //#ifndef CSMA_CONF_MAX_BE
 //#define CSMA_CONF_MAX_BE 5
 //#endif
