@@ -16,17 +16,17 @@ static struct simple_udp_connection udp_conn;
 static unsigned long ct_start;
 static struct etimer reset_timer;
 //static int conf_num = 48;
-static int tp[4] = {7,3,0,-3}; //[-13,-9,-5,-1,1,3,5];
+static int tp[4] = {-5,-3,-1,1,3};//{7,3,0,-3}; //[-13,-9,-5,-1,1,3,5];
 //static int ps[2] = {25,100}; //[25,50,75,100];
 //static int mt[2] = {5,1}; //[1,2,3,4,5];
 //bidirectional:yes,no
 //static int iat[3] = {10,6,2}; //[1,2,4,6,8,10];
 static int tp_c = 0;
-static int ps_c = 0;
-static int mt_c = 0;
-static int iat_c = 0;
+//static int ps_c = 0;
+//static int mt_c = 0;
+//static int iat_c = 0;
 //static int mts = 0;
-static int run_time = 16; //600
+static int run_time = 602; //600
 //static int conf_num = 1;
 
 
@@ -90,30 +90,30 @@ udp_rx_callback(struct simple_udp_connection *c,
   //const unsigned long networkUptimeExtracted = extractNetworkUptime(packSize, packet);
 
 
-  printf("Message Received: %s",data);
+  //printf("Message Received: %s",data);
   uint64_t local_time_clock_ticks = tsch_get_network_uptime_ticks();
   uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
   const int countExtracted = extractCount(datalen, (char *) data);
   //if(datalen >= sizeof(remote_time_clock_ticks)) {
   //  memcpy(&remote_time_clock_ticks, data, sizeof(remote_time_clock_ticks));
 
-    printf("\nD__SEQNO-%d:-:",countExtracted);
+    printf("\nD__SEQNO %d:-:",countExtracted);
     char buf[UIPLIB_IPV6_MAX_STR_LEN];
     uiplib_ipaddr_snprint(buf, sizeof(buf), sender_addr);
-    printf("%s", buf);
+    printf("%s\n", buf);
     //LOG_INFO_6ADDR(sender_addr);
-    printf("M__CREATETIME-%lu:-:, M__CURRENTTIME-%lu:-:, M__DELAY-%lu:-:",
+    printf("M__CREATETIME %lu:-:, M__CURRENTTIME %lu:-:, M__DELAY %lu:-:",
               (unsigned long)remote_time_clock_ticks,
               (unsigned long)local_time_clock_ticks,
               (unsigned long)(local_time_clock_ticks - remote_time_clock_ticks));
 
   int lqi_val;
   int rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_LINK_QUALITY, &lqi_val);
-  printf("M__LQISTATE-%d:-:D__LQI-%d:-:",rd,lqi_val);
+  printf("M__LQISTATE %d:-:D__LQI %d:-:",rd,lqi_val);
   //printf("lqi: %d::",lqi_val);
   int rssi_val;
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_RSSI, &rssi_val); //RADIO_PARAM_LAST_RSSI, RADIO_PARAM_LAST_PACKET_TIMESTAMP
-  printf("M__RSSISTATE-%d:-:D__RSSI-%d",rd,rssi_val);
+  printf("M__RSSISTATE %d:-:D__RSSI %d",rd,rssi_val);
   //printf("rssi: %d::\n",rssi_val);
          
          
@@ -136,42 +136,42 @@ PROCESS_THREAD(udp_server_process, ev, data)
   simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                       UDP_CLIENT_PORT, udp_rx_callback);
   
-  for (tp_c = 0; tp_c <= 3; tp_c++ )
+  for (tp_c = 0; tp_c < 5; tp_c++ )
   { 
-    printf("after udp register\n");
+    //printf("after udp register\n");
     int tp_val = tp[tp_c];
     int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
     rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
-    printf("P__TP-%d:-:\n",tp_val);
-    printf("M__TPSTATE-%d:-:M__TPSETTIME-%lu\n",rd,clock_seconds());
+    printf("P__TP %d:-:\n",tp_val);
+    printf("M__TPSTATE %d:-:M__TPSETTIME %lu\n",rd,clock_seconds());
     
     //ct_start = clock_seconds();
 
-    etimer_set(&reset_timer, run_time*CLOCK_SECOND);
+    etimer_set(&reset_timer, ((run_time*CLOCK_SECOND)*27));
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
-    printf("after tp set at %lu\n",clock_seconds());
+    //printf("after tp set at %lu\n",clock_seconds());
     //etimer_set(&reset_timer, run_time); 
   
-    for (ps_c = 0; ps_c <= 1; ps_c++ )
-    { 
-      etimer_set(&reset_timer, run_time*CLOCK_SECOND);
-      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+    //for (ps_c = 0; ps_c <= 1; ps_c++ )
+    //{ 
+    //  etimer_set(&reset_timer, run_time*CLOCK_SECOND);
+    //  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
       //etimer_set(&reset_timer, run_time);
 
-      for (iat_c = 0; iat_c <= 2; iat_c++ )
-      {
-        etimer_set(&reset_timer, run_time*CLOCK_SECOND);
-        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+    //  for (iat_c = 0; iat_c <= 2; iat_c++ )
+     // {
+     //   etimer_set(&reset_timer, run_time*CLOCK_SECOND);
+       // PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
         //etimer_set(&reset_timer, run_time);
   
-        for (mt_c = 0; mt_c <= 1; mt_c++ )
-        {
-          etimer_set(&reset_timer, run_time*CLOCK_SECOND);
-          PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+    //    for (mt_c = 0; mt_c <= 1; mt_c++ )
+      //  {
+        //  etimer_set(&reset_timer, run_time*CLOCK_SECOND);
+         // PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
           //etimer_set(&reset_timer, run_time); 
-        }
-      }
-    }
+       // }
+      //}
+    //}
   }
   PROCESS_END();
 }
