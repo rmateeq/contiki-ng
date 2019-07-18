@@ -21,6 +21,46 @@ static int tp_index = 0;
 PROCESS(udp_server_process, "UDP server");
 AUTOSTART_PROCESSES(&udp_server_process);
 /*---------------------------------------------------------------------------*/
+unsigned long extractNetworkUptime(
+  int packSize,
+  char* packet
+) {
+  int i;
+  for (i = 0; i < packSize; i++) {
+    if (packet[i] == ',') {
+      break;
+    }
+  }
+
+  const int upperBound = i;
+  unsigned long networkUptime = 0UL;
+
+  for (i = 0; i < upperBound; i++) {
+    networkUptime = networkUptime * 10 + packet[i] - '0';
+  }
+
+  return networkUptime;
+}
+/*---------------------------------------------------------------------------*/
+int extractCount(
+  int packSize,
+  char* packet
+) {
+  int i;
+  for (i = packSize - 1; i > 0; i--) {
+    if (packet[i] == ',') {
+      break;
+    }
+  }
+
+  int count = 0;
+  for (i++; i < packSize; i++) {
+    count = count * 10 + packet[i] - '0';
+  }
+
+  return count;
+}
+/*---------------------------------------------------------------------------*/
 static void
 udp_rx_callback(struct simple_udp_connection *c,
          const uip_ipaddr_t *sender_addr,
@@ -31,9 +71,32 @@ udp_rx_callback(struct simple_udp_connection *c,
          uint16_t datalen)
 {
   //LOG_INFO("Received request '%.*s' from ", datalen, (char *) data);
-  printf("Received request '%.*s' from ", datalen, (char *) data);
-  LOG_INFO_6ADDR(sender_addr);
+  //printf("Received request '%.*s' from ", datalen, (char *) data);
+  //LOG_INFO_6ADDR(sender_addr);
   printf("\n");
+
+  //const unsigned long networkUptimeExtracted = extractNetworkUptime(packSize, packet);
+
+
+
+  uint64_t local_time_clock_ticks = tsch_get_network_uptime_ticks();
+  uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, data);
+  const int countExtracted = extractCount(packSize, packet);
+  //if(datalen >= sizeof(remote_time_clock_ticks)) {
+  //  memcpy(&remote_time_clock_ticks, data, sizeof(remote_time_clock_ticks));
+
+    printf("D__SEQNO-%d:-:",countExtracted);
+    char buf[UIPLIB_IPV6_MAX_STR_LEN];
+    uiplib_ipaddr_snprint(buf, sizeof(buf), sender_addr);
+    printf("%s", buf);
+    //LOG_INFO_6ADDR(sender_addr);
+    printf(", created at %lu, now %lu, latency %lu clock ticks\n",
+              (unsigned long)remote_time_clock_ticks,
+              (unsigned long)local_time_clock_ticks,
+              (unsigned long)(local_time_clock_ticks - remote_time_clock_ticks));
+
+
+
   //LOG_INFO_("\n");
   int lqi_val;
   int rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_LINK_QUALITY, &lqi_val);
