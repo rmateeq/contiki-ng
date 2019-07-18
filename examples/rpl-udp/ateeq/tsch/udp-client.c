@@ -226,7 +226,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
               printf("Message length: %d",strlen(packet));
               simple_udp_sendto(&udp_conn, packet, strlen(packet), &dest_ipaddr);
               //simple_udp_sendto(&udp_conn, str, strlen(str), &dest_ipaddr);
-              counter++;
+              //counter++;
             }
             else //if ((clock_seconds()-ct_start) <= sim_time)
             {
