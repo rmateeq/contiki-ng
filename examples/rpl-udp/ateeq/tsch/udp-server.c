@@ -90,7 +90,7 @@ udp_rx_callback(struct simple_udp_connection *c,
   //const unsigned long networkUptimeExtracted = extractNetworkUptime(packSize, packet);
 
 
-
+  printf("Message Received: %s",data);
   uint64_t local_time_clock_ticks = tsch_get_network_uptime_ticks();
   uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
   const int countExtracted = extractCount(datalen, (char *) data);
