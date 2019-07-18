@@ -157,7 +157,7 @@ udp_rx_callback(struct simple_udp_connection *c,
 PROCESS_THREAD(udp_client_process, ev, data)
 {
   static struct etimer periodic_timer;
-  static int count = 1;
+  static int counter = 1;
   //static char str[120];
   uip_ipaddr_t dest_ipaddr;
 
@@ -197,7 +197,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
             {
               //REACH = 1
               ct_reach = clock_seconds();
-              if (count == 1)
+              if (counter == 1)
               {
                 printf("\nM__REACHTIME-%lu:-:\n", clock_seconds());
               }
@@ -210,18 +210,17 @@ PROCESS_THREAD(udp_client_process, ev, data)
               uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, mt[mt_c]);
               //LOG_INFO("current mt: %d \n",uipbuf_get_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS));
               /* Send to DAG root */
-              printf("D__SEQNO %d:-:\n", count);
-              //LOG_INFO("Sending request %d to ", count);
+              printf("D__SEQNO %d:-:\n", counter);
+              //LOG_INFO("Sending request %d to ", counter);
               //LOG_INFO_6ADDR(&dest_ipaddr);
               //LOG_INFO_("\n");
 
-              uint64_t network_uptime;
-              network_uptime = tsch_get_network_uptime_ticks();
-              char* packet = constructPacket(ps[ps_c], network_uptime, count);
+              const uint64_t network_uptime = tsch_get_network_uptime_ticks();
+              char* packet = constructPacket(ps[ps_c], network_uptime, counter);
               
               simple_udp_sendto(&udp_conn, packet, strlen(packet), &dest_ipaddr);
               //simple_udp_sendto(&udp_conn, str, strlen(str), &dest_ipaddr);
-              count++;
+              counter++;
             }
             else //if ((clock_seconds()-ct_start) <= sim_time)
             {
@@ -243,7 +242,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           } //while ends here
 
           log_energy();
-          count = 1;
+          counter = 1;
           printf("M__STARTED-%lu:-:M__ENDED-%lu:-:M__TOTAL-%lu\n", ct_start , clock_seconds() , (clock_seconds()-ct_start));
           printf("M__REACHTIME-%lu\n", ct_reach_total);
           printf("M__CONFNUM-%d ENDS\n<***>\n<***>\n",conf_num++);
