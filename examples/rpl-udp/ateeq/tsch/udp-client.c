@@ -64,21 +64,22 @@ char* constructPacket(
 ) {
   char* packet = (char*)malloc((packSize+1) * sizeof(char));
   char *countBuffer = (char*)malloc(5 * sizeof(char));
-
+  printf("pkt1: %s",packet);
   const int networkUptimeLen = snprintf(packet, 21, "%lu", networkUptime);
+  printf("timelength: %d",networkUptimeLen);
   const int countLen = snprintf(countBuffer, 5, "%d", count);
-
+  printf("countlength: %d",countLen);
   const int paddingLen = packSize - (networkUptimeLen + countLen);
-  
+  printf("padlength: %d",paddingLen);
   int i;
   for (i = 0; i < paddingLen; i++) {
     packet[networkUptimeLen + i] = ',';
   }
-
+  printf("pkt2: %s",packet);
   for (i = 0; i < countLen; i++) {
     packet[networkUptimeLen + paddingLen + i] = countBuffer[i];
   }
-
+  printf("pkt3: %s",packet);
   free(countBuffer);
   return packet;
 }
