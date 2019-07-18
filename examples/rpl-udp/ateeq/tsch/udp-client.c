@@ -170,7 +170,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
   PROCESS_BEGIN();
   
-   
+  printf("header udp: %d",UIP_IPUDPH_LEN);
+  printf("header ip: %d", UIP_IPH_LEN)
   for (tp_c = 0; tp_c <= 3; tp_c++ )
   {  
     for (ps_c = 0; ps_c <= 1; ps_c++ )
