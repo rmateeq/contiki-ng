@@ -13,7 +13,8 @@
 
 static struct simple_udp_connection udp_conn;
 static unsigned long ct_start;
-int sim_time = 600;
+static int conf_num = 48;
+int run_time = 10;
 static int tp[4] = {7,3,0,-3};
 static int tp_index = 0;
 
@@ -43,7 +44,7 @@ udp_rx_callback(struct simple_udp_connection *c,
   printf("rssi-state: %d::",rd);
   printf("rssi: %d::\n",rssi_val);
          
-  if (clock_seconds() - ct_start >= sim_time){
+  if (clock_seconds() - ct_start >= run_time){
   int tp_val = tp[tp_index++];
   int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
@@ -64,17 +65,13 @@ PROCESS_THREAD(udp_server_process, ev, data)
   PROCESS_BEGIN();
   ct_start = clock_seconds();
   printf("start time: %lu\n", ct_start);
-  int tp_val = -99;
-  //int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp[tp_c]);
-  int rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
-   LOG_INFO("tp state server:::: %d\n",rd);
-   LOG_INFO("current tp server:::: %d\n",tp_val);
+
   /* Initialize DAG root */
   NETSTACK_ROUTING.root_start();
   /* Initialize UDP connection */
   simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                       UDP_CLIENT_PORT, udp_rx_callback);
-  
+  printf("after udp register\n");
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
