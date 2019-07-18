@@ -31,11 +31,11 @@ static unsigned long ct_start, ct_reach, ct_unreach;
 static unsigned long ct_reach_total = 0;//, ct_unreach_total = 0;
 static struct etimer reset_timer;
 //unsigned long ct_end;
-static int tp[5] = [-5,-3,-1,1,3]; //{7,3,0};//,-3}; //
+static int tp[5] = {-5,-3,-1,1,3}; //{7,3,0};//,-3}; //
 static int ps[3] = {85,60,35};//,35}; //[25,50,75,100];
 static int mt[3] = {1,3,6}; //[1,2,3,4,5];
 //bidirectional:yes,no
-static int iat[3] = [2,6,12];
+static int iat[3] = {2,6,12};
 static int tp_c = 0;
 static int ps_c = 0;
 static int mt_c = 0;
