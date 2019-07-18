@@ -147,26 +147,26 @@ PROCESS_THREAD(udp_server_process, ev, data)
     
     //ct_start = clock_seconds();
 
-    etimer_set(&reset_timer, run_time);
+    etimer_set(&reset_timer, run_time*CLOCK_SECOND);
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
     printf("after tp set at %lu\n",clock_seconds());
     //etimer_set(&reset_timer, run_time); 
   
     for (ps_c = 0; ps_c <= 1; ps_c++ )
     { 
-      etimer_set(&reset_timer, run_time);
+      etimer_set(&reset_timer, run_time*CLOCK_SECOND);
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
       //etimer_set(&reset_timer, run_time);
 
       for (iat_c = 0; iat_c <= 2; iat_c++ )
       {
-        etimer_set(&reset_timer, run_time);
+        etimer_set(&reset_timer, run_time*CLOCK_SECOND);
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
         //etimer_set(&reset_timer, run_time);
   
         for (mt_c = 0; mt_c <= 1; mt_c++ )
         {
-          etimer_set(&reset_timer, run_time);
+          etimer_set(&reset_timer, run_time*CLOCK_SECOND);
           PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
           //etimer_set(&reset_timer, run_time); 
         }
