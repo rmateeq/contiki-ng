@@ -62,27 +62,27 @@ char* constructPacket(
   unsigned long networkUptime,
   int count
 ) {
-  printf("pktlen: %d",packSize);
+  //printf("pktlen: %d",packSize);
   char* pack = (char*)malloc((packSize+1) * sizeof(char));
   char *countBuffer = (char*)malloc(5 * sizeof(char));
-  printf("pkt1: %s",pack);
+  //printf("pkt1: %s",pack);
   const int networkUptimeLen = snprintf(pack, 21, "%lu", networkUptime);
-  printf("timelength: %d",networkUptimeLen);
+  //printf("timelength: %d",networkUptimeLen);
   const int countLen = snprintf(countBuffer, 5, "%d", count);
-  printf("countlength: %d",countLen);
+  //printf("countlength: %d",countLen);
   const int paddingLen = packSize - (networkUptimeLen + countLen);
-  printf("padlength: %d",paddingLen);
+  //printf("padlength: %d",paddingLen);
   int i;
   for (i = 0; i < paddingLen; i++) {
     pack[networkUptimeLen + i] = ',';
   }
-  printf("pkt2: %s",pack);
+  //printf("pkt2: %s",pack);
   for (i = 0; i < countLen; i++) {
     pack[networkUptimeLen + paddingLen + i] = countBuffer[i];
   }
   pack[networkUptimeLen + paddingLen + i] = '\0';
-  printf("last index: %d",i);
-  printf("pkt3: %s",pack);
+  //printf("last index: %d",i);
+  //printf("pkt3: %s",pack);
   free(countBuffer);
   return pack;
 }
