@@ -62,7 +62,7 @@ char* constructPacket(
   unsigned long networkUptime,
   int count
 ) {
-  char* packet = (char*)malloc((packSize) * sizeof(char));
+  char* packet = (char*)malloc((packSize+1) * sizeof(char));
   char *countBuffer = (char*)malloc(5 * sizeof(char));
 
   const int networkUptimeLen = snprintf(packet, 21, "%lu", networkUptime);
@@ -197,7 +197,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
             {
               //REACH = 1
               ct_reach = clock_seconds();
-              if (counter == 1)
+              if (counter == 0)
               {
                 printf("\nM__REACHTIME-%lu:-:\n", clock_seconds());
               }
@@ -210,7 +210,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
               uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, mt[mt_c]);
               //LOG_INFO("current mt: %d \n",uipbuf_get_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS));
               /* Send to DAG root */
-              printf("D__SEQNO %d:-:\n", counter);
+              printf("D__SEQNO %d:-:\n", counter+1);
               //LOG_INFO("Sending request %d to ", counter);
               //LOG_INFO_6ADDR(&dest_ipaddr);
               //LOG_INFO_("\n");
