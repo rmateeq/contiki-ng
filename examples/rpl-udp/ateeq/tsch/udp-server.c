@@ -2,7 +2,7 @@
 #include "net/routing/routing.h"
 #include "net/netstack.h"
 #include "net/ipv6/simple-udp.h"
-
+#include "net/ipv6/uiplib.h"
 #include "sys/log.h"
 #define LOG_MODULE "App"
 #define LOG_LEVEL LOG_LEVEL_INFO
@@ -92,8 +92,8 @@ udp_rx_callback(struct simple_udp_connection *c,
 
 
   uint64_t local_time_clock_ticks = tsch_get_network_uptime_ticks();
-  uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, data);
-  const int countExtracted = extractCount(packSize, packet);
+  uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
+  const int countExtracted = extractCount(datalen, (char *) data);
   //if(datalen >= sizeof(remote_time_clock_ticks)) {
   //  memcpy(&remote_time_clock_ticks, data, sizeof(remote_time_clock_ticks));
 
