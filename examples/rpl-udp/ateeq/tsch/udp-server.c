@@ -16,7 +16,7 @@ static struct simple_udp_connection udp_conn;
 static unsigned long ct_start;
 static struct etimer reset_timer;
 //static int conf_num = 48;
-static int tp[4] = {-5,-3,-1,1,3};//{7,3,0,-3}; //[-13,-9,-5,-1,1,3,5];
+static int tp[5] = {-5,-3,-1,1,3};//{7,3,0,-3}; //[-13,-9,-5,-1,1,3,5];
 //static int ps[2] = {25,100}; //[25,50,75,100];
 //static int mt[2] = {5,1}; //[1,2,3,4,5];
 //bidirectional:yes,no
@@ -136,7 +136,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
   simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                       UDP_CLIENT_PORT, udp_rx_callback);
   
-  for (tp_c = 0; tp_c < 5; tp_c++ )
+  for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
   { 
     //printf("after udp register\n");
     int tp_val = tp[tp_c];
