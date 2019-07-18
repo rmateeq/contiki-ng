@@ -16,19 +16,18 @@ static unsigned long ct_start;
 static struct etimer reset_timer;
 //static int conf_num = 48;
 static int tp[4] = {7,3,0,-3}; //[-13,-9,-5,-1,1,3,5];
-static int ps[2] = {25,100}; //[25,50,75,100];
-static int mt[2] = {5,1}; //[1,2,3,4,5];
+//static int ps[2] = {25,100}; //[25,50,75,100];
+//static int mt[2] = {5,1}; //[1,2,3,4,5];
 //bidirectional:yes,no
-static int iat[3] = {10,6,2}; //[1,2,4,6,8,10];
+//static int iat[3] = {10,6,2}; //[1,2,4,6,8,10];
 static int tp_c = 0;
 static int ps_c = 0;
 static int mt_c = 0;
 static int iat_c = 0;
 //static int mts = 0;
-static int SEND_INTERVAL = 0;
 static int run_time = 15; //600
-static int conf_num = 1;
-int run_time = 10;
+//static int conf_num = 1;
+
 
 PROCESS(udp_server_process, "UDP server");
 AUTOSTART_PROCESSES(&udp_server_process);
