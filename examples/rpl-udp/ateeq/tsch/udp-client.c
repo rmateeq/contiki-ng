@@ -45,6 +45,7 @@ static int SEND_INTERVAL = 0;
 static int run_time = 15; //600
 static int conf_num = 1;
 static int REACH = 0;
+static int counter = 0;
 //number of nodes: 8(d,s),16(d,s),24,32
 //dt: real
 //mac: tsch,mac
@@ -157,7 +158,6 @@ udp_rx_callback(struct simple_udp_connection *c,
 PROCESS_THREAD(udp_client_process, ev, data)
 {
   static struct etimer periodic_timer;
-  static int counter = 1;
   //static char str[120];
   uip_ipaddr_t dest_ipaddr;
 
@@ -216,8 +216,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
               //LOG_INFO_("\n");
 
               const uint64_t network_uptime = tsch_get_network_uptime_ticks();
-              char* packet = constructPacket(ps[ps_c], network_uptime, counter);
+              char* packet = constructPacket(ps[ps_c], network_uptime, ++counter);
               printf("Message sent: %s",packet);
+              printf("Message length: %d",strlen(packet));
               simple_udp_sendto(&udp_conn, packet, strlen(packet), &dest_ipaddr);
               //simple_udp_sendto(&udp_conn, str, strlen(str), &dest_ipaddr);
               counter++;
@@ -243,7 +244,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
           log_energy();
           printf("M__TOTALPKTSSENT-%d:-:",counter);
-          counter = 1;
+          counter = 0;
           printf("M__STARTED-%lu:-:M__ENDED-%lu:-:M__TOTAL-%lu\n", ct_start , clock_seconds() , (clock_seconds()-ct_start));
           printf("M__REACHTIME-%lu\n", ct_reach_total);
           printf("M__CONFNUM-%d ENDS\n<***>\n<***>\n",conf_num++);
