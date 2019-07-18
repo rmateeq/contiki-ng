@@ -1,9 +1,8 @@
 #include "contiki.h"
 #include "net/routing/routing.h"
 #include "net/netstack.h"
-#include "net/ipv6/uiplib.h"
 #include "net/ipv6/simple-udp.h"
-#include "net/mac/tsch/tsch.h"
+
 #include "sys/log.h"
 #define LOG_MODULE "App"
 #define LOG_LEVEL LOG_LEVEL_INFO
@@ -11,14 +10,25 @@
 #define WITH_SERVER_REPLY  0
 #define UDP_CLIENT_PORT	8765
 #define UDP_SERVER_PORT	5678
-//#define UIPLIB_IPV6_MAX_STR_LEN 40
 
 static struct simple_udp_connection udp_conn;
 static unsigned long ct_start;
+static struct etimer reset_timer;
 //static int conf_num = 48;
+static int tp[4] = {7,3,0,-3}; //[-13,-9,-5,-1,1,3,5];
+static int ps[2] = {25,100}; //[25,50,75,100];
+static int mt[2] = {5,1}; //[1,2,3,4,5];
+//bidirectional:yes,no
+static int iat[3] = {10,6,2}; //[1,2,4,6,8,10];
+static int tp_c = 0;
+static int ps_c = 0;
+static int mt_c = 0;
+static int iat_c = 0;
+//static int mts = 0;
+static int SEND_INTERVAL = 0;
+static int run_time = 15; //600
+static int conf_num = 1;
 int run_time = 10;
-static int tp[4] = {7,3,0,-3};
-static int tp_index = 0;
 
 PROCESS(udp_server_process, "UDP server");
 AUTOSTART_PROCESSES(&udp_server_process);
@@ -82,47 +92,36 @@ udp_rx_callback(struct simple_udp_connection *c,
 
 
   uint64_t local_time_clock_ticks = tsch_get_network_uptime_ticks();
-  uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
-  const int countExtracted = extractCount(datalen, (char *) data);
+  uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, data);
+  const int countExtracted = extractCount(packSize, packet);
   //if(datalen >= sizeof(remote_time_clock_ticks)) {
   //  memcpy(&remote_time_clock_ticks, data, sizeof(remote_time_clock_ticks));
 
-    printf("D__SEQNO-%d:-:",countExtracted);
+    printf("\nD__SEQNO-%d:-:",countExtracted);
     char buf[UIPLIB_IPV6_MAX_STR_LEN];
     uiplib_ipaddr_snprint(buf, sizeof(buf), sender_addr);
     printf("%s", buf);
     //LOG_INFO_6ADDR(sender_addr);
-    printf(", created at %lu, now %lu, latency %lu clock ticks\n",
+    printf("M__CREATETIME-%lu:-:, M__CURRENTTIME-%lu:-:, M__DELAY-%lu:-:",
               (unsigned long)remote_time_clock_ticks,
               (unsigned long)local_time_clock_ticks,
               (unsigned long)(local_time_clock_ticks - remote_time_clock_ticks));
 
-
-
-  //LOG_INFO_("\n");
   int lqi_val;
   int rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_LINK_QUALITY, &lqi_val);
-  printf("lqi-state: %d::",rd);
-  printf("lqi: %d::",lqi_val);
+  printf("M__LQISTATE-%d:-:D__LQI-%d:-:",rd,lqi_val);
+  //printf("lqi: %d::",lqi_val);
   int rssi_val;
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_RSSI, &rssi_val); //RADIO_PARAM_LAST_RSSI, RADIO_PARAM_LAST_PACKET_TIMESTAMP
-  printf("rssi-state: %d::",rd);
-  printf("rssi: %d::\n",rssi_val);
+  printf("M__RSSISTATE-%d:-:D__RSSI-%d",rd,rssi_val);
+  //printf("rssi: %d::\n",rssi_val);
          
-  if (clock_seconds() - ct_start >= run_time){
-  int tp_val = tp[tp_index++];
-  int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
-  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
-  printf("tp state server:::: %d\n",rd);
-  printf("changed tp of server to:::: %d\n",tp_val);
-  ct_start = clock_seconds();
-  }
          
-#if WITH_SERVER_REPLY
-  /* send back the same string to the client as an echo reply */
-  LOG_INFO("Sending response.\n");
-  simple_udp_sendto(&udp_conn, data, datalen, sender_addr);
-#endif /* WITH_SERVER_REPLY */
+  #if WITH_SERVER_REPLY
+    /* send back the same string to the client as an echo reply */
+    LOG_INFO("Sending response.\n");
+    simple_udp_sendto(&udp_conn, data, datalen, sender_addr);
+  #endif /* WITH_SERVER_REPLY */
 }
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(udp_server_process, ev, data)
@@ -137,15 +136,40 @@ PROCESS_THREAD(udp_server_process, ev, data)
   simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                       UDP_CLIENT_PORT, udp_rx_callback);
   
-  while (1) {
-    if (clock_seconds() - ct_start >= run_time){
-      printf("after udp register\n");
-      int tp_val = tp[tp_index++];
-      int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
-      rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
-      printf("tp state server:::: %d\n",rd);
-      printf("changed tp of server to:::: %d\n",tp_val);
-      ct_start = clock_seconds();
+  for (tp_c = 0; tp_c <= 3; tp_c++ )
+  { 
+    printf("after udp register\n");
+    int tp_val = tp[tp_c++];
+    int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
+    rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
+    printf("P__TP-%d:-:\n",tp_val);
+    printf("M__TPSTATE-%d:-:M__TPSETTIME-%lu\n",rd,clock_seconds());
+    
+    //ct_start = clock_seconds();
+
+    etimer_set(&reset_timer, run_time);
+    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+    //etimer_set(&reset_timer, run_time); 
+  
+    for (ps_c = 0; ps_c <= 1; ps_c++ )
+    { 
+      etimer_set(&reset_timer, run_time);
+      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+      //etimer_set(&reset_timer, run_time);
+
+      for (iat_c = 0; iat_c <= 2; iat_c++ )
+      {
+        etimer_set(&reset_timer, run_time);
+        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+        //etimer_set(&reset_timer, run_time);
+  
+        for (mt_c = 0; mt_c <= 1; mt_c++ )
+        {
+          etimer_set(&reset_timer, run_time);
+          PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+          //etimer_set(&reset_timer, run_time); 
+        }
+      }
     }
   }
   PROCESS_END();
