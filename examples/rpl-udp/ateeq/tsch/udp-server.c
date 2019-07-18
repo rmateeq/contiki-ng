@@ -13,7 +13,7 @@
 
 static struct simple_udp_connection udp_conn;
 static unsigned long ct_start;
-static int conf_num = 48;
+//static int conf_num = 48;
 int run_time = 10;
 static int tp[4] = {7,3,0,-3};
 static int tp_index = 0;
