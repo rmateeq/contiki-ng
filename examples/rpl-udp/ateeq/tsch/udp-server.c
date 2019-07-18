@@ -139,7 +139,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
   for (tp_c = 0; tp_c <= 3; tp_c++ )
   { 
     printf("after udp register\n");
-    int tp_val = tp[tp_c++];
+    int tp_val = tp[tp_c];
     int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
     rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
     printf("P__TP-%d:-:\n",tp_val);
@@ -149,6 +149,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
 
     etimer_set(&reset_timer, run_time);
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+    printf("after tp set at %lu\n",clock_seconds());
     //etimer_set(&reset_timer, run_time); 
   
     for (ps_c = 0; ps_c <= 1; ps_c++ )
