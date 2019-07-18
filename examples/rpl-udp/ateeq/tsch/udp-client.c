@@ -80,7 +80,7 @@ char* constructPacket(
   for (i = 0; i < countLen; i++) {
     pack[networkUptimeLen + paddingLen + i] = countBuffer[i];
   }
-  pack[i] = '\0';
+  pack[networkUptimeLen + paddingLen + i] = '\0';
   printf("last index: %d",i);
   printf("pkt3: %s",pack);
   free(countBuffer);
@@ -220,7 +220,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
               //LOG_INFO_("\n");
 
               const uint64_t network_uptime = tsch_get_network_uptime_ticks();
-              char* packet = constructPacket(ps[ps_c], network_uptime, ++counter);
+              char* packet = NULL;
+              packet = constructPacket(ps[ps_c], network_uptime, ++counter);
               printf("Message sent: %s",packet);
               printf("Message length: %d",strlen(packet));
               simple_udp_sendto(&udp_conn, packet, strlen(packet), &dest_ipaddr);
