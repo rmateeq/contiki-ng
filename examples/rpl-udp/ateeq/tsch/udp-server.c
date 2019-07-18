@@ -10,6 +10,7 @@
 #define WITH_SERVER_REPLY  0
 #define UDP_CLIENT_PORT	8765
 #define UDP_SERVER_PORT	5678
+#define UIPLIB_IPV6_MAX_STR_LEN 40
 
 static struct simple_udp_connection udp_conn;
 static unsigned long ct_start;
@@ -81,7 +82,7 @@ udp_rx_callback(struct simple_udp_connection *c,
 
   uint64_t local_time_clock_ticks = tsch_get_network_uptime_ticks();
   uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
-  const int countExtracted = extractCount(packSize, packet);
+  const int countExtracted = extractCount(datalen, (char *) data);
   //if(datalen >= sizeof(remote_time_clock_ticks)) {
   //  memcpy(&remote_time_clock_ticks, data, sizeof(remote_time_clock_ticks));
 
