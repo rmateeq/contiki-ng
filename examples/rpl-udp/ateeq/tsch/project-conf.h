@@ -27,7 +27,7 @@
 //#endif
 
 //#ifndef UIP_CONF_BUFFER_SIZE
-#define UIP_CONF_BUFFER_SIZE 150
+#define UIP_CONF_BUFFER_SIZE 165
 //#endif
 //#define UIP_CONF_IPV6_QUEUE_PKT 1
 
