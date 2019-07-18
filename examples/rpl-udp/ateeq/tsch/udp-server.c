@@ -80,7 +80,7 @@ udp_rx_callback(struct simple_udp_connection *c,
 
 
   uint64_t local_time_clock_ticks = tsch_get_network_uptime_ticks();
-  uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, data);
+  uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
   const int countExtracted = extractCount(packSize, packet);
   //if(datalen >= sizeof(remote_time_clock_ticks)) {
   //  memcpy(&remote_time_clock_ticks, data, sizeof(remote_time_clock_ticks));
