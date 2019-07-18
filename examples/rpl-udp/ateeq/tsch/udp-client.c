@@ -32,7 +32,7 @@ static unsigned long ct_reach_total = 0;//, ct_unreach_total = 0;
 static struct etimer reset_timer;
 //unsigned long ct_end;
 static int tp[4] = {7,3,0,-3}; //[-13,-9,-5,-1,1,3,5];
-static int ps[2] = {80,80}; //[25,50,75,100];
+static int ps[2] = {80,100}; //[25,50,75,100];
 static int mt[2] = {5,1}; //[1,2,3,4,5];
 //bidirectional:yes,no
 static int iat[3] = {10,6,2}; //[1,2,4,6,8,10];
@@ -84,6 +84,9 @@ char* constructPacket(
   //printf("last index: %d",i);
   //printf("pkt3: %s",pack);
   free(countBuffer);
+  if (pack == NULL) {
+    prinft("\nuptime: %lu--size: %d--counter: %d--timelen: %d--countlen: %d\n",networkUptime,packSize,count,networkUptimeLen,countLen);
+  }
   return pack;
 }
 /*---------------------------------------------------------------------------*/
