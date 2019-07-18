@@ -85,7 +85,7 @@ char* constructPacket(
   //printf("pkt3: %s",pack);
   free(countBuffer);
   if (pack == NULL) {
-    prinft("\nuptime: %lu--size: %d--counter: %d--timelen: %d--countlen: %d\n",networkUptime,packSize,count,networkUptimeLen,countLen);
+    printf("\n uptime: %lu--size: %d--counter: %d--timelen: %d--countlen: %d\n",networkUptime,packSize,count,networkUptimeLen,countLen);
   }
   return pack;
 }
