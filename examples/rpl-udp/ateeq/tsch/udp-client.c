@@ -61,7 +61,7 @@ char* constructPacket(
   unsigned long networkUptime,
   int count
 ) {
-  char* packet = (char*)malloc((packSize + 1) * sizeof(char));
+  char* packet = (char*)malloc((packSize) * sizeof(char));
   char *countBuffer = (char*)malloc(5 * sizeof(char));
 
   const int networkUptimeLen = snprintf(packet, 21, "%lu", networkUptime);
