@@ -81,6 +81,7 @@ char* constructPacket(
     pack[networkUptimeLen + paddingLen + i] = countBuffer[i];
   }
   pack[i] = '\0';
+  printf("last index: %d",i);
   printf("pkt3: %s",pack);
   free(countBuffer);
   return pack;
