@@ -172,13 +172,13 @@ PROCESS_THREAD(udp_client_process, ev, data)
   
   printf("header udp: %d",UIP_IPUDPH_LEN);
   printf("header ip: %d", UIP_IPH_LEN);
-  for (tp_c = 0; tp_c <= 2; tp_c++ )
+  for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
   {  
-    for (ps_c = 0; ps_c <= 1; ps_c++ )
+    for (ps_c = 0; ps_c < (sizeof(ps) / sizeof(ps[0])); ps_c++ )
     { 
-      for (iat_c = 0; iat_c <= 0; iat_c++ )
+      for (iat_c = 0; iat_c < (sizeof(iat) / sizeof(iat[0])); iat_c++ )
       {
-        for (mt_c = 0; mt_c <= 0; mt_c++ )
+        for (mt_c = 0; mt_c < (sizeof(mt) / sizeof(mt[0])); mt_c++ )
         {
           //set parameter configuration
           set_params();
