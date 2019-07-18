@@ -62,6 +62,7 @@ char* constructPacket(
   unsigned long networkUptime,
   int count
 ) {
+  printf("pktlen: %d",packSize);
   char* packet = (char*)malloc((packSize+1) * sizeof(char));
   char *countBuffer = (char*)malloc(5 * sizeof(char));
   printf("pkt1: %s",packet);
