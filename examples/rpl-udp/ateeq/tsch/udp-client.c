@@ -33,9 +33,9 @@ static struct etimer reset_timer;
 //unsigned long ct_end;
 static int tp[3] = {7,3,0};//,-3}; //[-13,-9,-5,-1,1,3,5];
 static int ps[2] = {85,60};//,35}; //[25,50,75,100];
-static int mt[2] = {5,1}; //[1,2,3,4,5];
+static int mt[1] = {5}; //[1,2,3,4,5];
 //bidirectional:yes,no
-static int iat[2] = {6,2}; //[1,2,4,6,8,10];
+static int iat[1] = {2}; //[1,2,4,6,8,10];
 static int tp_c = 0;
 static int ps_c = 0;
 static int mt_c = 0;
@@ -176,9 +176,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
   {  
     for (ps_c = 0; ps_c <= 1; ps_c++ )
     { 
-      for (iat_c = 0; iat_c <= 1; iat_c++ )
+      for (iat_c = 0; iat_c <= 0; iat_c++ )
       {
-        for (mt_c = 0; mt_c <= 1; mt_c++ )
+        for (mt_c = 0; mt_c <= 0; mt_c++ )
         {
           //set parameter configuration
           set_params();
