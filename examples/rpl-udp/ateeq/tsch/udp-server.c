@@ -71,7 +71,18 @@ PROCESS_THREAD(udp_server_process, ev, data)
   /* Initialize UDP connection */
   simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                       UDP_CLIENT_PORT, udp_rx_callback);
-  printf("after udp register\n");
+  
+  while (1) {
+    if (clock_seconds() - ct_start >= run_time){
+      printf("after udp register\n");
+      int tp_val = tp[tp_index++];
+      int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
+      rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
+      printf("tp state server:::: %d\n",rd);
+      printf("changed tp of server to:::: %d\n",tp_val);
+      ct_start = clock_seconds();
+    }
+  }
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
