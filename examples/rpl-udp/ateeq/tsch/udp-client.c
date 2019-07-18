@@ -245,7 +245,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           log_energy();
           count = 1;
           printf("M__STARTED-%lu:-:M__ENDED-%lu:-:M__TOTAL-%lu\n", ct_start , clock_seconds() , (clock_seconds()-ct_start));
-          printf(M__REACHTIME-%lu\n", ct_reach_total);
+          printf("M__REACHTIME-%lu\n", ct_reach_total);
           printf("M__CONFNUM-%d ENDS\n<***>\n<***>\n",conf_num++);
         }//mt for ends here
       }//iat for ends here
