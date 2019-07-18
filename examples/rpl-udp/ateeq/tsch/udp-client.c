@@ -242,6 +242,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           } //while ends here
 
           log_energy();
+          printf("M__TOTALPKTSSENT-%d:-:",counter);
           counter = 1;
           printf("M__STARTED-%lu:-:M__ENDED-%lu:-:M__TOTAL-%lu\n", ct_start , clock_seconds() , (clock_seconds()-ct_start));
           printf("M__REACHTIME-%lu\n", ct_reach_total);
