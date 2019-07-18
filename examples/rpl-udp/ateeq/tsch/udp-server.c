@@ -26,7 +26,7 @@ static int ps_c = 0;
 static int mt_c = 0;
 static int iat_c = 0;
 //static int mts = 0;
-static int run_time = 21; //600
+static int run_time = 16; //600
 //static int conf_num = 1;
 
 
