@@ -1,6 +1,7 @@
 #include "contiki.h"
 #include "net/routing/routing.h"
 #include "net/netstack.h"
+#include "net/mac/tsch/tsch.h"
 #include "net/ipv6/simple-udp.h"
 #include "net/ipv6/uiplib.h"
 #include "sys/log.h"
