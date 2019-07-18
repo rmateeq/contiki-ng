@@ -80,7 +80,7 @@ char* constructPacket(
   for (i = 0; i < countLen; i++) {
     pack[networkUptimeLen + paddingLen + i] = countBuffer[i];
   }
-  packet[i] = '\0';
+  pack[i] = '\0';
   printf("pkt3: %s",pack);
   free(countBuffer);
   return pack;
