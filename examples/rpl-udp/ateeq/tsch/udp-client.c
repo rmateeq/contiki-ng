@@ -217,7 +217,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
               const uint64_t network_uptime = tsch_get_network_uptime_ticks();
               char* packet = constructPacket(ps[ps_c], network_uptime, counter);
-              
+              prinft("Message sent: %s",packet);
               simple_udp_sendto(&udp_conn, packet, strlen(packet), &dest_ipaddr);
               //simple_udp_sendto(&udp_conn, str, strlen(str), &dest_ipaddr);
               counter++;
