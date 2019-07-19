@@ -31,7 +31,7 @@ static unsigned long ct_start, ct_reach, ct_unreach;
 static unsigned long ct_reach_total = 0;//, ct_unreach_total = 0;
 static struct etimer reset_timer;
 //unsigned long ct_end;
-static int tp[5] = {-5,-3,-1,1,3}; //{7,3,0};//,-3}; //
+static int tp[5] = {-3,1,5}; //{7,3,0};//,-3}; //
 static int ps[3] = {75,50,30};//,35}; //[25,50,75,100];
 static int mt[3] = {1,3,6}; //[1,2,3,4,5];
 //bidirectional:yes,no
@@ -81,7 +81,7 @@ char* constructPacket(
   for (i = 0; i < countLen; i++) {
     pack[networkUptimeLen + paddingLen + i] = countBuffer[i];
   }
-  pack[networkUptimeLen + paddingLen + i] = '\0';
+  //pack[networkUptimeLen + paddingLen + i] = '\0';
   //printf("last index: %d",i);
   //printf("pkt3: %s",pack);
   free(countBuffer);
