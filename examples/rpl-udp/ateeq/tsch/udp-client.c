@@ -63,10 +63,11 @@ char* constructPacket(
   unsigned long networkUptime,
   int count
 ) {
+  pack = NULL;
   const char pads[] = "a quick brown fox jumps over the lazy dog.a quick brown fox jumps over the lazy dog.";
   //printf("pktlen: %d",packSize);
   pack = (char*)malloc((packSize+1) * sizeof(char));
-  printf("\n\n%s,,%d,,%d\n\n",pack,strlen(pack),sizeof(pack));
+  //printf("\n\n%s,,%d,,%d\n\n",pack,strlen(pack),sizeof(pack));
   char *countBuffer = (char*)malloc(5 * sizeof(char));
   //printf("pkt1: %s",pack);
   const int networkUptimeLen = snprintf(pack, 21, "%lu", networkUptime);
@@ -79,16 +80,16 @@ char* constructPacket(
   for (i = 0; i < paddingLen; i++) {
     pack[networkUptimeLen + i] = pads[i];//',';
   }
-  printf("\npkt2: %s\n",pack);
+  //printf("\npkt2: %s\n",pack);
   for (i = 0; i < countLen; i++) {
     pack[networkUptimeLen + paddingLen + i] = countBuffer[i];
   }
   //pack[networkUptimeLen + paddingLen + i] = '\0';
   //printf("last index: %d",i);
-  printf("\npkt3: %s\n",pack);
+  //printf("\npkt3: %s\n",pack);
   free(countBuffer);
   if (pack == NULL) {
-    printf("\n uptime: %lu--size: %d--counter: %d--timelen: %d--countlen: %d\n",networkUptime,packSize,count,networkUptimeLen,countLen);
+    printf("\n ---------------------NULL AGAIN--------------\n");
   }
   return pack;
 }
@@ -173,8 +174,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
   PROCESS_BEGIN();
   
-  printf("header udp: %d",UIP_IPUDPH_LEN);
-  printf("header ip: %d", UIP_IPH_LEN);
+  //printf("header udp: %d",UIP_IPUDPH_LEN);
+  //printf("header ip: %d", UIP_IPH_LEN);
   for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
   {  
     for (ps_c = 0; ps_c < (sizeof(ps) / sizeof(ps[0])); ps_c++ )
@@ -195,7 +196,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
           /*Note the start time of current run*/
           ct_start = clock_seconds();
-          printf("\nM__STARTTIME-%lu:-:\n", ct_start);
+          printf("\nM__STARTTIME %lu:-:\n", ct_start);
 
           /* Initialize timer for send interval */
           etimer_set(&periodic_timer, random_rand() % SEND_INTERVAL); //
@@ -210,7 +211,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
               ct_reach = clock_seconds();
               if (counter == 0)
               {
-                printf("\nM__REACHTIME-%lu:-:\n", clock_seconds());
+                printf("\nM__REACHTIME %lu:-:\n", clock_seconds());
               }
               //if ((ct_reach > ct_unreach) && (REACH == 0))
               //{
@@ -230,8 +231,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
               char* packet = NULL;
               packet = constructPacket(ps[ps_c], network_uptime, ++counter);
               free(pack);
-              printf("Message sent: %s",packet);
-              printf("Message length: %d",strlen(packet));
+              //printf("Message sent: %s",packet);
+              printf("M__MSGLEN %d",strlen(packet));
               simple_udp_sendto(&udp_conn, packet, strlen(packet), &dest_ipaddr);
               //simple_udp_sendto(&udp_conn, str, strlen(str), &dest_ipaddr);
               //counter++;
