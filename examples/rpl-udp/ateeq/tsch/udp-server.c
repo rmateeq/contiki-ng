@@ -16,7 +16,7 @@ static struct simple_udp_connection udp_conn;
 static unsigned long ct_start;
 static struct etimer reset_timer;
 //static int conf_num = 48;
-static int tp[5] = {-5,-3,-1,1,3};//{7,3,0,-3}; //[-13,-9,-5,-1,1,3,5];
+static int tp[3] = {-3,1,5};//{7,3,0,-3}; //[-13,-9,-5,-1,1,3,5];
 //static int ps[2] = {25,100}; //[25,50,75,100];
 //static int mt[2] = {5,1}; //[1,2,3,4,5];
 //bidirectional:yes,no
@@ -147,7 +147,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
     
     //ct_start = clock_seconds();
 
-    etimer_set(&reset_timer, ((run_time*CLOCK_SECOND)*27));
+    etimer_set(&reset_timer, ((run_time*CLOCK_SECOND)*12));
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
     //printf("after tp set at %lu\n",clock_seconds());
     //etimer_set(&reset_timer, run_time); 
