@@ -33,13 +33,14 @@ static int run_time = 602; //600
 PROCESS(udp_server_process, "UDP server");
 AUTOSTART_PROCESSES(&udp_server_process);
 /*---------------------------------------------------------------------------*/
+
 unsigned long extractNetworkUptime(
   int packSize,
   char* packet
 ) {
   int i;
   for (i = 0; i < packSize; i++) {
-    if (packet[i] == ',') {
+    if( (packet[i] >='a' && packet[i] <='z') || (packet[i] == ' ')) {
       break;
     }
   }
