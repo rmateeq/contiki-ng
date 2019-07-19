@@ -46,6 +46,7 @@ static int run_time = 600; //600
 static int conf_num = 1;
 static int REACH = 0;
 static int counter = 0;
+char* pack = NULL;
 //number of nodes: 8(d,s),16(d,s),24,32
 //dt: real
 //mac: tsch,mac
@@ -64,7 +65,6 @@ char* constructPacket(
 ) {
   const char pads[] = "a quick brown fox jumps over the lazy dog.a quick brown fox jumps over the lazy dog.";
   //printf("pktlen: %d",packSize);
-  char* pack = NULL;
   pack = (char*)malloc((packSize+1) * sizeof(char));
   printf("\n\n%s,,%d,,%d\n\n",pack,strlen(pack),sizeof(pack));
   char *countBuffer = (char*)malloc(5 * sizeof(char));
@@ -229,6 +229,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
               const uint64_t network_uptime = tsch_get_network_uptime_ticks();
               char* packet = NULL;
               packet = constructPacket(ps[ps_c], network_uptime, ++counter);
+              free(pack);
               printf("Message sent: %s",packet);
               printf("Message length: %d",strlen(packet));
               simple_udp_sendto(&udp_conn, packet, strlen(packet), &dest_ipaddr);
