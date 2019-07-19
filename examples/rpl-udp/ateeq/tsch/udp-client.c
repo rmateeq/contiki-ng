@@ -80,13 +80,13 @@ char* constructPacket(
   for (i = 0; i < paddingLen; i++) {
     pack[networkUptimeLen + i] = pads[i];//',';
   }
-  //printf("\npkt2: %s\n",pack);
+  printf("\npkt and length: %s\n",pack,strlen(pkt));
   for (i = 0; i < countLen; i++) {
     pack[networkUptimeLen + paddingLen + i] = countBuffer[i];
   }
   //pack[networkUptimeLen + paddingLen + i] = '\0';
   //printf("last index: %d",i);
-  //printf("\npkt3: %s\n",pack);
+  printf("\npkt3: %s\n",pack);
   free(countBuffer);
   if (pack == NULL) {
     printf("\n ---------------------NULL AGAIN--------------\n");
