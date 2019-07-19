@@ -31,9 +31,9 @@ static unsigned long ct_start, ct_reach, ct_unreach;
 static unsigned long ct_reach_total = 0;//, ct_unreach_total = 0;
 static struct etimer reset_timer;
 //unsigned long ct_end;
-static int tp[5] = {-3,1,5}; //{7,3,0};//,-3}; //
-static int ps[3] = {75,50,30};//,35}; //[25,50,75,100];
-static int mt[3] = {1,3,6}; //[1,2,3,4,5];
+static int tp[3] = {-3,1,5}; //{7,3,0};//,-3}; //
+static int ps[2] = {75,50};//,30};//,35}; //[25,50,75,100];
+static int mt[2] = {2,6}; //[1,2,3,4,5];
 //bidirectional:yes,no
 static int iat[3] = {2,6,12};
 static int tp_c = 0;
