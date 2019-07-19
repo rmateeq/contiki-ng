@@ -40,7 +40,7 @@ unsigned long extractNetworkUptime(
 ) {
   int i;
   for (i = 0; i < packSize; i++) {
-    if( (packet[i] >='a' && packet[i] <='z') || (packet[i] == ' ')) {
+    if( (packet[i] >='a' && packet[i] <='z') || (packet[i] == ' ') || (packet[i] == '.')) {
       break;
     }
   }
@@ -61,7 +61,7 @@ int extractCount(
 ) {
   int i;
   for (i = packSize - 1; i > 0; i--) {
-    if (packet[i] == ',') {
+    if( (packet[i] >='a' && packet[i] <='z') || (packet[i] == ' ') || (packet[i] == '.')) {
       break;
     }
   }
