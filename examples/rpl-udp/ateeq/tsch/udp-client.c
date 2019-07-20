@@ -176,7 +176,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
         {
 
           NETSTACK_MAC.on();
-          NETSTACK_Routing.global_repair();
+          NETSTACK_ROUTING.global_repair();
           
           //set parameter configuration
           set_params();
