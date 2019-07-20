@@ -33,7 +33,7 @@ static unsigned long ct_start, ct_reach, ct_unreach;
 static unsigned long ct_reach_total = 0;
 static struct etimer reset_timer;
 
-static int tp[6] = {3,-11,-7,-3,1,5}; 
+static int tp[5] = {-11,-7,-3,1,5}; 
 static int ps[3] = {75,50,26};
 static int mt[3] = {1,4,8}; 
 //bidirectional:yes,no
