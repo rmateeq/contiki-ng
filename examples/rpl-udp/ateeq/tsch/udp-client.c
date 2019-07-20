@@ -1,178 +1,268 @@
+//<<my includes>>
+#include "cc2538-rf.h"
+#include "dev/radio.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "sys/energest.h"
+#include "net/mac/tsch/tsch.h"
+//#include "sys/node-id.h"
+//>>my includes<<
+
 #include "contiki.h"
 #include "net/routing/routing.h"
+#include "random.h"
 #include "net/netstack.h"
-#include "net/mac/tsch/tsch.h"
 #include "net/ipv6/simple-udp.h"
-#include "net/ipv6/uiplib.h"
+
 #include "sys/log.h"
+#ifndef LOG_MODULE
 #define LOG_MODULE "App"
+#endif
+#ifndef LOG_LEVEL
 #define LOG_LEVEL LOG_LEVEL_INFO
+#endif
+
+#define DENSITY 3 //2,3
 
 #define WITH_SERVER_REPLY  0
-#define UDP_CLIENT_PORT	8765
-#define UDP_SERVER_PORT	5678
+#define UDP_CLIENT_PORT 8765
+#define UDP_SERVER_PORT 5678
 
-static struct simple_udp_connection udp_conn;
-static unsigned long ct_start;
+//<<my vars>>
+static unsigned long ct_start, ct_reach, ct_unreach;
+static unsigned long ct_reach_total = 0;
 static struct etimer reset_timer;
-//static int conf_num = 48;
-static int tp[4] = {7,3,0,-3}; //[-13,-9,-5,-1,1,3,5];
-//static int ps[2] = {25,100}; //[25,50,75,100];
-//static int mt[2] = {5,1}; //[1,2,3,4,5];
+
+static int tp[6] = {-15,-11,-7,-3,1,5}; 
+static int ps[2] = {75,50,26};
+static int mt[2] = {1,4,8}; 
 //bidirectional:yes,no
-//static int iat[3] = {10,6,2}; //[1,2,4,6,8,10];
+
+#if DENSITY == 1
+static float iat[4] = {0.5,1,2,4};
+#elif DENSITY == 2
+static float iat[4] = {1,2,4,8};
+#elif DENSITY == 3
+static float iat[4] = {2,4,8,16};
+#endif
+
 static int tp_c = 0;
 static int ps_c = 0;
 static int mt_c = 0;
 static int iat_c = 0;
-//static int mts = 0;
-static int run_time = 15; //600
-//static int conf_num = 1;
+static float SEND_INTERVAL = 0;
+static int run_time = 600;
+static int conf_num = 1;
+static int REACH = 0;
+static int counter = 0;
+char* pack = NULL;
+//number of nodes: 8(d,s),16(d,s),24,32
+//dt: real
+//mac: tsch,mac
+//of: 0,mrh
+//>>my vars<<
 
-
-PROCESS(udp_server_process, "UDP server");
-AUTOSTART_PROCESSES(&udp_server_process);
+static struct simple_udp_connection udp_conn;
 /*---------------------------------------------------------------------------*/
-unsigned long extractNetworkUptime(
-  int packSize,
-  char* packet
-) {
+PROCESS(udp_client_process, "UDP client");
+AUTOSTART_PROCESSES(&udp_client_process);
+/*---------------------------------------------------------------------------*/
+
+char* constructPacket(int packSize, unsigned long networkUptime, int count)
+{
+  pack = NULL;
+  const char pads[] = "a quick brown fox jumps over the lazy dog.a quick brown fox jumps over the lazy dog.";
+  pack = (char*)malloc((packSize+1) * sizeof(char));
+  char *countBuffer = (char*)malloc(5 * sizeof(char));
+  const int networkUptimeLen = snprintf(pack, 21, "%lu", networkUptime);
+  const int countLen = snprintf(countBuffer, 5, "%d", count);
+  const int paddingLen = packSize - (networkUptimeLen + countLen);
+  
   int i;
-  for (i = 0; i < packSize; i++) {
-    if (packet[i] == ',') {
-      break;
-    }
+  for (i = 0; i < paddingLen; i++) {
+    pack[networkUptimeLen + i] = pads[i];//',';
   }
-
-  const int upperBound = i;
-  unsigned long networkUptime = 0UL;
-
-  for (i = 0; i < upperBound; i++) {
-    networkUptime = networkUptime * 10 + packet[i] - '0';
+  for (i = 0; i < countLen; i++) {
+    pack[networkUptimeLen + paddingLen + i] = countBuffer[i];
   }
+  pack[networkUptimeLen + paddingLen + i] = '\0';
 
-  return networkUptime;
+  free(countBuffer);
+
+  if (pack == NULL) {
+    printf("\n ---------------------NULL AGAIN--------------\n");
+  }
+  return pack;
 }
 /*---------------------------------------------------------------------------*/
-int extractCount(
-  int packSize,
-  char* packet
-) {
-  int i;
-  for (i = packSize - 1; i > 0; i--) {
-    if (packet[i] == ',') {
-      break;
-    }
-  }
 
-  int count = 0;
-  for (i++; i < packSize; i++) {
-    count = count * 10 + packet[i] - '0';
-  }
+static void set_params() 
+{
+  printf("\n\n_______________Configuration Number_______________%d\n\n",conf_num);
+  int tp_val = -99;
+  NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp[tp_c]);
+  NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
+  printf("P__TP,%d:-:",tp_val);
+  printf("P__PS,%d:-:",ps[ps_c]);
+  SEND_INTERVAL = (iat[iat_c] * CLOCK_SECOND);
+  printf("P__IAT,%.1f:-:",iat[iat_c]);
+  printf("P__MT,%d:-:",mt[mt_c]);
+}
+/*---------------------------------------------------------------------------*/
 
-  return count;
+static unsigned long to_seconds(uint64_t time)
+{
+  return (unsigned long)(time / ENERGEST_SECOND);
+}
+/*---------------------------------------------------------------------------*/
+
+static void log_energy()
+{
+  energest_flush();
+
+  printf("\nM__RUNEnergest(s):\n");
+
+  printf("E__RCPU,%4lu:-:E__LPM,%4lu:-:E__DEEPLPM,%4lu:-:E__TotalTime,%lu\n",
+    to_seconds(energest_type_time(ENERGEST_TYPE_CPU)), to_seconds(energest_type_time(ENERGEST_TYPE_LPM)),
+    to_seconds(energest_type_time(ENERGEST_TYPE_DEEP_LPM)), to_seconds(ENERGEST_GET_TOTAL_TIME()));
+  
+  printf("E__RadioLISTEN,%4lu:-:E__TRANSMIT,%4lu:-:E__OFF,%4lu\n",
+    to_seconds(energest_type_time(ENERGEST_TYPE_LISTEN)), to_seconds(energest_type_time(ENERGEST_TYPE_TRANSMIT)),
+    to_seconds(ENERGEST_GET_TOTAL_TIME() - energest_type_time(ENERGEST_TYPE_TRANSMIT)
+        - energest_type_time(ENERGEST_TYPE_LISTEN)));
 }
 /*---------------------------------------------------------------------------*/
 static void
-udp_rx_callback(struct simple_udp_connection *c,
-         const uip_ipaddr_t *sender_addr,
-         uint16_t sender_port,
-         const uip_ipaddr_t *receiver_addr,
-         uint16_t receiver_port,
-         const uint8_t *data,
-         uint16_t datalen)
+udp_rx_callback(struct simple_udp_connection *c, const uip_ipaddr_t *sender_addr,
+ uint16_t sender_port, const uip_ipaddr_t *receiver_addr, uint16_t receiver_port,
+ const uint8_t *data, uint16_t datalen)
 {
-  //LOG_INFO("Received request '%.*s' from ", datalen, (char *) data);
-  //printf("Received request '%.*s' from ", datalen, (char *) data);
-  //LOG_INFO_6ADDR(sender_addr);
-  printf("\n");
-
-  //const unsigned long networkUptimeExtracted = extractNetworkUptime(packSize, packet);
-
-
-
-  uint64_t local_time_clock_ticks = tsch_get_network_uptime_ticks();
-  uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
-  const int countExtracted = extractCount(datalen, (char *) data);
-  //if(datalen >= sizeof(remote_time_clock_ticks)) {
-  //  memcpy(&remote_time_clock_ticks, data, sizeof(remote_time_clock_ticks));
-
-    printf("\nD__SEQNO-%d:-:",countExtracted);
-    char buf[UIPLIB_IPV6_MAX_STR_LEN];
-    uiplib_ipaddr_snprint(buf, sizeof(buf), sender_addr);
-    printf("%s", buf);
-    //LOG_INFO_6ADDR(sender_addr);
-    printf("M__CREATETIME-%lu:-:, M__CURRENTTIME-%lu:-:, M__DELAY-%lu:-:",
-              (unsigned long)remote_time_clock_ticks,
-              (unsigned long)local_time_clock_ticks,
-              (unsigned long)(local_time_clock_ticks - remote_time_clock_ticks));
-
+//  LOG_INFO("RSSI: %d",packetbuf_attr(PACKETBUF_ATTR_RSSI));
+  //LOG_INFO("Received response '%.*s' from ", datalen, (char *) data);
+  LOG_INFO("Received response from ");
+  LOG_INFO_6ADDR(sender_addr);
+  LOG_INFO("At node ");
+  LOG_INFO_6ADDR(receiver_addr);
   int lqi_val;
   int rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_LINK_QUALITY, &lqi_val);
-  printf("M__LQISTATE-%d:-:D__LQI-%d:-:",rd,lqi_val);
-  //printf("lqi: %d::",lqi_val);
+  LOG_INFO("lqi state %d",rd);
+  LOG_INFO("lqi: %d",lqi_val);
   int rssi_val;
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_RSSI, &rssi_val); //RADIO_PARAM_LAST_RSSI, RADIO_PARAM_LAST_PACKET_TIMESTAMP
-  printf("M__RSSISTATE-%d:-:D__RSSI-%d",rd,rssi_val);
-  //printf("rssi: %d::\n",rssi_val);
-         
-         
-  #if WITH_SERVER_REPLY
-    /* send back the same string to the client as an echo reply */
-    LOG_INFO("Sending response.\n");
-    simple_udp_sendto(&udp_conn, data, datalen, sender_addr);
-  #endif /* WITH_SERVER_REPLY */
+  LOG_INFO("rssi state %d \n",rd);
+  LOG_INFO("rssi: %d \n",rssi_val);
+
+#if LLSEC802154_CONF_ENABLED
+  LOG_INFO_(" LLSEC LV:%d", uipbuf_get_attr(UIPBUF_ATTR_LLSEC_LEVEL));
+#endif
+  LOG_INFO_("\n");
+  LOG_INFO_("\n");
 }
 /*---------------------------------------------------------------------------*/
-PROCESS_THREAD(udp_server_process, ev, data)
+PROCESS_THREAD(udp_client_process, ev, data)
 {
+  static struct etimer periodic_timer;
+  uip_ipaddr_t dest_ipaddr;
+
   PROCESS_BEGIN();
-  ct_start = clock_seconds();
-  printf("start time: %lu\n", ct_start);
-
-  /* Initialize DAG root */
-  NETSTACK_ROUTING.root_start();
-  /* Initialize UDP connection */
-  simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
-                      UDP_CLIENT_PORT, udp_rx_callback);
   
-  for (tp_c = 0; tp_c <= 3; tp_c++ )
-  { 
-    printf("after udp register\n");
-    int tp_val = tp[tp_c];
-    int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
-    rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
-    printf("P__TP-%d:-:\n",tp_val);
-    printf("M__TPSTATE-%d:-:M__TPSETTIME-%lu\n",rd,clock_seconds());
-    
-    //ct_start = clock_seconds();
-
-    etimer_set(&reset_timer, run_time*CLOCK_SECOND);
-    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
-    printf("after tp set at %lu\n",clock_seconds());
-    //etimer_set(&reset_timer, run_time); 
-  
-    for (ps_c = 0; ps_c <= 1; ps_c++ )
+  for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
+  {  
+    for (ps_c = 0; ps_c < (sizeof(ps) / sizeof(ps[0])); ps_c++ )
     { 
-      etimer_set(&reset_timer, run_time*CLOCK_SECOND);
-      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
-      //etimer_set(&reset_timer, run_time);
-
-      for (iat_c = 0; iat_c <= 2; iat_c++ )
+      for (iat_c = 0; iat_c < (sizeof(iat) / sizeof(iat[0])); iat_c++ )
       {
-        etimer_set(&reset_timer, run_time*CLOCK_SECOND);
-        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
-        //etimer_set(&reset_timer, run_time);
-  
-        for (mt_c = 0; mt_c <= 1; mt_c++ )
+        for (mt_c = 0; mt_c < (sizeof(mt) / sizeof(mt[0])); mt_c++ )
         {
-          etimer_set(&reset_timer, run_time*CLOCK_SECOND);
-          PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
-          //etimer_set(&reset_timer, run_time); 
-        }
-      }
-    }
-  }
+
+          //NETSTACK_RADIO.init();
+          //NETSTACK_MAC.init();
+          //NETSTACK_NETWORK.init();
+          NETSTACK_MAC.on();
+          //NETSTACK_ROUTING.global_repair("Button press");
+          //set parameter configuration
+          set_params();
+    
+          /* Initialize UDP connection */
+          simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
+
+          /* 20sec pause before starting each new configuration run */
+          etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*30));
+          PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
+
+          NETSTACK_MAC.on();
+          NETSTACK_NETWORK.on();
+          /*Note the start time of current run*/
+          ct_start = clock_seconds();
+          printf("\nM__RUNSTARTTIME,%lu:-:", ct_start);
+
+          int local_counter = 0;
+
+          /* Initialize timer for send interval */
+          etimer_set(&periodic_timer, random_rand() % (int) SEND_INTERVAL); //
+          
+          while((clock_seconds()-ct_start) <= run_time) 
+          {
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
+
+            if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) 
+            {
+              if (local_counter == 0)
+              {
+                ct_reach = clock_seconds();
+                printf("M__RUNREACHTIME,%lu:-:", clock_seconds());
+              }
+              else if (REACH == 0)
+                ct_reach = clock_seconds();
+              REACH = 1;
+              
+              uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, mt[mt_c]);
+              
+              printf("\nD__SEQNO,%d:-:", counter+1);
+              //LOG_INFO_6ADDR(&dest_ipaddr);
+              
+              //const uint64_t network_uptime = tsch_get_network_uptime_ticks();
+              char* packet = NULL;
+              packet = constructPacket(ps[ps_c], tsch_get_network_uptime_ticks(), ++counter);
+              free(pack);
+              //printf("Message sent: %s",packet);
+              //printf("M__MSGLEN %d",strlen(packet));
+              simple_udp_sendto(&udp_conn, packet, strlen(packet), &dest_ipaddr);
+              
+              local_counter++;
+            }
+            else
+            {
+              ct_unreach = clock_seconds();
+              if ((ct_unreach > ct_reach) && (REACH == 1))
+              {
+                ct_reach_total += (ct_unreach - ct_reach);
+              }
+              REACH = 0;
+            }
+            /* Add some jitter */
+            etimer_set(&periodic_timer, (int) SEND_INTERVAL - CLOCK_SECOND + (random_rand() % (2 * (int) CLOCK_SECOND)));
+          } //while ends header
+          //flush energy stats
+          log_energy();
+
+          //turn off mac and network
+          //NETSTACK_RADIO.off()
+          NETSTACK_MAC.off();
+          //NETSTACK_NETWORK.off();
+          //printf("M__TOTALPKTSSENT-%d:-:",counter);
+          //counter = 0;
+          printf("M__STARTED,%lu:-:M__RUNENDED,%lu:-:M__RUNTIME,%lu\n", ct_start , clock_seconds() , (clock_seconds()-ct_start));
+          printf("M__REACHABLETIME,%lu\n", ct_reach_total);
+          printf("M__PKTSSENT,%d:-:",local_counter);
+          printf("M__CONFNUM,%d ENDS\n<***>\n<***>\n",conf_num++);
+        }//mt for ends here
+      }//iat for ends here
+    }//ps for ends here
+  }//tp for ends here
+  printf("M__TOTALPKTSSENT,%d:-:",counter);
+  printf("\nM__ENDTIME,%lu\n<**********>\n<**********>\n", clock_seconds());
+
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
