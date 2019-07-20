@@ -193,7 +193,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           ct_start = clock_seconds();
           printf("\nM__RUNSTARTTIME,%lu:-:", ct_start);
 
-          int local_counter = 0;
+          static int local_counter = 0;
 
           /* Initialize timer for send interval */
           etimer_set(&periodic_timer, random_rand() % (int) SEND_INTERVAL); //
