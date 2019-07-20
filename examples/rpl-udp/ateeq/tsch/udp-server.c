@@ -20,7 +20,7 @@ static int tp[6] = {-15,-11,-7,-3,1,5};
 static int tp_c = 0;
 static int run_time = 632; //600
 static int num_conf = 36;
-
+static int counter = 0;
 
 PROCESS(udp_server_process, "UDP server");
 AUTOSTART_PROCESSES(&udp_server_process);
@@ -75,7 +75,7 @@ udp_rx_callback(struct simple_udp_connection *c, const uip_ipaddr_t *sender_addr
   uint64_t local_time_clock_ticks = tsch_get_network_uptime_ticks();
   uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
   const int countExtracted = extractCount(datalen, (char *) data);
-
+  counter++;
   printf("\nD__SEQNO,%d:-:",countExtracted);
   char buf[UIPLIB_IPV6_MAX_STR_LEN];
   uiplib_ipaddr_snprint(buf, sizeof(buf), sender_addr);
