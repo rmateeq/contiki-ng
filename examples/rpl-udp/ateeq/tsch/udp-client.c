@@ -34,8 +34,8 @@ static unsigned long ct_reach_total = 0;
 static struct etimer reset_timer;
 
 static int tp[6] = {-15,-11,-7,-3,1,5}; 
-static int ps[2] = {75,50,26};
-static int mt[2] = {1,4,8}; 
+static int ps[3] = {75,50,26};
+static int mt[3] = {1,4,8}; 
 //bidirectional:yes,no
 
 #if DENSITY == 1
@@ -175,11 +175,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
         for (mt_c = 0; mt_c < (sizeof(mt) / sizeof(mt[0])); mt_c++ )
         {
 
-          //NETSTACK_RADIO.init();
-          //NETSTACK_MAC.init();
-          //NETSTACK_NETWORK.init();
           NETSTACK_MAC.on();
-          //NETSTACK_ROUTING.global_repair("Button press");
+          NETSTACK_Routing.global_repair();
+          
           //set parameter configuration
           set_params();
     
@@ -190,8 +188,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*30));
           PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
 
-          NETSTACK_MAC.on();
-          NETSTACK_NETWORK.on();
+          //NETSTACK_MAC.on();
           /*Note the start time of current run*/
           ct_start = clock_seconds();
           printf("\nM__RUNSTARTTIME,%lu:-:", ct_start);
