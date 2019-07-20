@@ -18,9 +18,10 @@ static struct etimer reset_timer;
 //static int conf_num = 48;
 static int tp[6] = {-15,-11,-7,-3,1,5};
 static int tp_c = 0;
-static int run_time = 632; //600
+static int run_time = 602; //600
 static int num_conf = 36;
 static int counter = 0;
+static struct etimer reset_timer;
 
 PROCESS(udp_server_process, "UDP server");
 AUTOSTART_PROCESSES(&udp_server_process);
@@ -117,10 +118,16 @@ PROCESS_THREAD(udp_server_process, ev, data)
     int i = 1;
     while (i <= num_conf)
     {
+      etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*5));
+      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+      NETSTACK_MAC.on();
+      etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*5));
+      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
     /* Initialize DAG root */
       NETSTACK_ROUTING.root_start();
-      NETSTACK_MAC.on();
 
+      etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*20));
+      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
       ct_start = clock_seconds();
       /* Initialize UDP connection */
       simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
