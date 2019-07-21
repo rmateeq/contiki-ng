@@ -69,6 +69,12 @@ int extractCount(
   return count;
 }
 /*---------------------------------------------------------------------------*/
+static unsigned long to_seconds(uint64_t time)
+{
+  return (unsigned long)(time / ENERGEST_SECOND);
+}
+/*---------------------------------------------------------------------------*/
+
 static void log_energy()
 {
   energest_flush();
@@ -83,11 +89,6 @@ static void log_energy()
     to_seconds(energest_type_time(ENERGEST_TYPE_LISTEN)), to_seconds(energest_type_time(ENERGEST_TYPE_TRANSMIT)),
     to_seconds(ENERGEST_GET_TOTAL_TIME() - energest_type_time(ENERGEST_TYPE_TRANSMIT)
         - energest_type_time(ENERGEST_TYPE_LISTEN)));
-}
-/*---------------------------------------------------------------------------*/
-static unsigned long to_seconds(uint64_t time)
-{
-  return (unsigned long)(time / ENERGEST_SECOND);
 }
 /*---------------------------------------------------------------------------*/
 static void
