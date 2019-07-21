@@ -193,7 +193,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
 
           /* 20sec pause before starting each new configuration run */
-          etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*30));
+          etimer_set(&reset_timer, (CLOCK_SECOND*30));
           PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
 
           //NETSTACK_MAC.on();
