@@ -32,8 +32,8 @@
 static unsigned long ct_start, ct_reach, ct_unreach;
 static unsigned long ct_reach_total = 0;
 static struct etimer reset_timer;
-
-static int tp[5] = {7,5,3,1,-1}; 
+//run separately for each power level
+static int tp[1] = {7};//{7,5,3,1,-1}; 
 static int ps[3] = {27,52,76};
 static int mt[3] = {8,4,1}; 
 //bidirectional:yes,no
@@ -51,7 +51,7 @@ static int ps_c = 0;
 static int mt_c = 0;
 static int iat_c = 0;
 static float SEND_INTERVAL = 0;
-static int run_time = 15;//600;
+static int run_time = 600;
 static int conf_num = 1;
 static int REACH = 0;
 static int counter = 0;
