@@ -133,8 +133,9 @@ PROCESS_THREAD(udp_server_process, ev, data)
       /* Initialize UDP connection */
       simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                           UDP_CLIENT_PORT, udp_rx_callback);
-
-      printf("\nM__CONFNUM,%d:-:M__STARTTIME,%lu\n", i+(tp_c*num_conf),ct_start);
+      
+      printf("\n\n_______________Configuration Number_______________%d\n\n",i+(tp_c*num_conf));
+      printf("M__STARTTIME,%lu\n", ct_start);
 
       etimer_set(&reset_timer, (run_time*CLOCK_SECOND));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
