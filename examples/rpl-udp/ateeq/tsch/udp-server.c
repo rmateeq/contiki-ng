@@ -139,6 +139,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
       etimer_set(&reset_timer, (run_time*CLOCK_SECOND));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
       NETSTACK_MAC.off();
+      i++;
     }
   }
   
