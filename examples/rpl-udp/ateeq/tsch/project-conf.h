@@ -53,7 +53,7 @@
 /*** MAC Layer ***/
 // select MAC protocol [2+1 options]
 #define NETSTACK_CONF_MAC tschmac_driver //csma_driver //nullmac_driver,
-#define TSCH_CONF_AUTOSTART 0
+//#define TSCH_CONF_AUTOSTART 0
 #define LLSEC802154_CONF_ENABLED 0
 #define SICSLOWPAN_CONF_FRAG 0
 // CSMA MAC Parameters [1-4-3 options]
