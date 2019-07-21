@@ -114,28 +114,28 @@ PROCESS_THREAD(udp_server_process, ev, data)
     int tp_val = tp[tp_c];
     int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
     rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
-    printf("P__TP %d:-:\n",tp_val);
-    printf("M__TPSTATE %d:-:M__TPSETTIME %lu\n",rd,clock_seconds());
+    printf("\nP__TP %d:-:M__TPSTATE %d:-:M__TPSETTIME %lu\n",tp_val,rd,clock_seconds());
+
     static int i = 1;
     while (i <= num_conf)
     {
-      etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*5));
+      printf("\n\n_______________Configuration Number_______________%d\n\n",i+(tp_c*num_conf));
+      printf("M__STARTTIME,%lu\n", ct_start);
+      
+      etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*3));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
       NETSTACK_MAC.on();
-      etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*5));
+      etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*7));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
     /* Initialize DAG root */
       NETSTACK_ROUTING.root_start();
 
-      etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*21));
+      etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*20));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
       ct_start = clock_seconds();
       /* Initialize UDP connection */
       simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                           UDP_CLIENT_PORT, udp_rx_callback);
-      
-      printf("\n\n_______________Configuration Number_______________%d\n\n",i+(tp_c*num_conf));
-      printf("M__STARTTIME,%lu\n", ct_start);
 
       etimer_set(&reset_timer, (run_time*CLOCK_SECOND));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
