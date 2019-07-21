@@ -101,5 +101,5 @@
 //#define LOG_LEVEL_NULLNET                          LOG_LEVEL_DBG
 //#define LOG_LEVEL_6TOP                             LOG_LEVEL_DBG
 //#define LOG_LEVEL_LWM2M                            LOG_LEVEL_DBG
-#define LOG_LEVEL_MAIN                             LOG_LEVEL_DBG
+//#define LOG_LEVEL_MAIN                             LOG_LEVEL_DBG
 #endif /* PROJECT_CONF_H_ */
