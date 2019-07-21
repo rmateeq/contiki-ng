@@ -33,7 +33,7 @@ static unsigned long ct_start, ct_reach, ct_unreach;
 static unsigned long ct_reach_total = 0;
 static struct etimer reset_timer;
 
-static int tp[5] = {-3,-1,1,3,5}; 
+static int tp[4] = {-1,1,3,5}; 
 static int ps[3] = {75,50,26};
 static int mt[3] = {1,4,8}; 
 //bidirectional:yes,no
@@ -51,7 +51,7 @@ static int ps_c = 0;
 static int mt_c = 0;
 static int iat_c = 0;
 static float SEND_INTERVAL = 0;
-static int run_time = 600;
+static int run_time = 8;//600;
 static int conf_num = 1;
 static int REACH = 0;
 static int counter = 0;
