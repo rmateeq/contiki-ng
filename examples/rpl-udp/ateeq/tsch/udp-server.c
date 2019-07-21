@@ -23,6 +23,7 @@ static int tp_c = 0;
 static int run_time = 601;
 static int num_conf = 36;
 static int counter = 0;
+static int per_conf_counter = 0;
 static struct etimer reset_timer;
 
 PROCESS(udp_server_process, "UDP server");
@@ -101,6 +102,7 @@ udp_rx_callback(struct simple_udp_connection *c, const uip_ipaddr_t *sender_addr
   uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
   const int countExtracted = extractCount(datalen, (char *) data);
   counter++;
+  per_conf_counter++;
   printf("\nD__SEQNO,%d:-:",countExtracted);
   char buf[UIPLIB_IPV6_MAX_STR_LEN];
   uiplib_ipaddr_snprint(buf, sizeof(buf), sender_addr);
@@ -152,7 +154,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
       //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
     /* Initialize DAG root */
       NETSTACK_ROUTING.root_start();
-
+      //per_conf_counter = 0;
       etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*30));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
       ct_start = clock_seconds();
@@ -162,6 +164,8 @@ PROCESS_THREAD(udp_server_process, ev, data)
 
       etimer_set(&reset_timer, (run_time*CLOCK_SECOND));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+      printf("\nM__PKTSRECVD,%d:-:CONFNUM,%d\n",per_conf_counter,i+(tp_c*num_conf));
+      per_conf_counter = 0;
       //NETSTACK_MAC.off();
       i++;
       log_energy();
