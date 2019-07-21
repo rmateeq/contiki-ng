@@ -105,9 +105,9 @@ static void set_params()
   printf("P__TP,%d:-:",tp_val);
   printf("P__PS,%d:-:",ps[ps_c]);
   SEND_INTERVAL = (iat[iat_c] * CLOCK_SECOND);
-  printf("P__IAT,%f:-:",iat[iat_c]);
+  //printf("P__IAT,%f:-:",iat[iat_c]);
   printf("P__IAT,%d:-:",(int)iat[iat_c]);
-  printf("interval,%f",SEND_INTERVAL);
+  //printf("interval,%f",SEND_INTERVAL);
   printf("P__MT,%d:-:",mt[mt_c]);
 }
 /*---------------------------------------------------------------------------*/
