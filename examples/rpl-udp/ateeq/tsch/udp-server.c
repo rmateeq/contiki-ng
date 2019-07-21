@@ -20,10 +20,11 @@ static struct etimer reset_timer;
 //static int conf_num = 48;
 static int tp[5] = {7,5,3,1,-1};
 static int tp_c = 0;
-static int run_time = 601;
+static int run_time = 15;//601;
 static int num_conf = 27;
 static int counter = 0;
 static int per_conf_counter = 0;
+const int run_delay = 10;
 static struct etimer reset_timer;
 
 PROCESS(udp_server_process, "UDP server");
@@ -154,7 +155,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
     /* Initialize DAG root */
       NETSTACK_ROUTING.root_start();
       //per_conf_counter = 0;
-      etimer_set(&reset_timer, (CLOCK_SECOND*30));
+      etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
       ct_start = clock_seconds();
       printf("M__STARTTIME,%lu\n", ct_start);
