@@ -51,10 +51,11 @@ static int ps_c = 0;
 static int mt_c = 0;
 static int iat_c = 0;
 static float SEND_INTERVAL = 0;
-static int run_time = 600;
+static int run_time = 15;//600;
 static int conf_num = 1;
 static int REACH = 0;
 static int counter = 0;
+const int run_delay = 10;
 char* pack = NULL;
 //number of nodes: 8(d,s),16(d,s),24,32
 //dt: real
@@ -193,7 +194,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
 
           /* 20sec pause before starting each new configuration run */
-          etimer_set(&reset_timer, (CLOCK_SECOND*30));
+          etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
           PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
 
           //NETSTACK_MAC.on();
