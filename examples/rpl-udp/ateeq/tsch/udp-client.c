@@ -33,17 +33,17 @@ static unsigned long ct_start, ct_reach, ct_unreach;
 static unsigned long ct_reach_total = 0;
 static struct etimer reset_timer;
 
-static int tp[4] = {5,3,1,-1}; 
-static int ps[3] = {26,50,75};
+static int tp[4] = {7,5,3,1,-1}; 
+static int ps[3] = {27,52,76};
 static int mt[3] = {8,4,1}; 
 //bidirectional:yes,no
 
 #if DENSITY == 1
-static float iat[4] = {4,2,1,0.5};
+static float iat[3] = {5,4,3};
 #elif DENSITY == 2
-static float iat[4] = {8,4,2,1};
+static float iat[3] = {10,8,6};
 #elif DENSITY == 3
-static float iat[4] = {16,8,4,2};
+static float iat[3] = {15,12,9};
 #endif
 
 static int tp_c = 0;
