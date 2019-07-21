@@ -5,6 +5,7 @@
 #include "net/ipv6/simple-udp.h"
 #include "net/ipv6/uiplib.h"
 #include "random.h"
+#include "sys/energest.h"
 #include "sys/log.h"
 #define LOG_MODULE "App"
 #define LOG_LEVEL LOG_LEVEL_INFO
