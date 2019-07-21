@@ -19,7 +19,7 @@ static struct etimer reset_timer;
 //static int conf_num = 48;
 static int tp[4] = {-1,1,3,5};
 static int tp_c = 0;
-static int run_time = 8; //600
+static int run_time = 601;
 static int num_conf = 36;
 static int counter = 0;
 static struct etimer reset_timer;
