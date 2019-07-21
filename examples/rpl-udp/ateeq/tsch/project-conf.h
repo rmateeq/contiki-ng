@@ -13,7 +13,7 @@
 //MAX_NUM_QUEUED_PACKETS,
 //Total number of packets to be transmitted against each parameter configuration
 //#define NUM_PKTS 200
-#define UIP_CONF_UDP_CONNS 30
+#define UIP_CONF_UDP_CONNS 25
 //Enforce MAC_MAX_TRANSMISSIONS across all nodes
 #define UIP_CONF_TAG_TC_WITH_VARIABLE_RETRANSMISSIONS 1
 /*** Transport Layer ***/
@@ -41,11 +41,11 @@
 //#define UIP_CONF_IP_FORWARD  1
  #define RPL_CONF_SUPPORTED_OFS {&rpl_of0, &rpl_mrhof}
  #define RPL_CONF_OF_OCP RPL_OCP_OF0
- #define RPL_CONF_TRICKLE_REFRESH_DAO_ROUTES 8 //by default dao refreshal is done every 4secs.
- #define RPL_CONF_DIO_INTERVAL_MIN 13 //results in 8sec. default is 12, resulting in 4 sec.
+ #define RPL_CONF_TRICKLE_REFRESH_DAO_ROUTES 6 //by default dao refreshal is done every 4secs.
+ #define RPL_CONF_DIO_INTERVAL_MIN 12 //13 will result in 8sec. default is 12, resulting in 4 sec.
  #define RPL_CONF_DEFAULT_LIFETIME_UNIT 60 //defualt redefined due to confusion in rpl-conf.h
  #define RPL_CONF_DEFAULT_LIFETIME 30 // same as above
- #define RPL_CONF_DAO_RETRANSMISSION_TIMEOUT (10 * CLOCK_SECOND) //default 5
+ #define RPL_CONF_DAO_RETRANSMISSION_TIMEOUT (6 * CLOCK_SECOND) //default 5
 // #define RPL_CONF_PROBING_SEND_FUNC
 // #define LINK_STATS_CONF_INIT_ETX_FROM_RSSI
 // #define RPL_MRHOF_CONF_SQUARED_ETX
@@ -57,7 +57,7 @@
 #define LLSEC802154_CONF_ENABLED 0
 #define SICSLOWPAN_CONF_FRAG 0
 // CSMA MAC Parameters [1-4-3 options]
-#define QUEUEBUF_CONF_NUM 4 //default 8
+#define QUEUEBUF_CONF_NUM 8 //default 8
 //#ifndef CSMA_CONF_MAX_BE
 //#define CSMA_CONF_MAX_BE 5
 //#endif
@@ -101,5 +101,5 @@
 //#define LOG_LEVEL_NULLNET                          LOG_LEVEL_DBG
 //#define LOG_LEVEL_6TOP                             LOG_LEVEL_DBG
 //#define LOG_LEVEL_LWM2M                            LOG_LEVEL_DBG
-//#define LOG_LEVEL_MAIN                             LOG_LEVEL_DBG
+#define LOG_LEVEL_MAIN                             LOG_LEVEL_DBG
 #endif /* PROJECT_CONF_H_ */
