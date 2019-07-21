@@ -17,7 +17,7 @@ static struct simple_udp_connection udp_conn;
 static unsigned long ct_start;
 static struct etimer reset_timer;
 //static int conf_num = 48;
-static int tp[4] = {-1,1,3,5};
+static int tp[4] = {5,3,1,-1};
 static int tp_c = 0;
 static int run_time = 601;
 static int num_conf = 36;
@@ -66,6 +66,22 @@ int extractCount(
   }
 
   return count;
+}
+/*---------------------------------------------------------------------------*/
+static void log_energy()
+{
+  energest_flush();
+
+  printf("\nM__RUNEnergest(s):\n");
+
+  printf("E__RCPU,%4lu:-:E__LPM,%4lu:-:E__DEEPLPM,%4lu:-:E__TotalTime,%lu\n",
+    to_seconds(energest_type_time(ENERGEST_TYPE_CPU)), to_seconds(energest_type_time(ENERGEST_TYPE_LPM)),
+    to_seconds(energest_type_time(ENERGEST_TYPE_DEEP_LPM)), to_seconds(ENERGEST_GET_TOTAL_TIME()));
+  
+  printf("E__RadioLISTEN,%4lu:-:E__TRANSMIT,%4lu:-:E__OFF,%4lu\n",
+    to_seconds(energest_type_time(ENERGEST_TYPE_LISTEN)), to_seconds(energest_type_time(ENERGEST_TYPE_TRANSMIT)),
+    to_seconds(ENERGEST_GET_TOTAL_TIME() - energest_type_time(ENERGEST_TYPE_TRANSMIT)
+        - energest_type_time(ENERGEST_TYPE_LISTEN)));
 }
 /*---------------------------------------------------------------------------*/
 static void
@@ -122,15 +138,15 @@ PROCESS_THREAD(udp_server_process, ev, data)
       printf("\n\n_______________Configuration Number_______________%d\n\n",i+(tp_c*num_conf));
       printf("M__STARTTIME,%lu\n", ct_start);
       
-      etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*3));
-      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
-      NETSTACK_MAC.on();
-      etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*7));
-      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+      //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*3));
+      //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+      //NETSTACK_MAC.on();
+      //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*7));
+      //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
     /* Initialize DAG root */
       NETSTACK_ROUTING.root_start();
 
-      etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*20));
+      etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*30));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
       ct_start = clock_seconds();
       /* Initialize UDP connection */
@@ -139,8 +155,9 @@ PROCESS_THREAD(udp_server_process, ev, data)
 
       etimer_set(&reset_timer, (run_time*CLOCK_SECOND));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
-      NETSTACK_MAC.off();
+      //NETSTACK_MAC.off();
       i++;
+      log_energy();
       //NETSTACK_MAC.init();
     }
   }
