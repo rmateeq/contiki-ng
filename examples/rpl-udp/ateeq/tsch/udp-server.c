@@ -17,9 +17,9 @@ static struct simple_udp_connection udp_conn;
 static unsigned long ct_start;
 static struct etimer reset_timer;
 //static int conf_num = 48;
-static int tp[5] = {-3,-1,1,3,5};
+static int tp[4] = {-1,1,3,5};
 static int tp_c = 0;
-static int run_time = 602; //600
+static int run_time = 8; //600
 static int num_conf = 36;
 static int counter = 0;
 static struct etimer reset_timer;
