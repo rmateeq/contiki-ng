@@ -18,9 +18,9 @@
 #ifndef LOG_MODULE
 #define LOG_MODULE "App"
 #endif
-#ifndef LOG_LEVEL
-#define LOG_LEVEL LOG_LEVEL_INFO
-#endif
+//#ifndef LOG_LEVEL
+//#define LOG_LEVEL LOG_LEVEL_INFO
+//#endif
 
 #define DENSITY 3 //2,3
 
