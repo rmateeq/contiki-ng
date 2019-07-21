@@ -116,7 +116,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
     rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
     printf("P__TP %d:-:\n",tp_val);
     printf("M__TPSTATE %d:-:M__TPSETTIME %lu\n",rd,clock_seconds());
-    int i = 1;
+    static int i = 1;
     while (i <= num_conf)
     {
       etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*5));
