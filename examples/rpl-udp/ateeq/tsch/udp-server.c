@@ -145,7 +145,6 @@ PROCESS_THREAD(udp_server_process, ev, data)
     while (i <= num_conf)
     {
       printf("\n\n_______________Configuration Number_______________%d\n\n",i+(tp_c*num_conf));
-      printf("M__STARTTIME,%lu\n", ct_start);
       
       //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*3));
       //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
@@ -155,9 +154,10 @@ PROCESS_THREAD(udp_server_process, ev, data)
     /* Initialize DAG root */
       NETSTACK_ROUTING.root_start();
       //per_conf_counter = 0;
-      etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*30));
+      etimer_set(&reset_timer, (CLOCK_SECOND*30));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
       ct_start = clock_seconds();
+      printf("M__STARTTIME,%lu\n", ct_start);
       /* Initialize UDP connection */
       simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                           UDP_CLIENT_PORT, udp_rx_callback);
