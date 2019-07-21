@@ -7,7 +7,7 @@
 #include "random.h"
 #include "sys/log.h"
 #define LOG_MODULE "App"
-//#define LOG_LEVEL LOG_LEVEL_INFO
+#define LOG_LEVEL LOG_LEVEL_INFO
 
 #define WITH_SERVER_REPLY  0
 #define UDP_CLIENT_PORT 8765
