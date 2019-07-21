@@ -51,7 +51,7 @@ static int ps_c = 0;
 static int mt_c = 0;
 static int iat_c = 0;
 static float SEND_INTERVAL = 0;
-static int run_time = 8;//600;
+static int run_time = 600;
 static int conf_num = 1;
 static int REACH = 0;
 static int counter = 0;
@@ -175,19 +175,25 @@ PROCESS_THREAD(udp_client_process, ev, data)
       for (iat_c = 0; iat_c < (sizeof(iat) / sizeof(iat[0])); iat_c++ )
       {
         for (mt_c = 0; mt_c < (sizeof(mt) / sizeof(mt[0])); mt_c++ )
-        {
-
-          NETSTACK_MAC.on();
-          //NETSTACK_ROUTING.global_repair("simple reset");
-          
+        {          
           //set parameter configuration
           set_params();
+          
+          etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*3));
+          PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+
+          NETSTACK_MAC.on();
+          
+          etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*7));
+          PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+          
+          //NETSTACK_ROUTING.global_repair("simple reset");
     
           /* Initialize UDP connection */
           simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
 
           /* 20sec pause before starting each new configuration run */
-          etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*30));
+          etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*20));
           PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
 
           //NETSTACK_MAC.on();
