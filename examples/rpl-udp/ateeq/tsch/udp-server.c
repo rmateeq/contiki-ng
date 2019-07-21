@@ -85,6 +85,11 @@ static void log_energy()
         - energest_type_time(ENERGEST_TYPE_LISTEN)));
 }
 /*---------------------------------------------------------------------------*/
+static unsigned long to_seconds(uint64_t time)
+{
+  return (unsigned long)(time / ENERGEST_SECOND);
+}
+/*---------------------------------------------------------------------------*/
 static void
 udp_rx_callback(struct simple_udp_connection *c, const uip_ipaddr_t *sender_addr,
          uint16_t sender_port, const uip_ipaddr_t *receiver_addr, 
