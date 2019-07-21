@@ -33,17 +33,17 @@ static unsigned long ct_start, ct_reach, ct_unreach;
 static unsigned long ct_reach_total = 0;
 static struct etimer reset_timer;
 
-static int tp[4] = {-1,1,3,5}; 
-static int ps[3] = {75,50,26};
-static int mt[3] = {1,4,8}; 
+static int tp[4] = {5,3,1,-1}; 
+static int ps[3] = {26,50,75};
+static int mt[3] = {8,4,1}; 
 //bidirectional:yes,no
 
 #if DENSITY == 1
-static float iat[4] = {0.5,1,2,4};
+static float iat[4] = {4,2,1,0.5};
 #elif DENSITY == 2
-static float iat[4] = {1,2,4,8};
+static float iat[4] = {8,4,2,1};
 #elif DENSITY == 3
-static float iat[4] = {2,4,8,16};
+static float iat[4] = {16,8,4,2};
 #endif
 
 static int tp_c = 0;
@@ -179,13 +179,13 @@ PROCESS_THREAD(udp_client_process, ev, data)
           //set parameter configuration
           set_params();
           
-          etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*3));
-          PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+          //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*3));
+          //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
 
-          NETSTACK_MAC.on();
+          //NETSTACK_MAC.on();
           
-          etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*7));
-          PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+          //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*7));
+          //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
           
           //NETSTACK_ROUTING.global_repair("simple reset");
     
@@ -193,7 +193,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
 
           /* 20sec pause before starting each new configuration run */
-          etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*20));
+          etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*30));
           PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
 
           //NETSTACK_MAC.on();
@@ -253,7 +253,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
           //turn off mac and network
           //NETSTACK_RADIO.off()
-          NETSTACK_MAC.off();
+          //NETSTACK_MAC.off();
           //NETSTACK_NETWORK.off();
           //printf("M__TOTALPKTSSENT-%d:-:",counter);
           //counter = 0;
