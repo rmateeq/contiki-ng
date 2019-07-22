@@ -20,14 +20,14 @@ static struct etimer reset_timer;
 //static int conf_num = 48;
 int tp[4] = {5,3,1,-1};//{7,5,3,1,-1};
 int tp_c = 0;
-int run_time = 606;
+int run_time = 4;//606;
 const int num_conf = 27;
 static int counter = 0;
 int per_conf_counter = 0;
-const int run_delay = 20;
+const int run_delay = 1;//20;
 int skew_pad = 0;
 static struct etimer reset_timer;
-int i = 1;
+int conf_count = 1;
 PROCESS(udp_server_process, "UDP server");
 AUTOSTART_PROCESSES(&udp_server_process);
 /*---------------------------------------------------------------------------*/
@@ -142,10 +142,10 @@ PROCESS_THREAD(udp_server_process, ev, data)
     int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
     rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
     printf("\nP__TP,%d:-:M__TPSTATE,%d:-:M__TPSETTIME,%lu\n",tp_val,rd,clock_seconds());
-    i = 1;
-    while (i <= num_conf)
+    //i = 1;
+    while (conf_count <= num_conf)
     {
-      printf("\n\n_______________Configuration Number_______________%d\n\n",i+(tp_c*num_conf));
+      printf("\n\n_______________Configuration Number_______________%d\n\n",conf_count+(tp_c*num_conf));
       
       //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*3));
       //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
@@ -165,16 +165,17 @@ PROCESS_THREAD(udp_server_process, ev, data)
 
       etimer_set(&reset_timer, (run_time*CLOCK_SECOND));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
-      printf("\nM__PKTSRECVD,%d:-:CONFNUM,%d\n",per_conf_counter,i+(tp_c*num_conf));
+      printf("\nM__PKTSRECVD,%d:-:CONFNUM,%d\n",per_conf_counter,conf_count+(tp_c*num_conf));
       per_conf_counter = 0;
       //NETSTACK_MAC.off();
-      i++;
-      skew_pad += 11;
+      conf_count++;
+      skew_pad += 0;//11;
       log_energy();
       //NETSTACK_MAC.init();
       //NETSTACK_MAC.on();
       //tsch_set_coordinator(1);
     }
+    conf_count = 1;
   }
   
   printf("M__TOTALPKTSRECVD,%d:-:",counter);
