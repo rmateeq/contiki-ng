@@ -51,7 +51,7 @@ static int ps_c = 0;
 static int mt_c = 0;
 static int iat_c = 0;
 static float SEND_INTERVAL = 0;
-static int run_time = 600;
+static int run_time = 15;
 static int conf_num = 1;
 static int REACH = 0;
 static int counter = 0;
@@ -256,6 +256,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           //NETSTACK_RADIO.off()
           NETSTACK_MAC.off();
           NETSTACK_MAC.init();
+          NETSTACK_MAC.on();
           //NETSTACK_NETWORK.off();
           //printf("M__TOTALPKTSSENT-%d:-:",counter);
           //counter = 0;
