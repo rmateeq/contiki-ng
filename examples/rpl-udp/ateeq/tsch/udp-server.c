@@ -18,13 +18,14 @@ static struct simple_udp_connection udp_conn;
 static unsigned long ct_start;
 static struct etimer reset_timer;
 //static int conf_num = 48;
-static int tp[1] = {7};//{7,5,3,1,-1};
+static int tp[1] = {5};//{7,5,3,1,-1};
 static int tp_c = 0;
 static int run_time = 601;
 static int num_conf = 27;
 static int counter = 0;
 static int per_conf_counter = 0;
 const int run_delay = 10;
+static int skew_pad = 0;
 static struct etimer reset_timer;
 
 PROCESS(udp_server_process, "UDP server");
@@ -155,7 +156,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
     /* Initialize DAG root */
       NETSTACK_ROUTING.root_start();
       //per_conf_counter = 0;
-      etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
+      etimer_set(&reset_timer, ((CLOCK_SECOND*run_delay)+skew_pad));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
       ct_start = clock_seconds();
       printf("M__STARTTIME,%lu\n", ct_start);
@@ -169,6 +170,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
       per_conf_counter = 0;
       //NETSTACK_MAC.off();
       i++;
+      skew_pad += 9;
       log_energy();
       //NETSTACK_MAC.init();
     }
