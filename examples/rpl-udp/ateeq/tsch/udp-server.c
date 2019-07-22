@@ -18,16 +18,16 @@ static struct simple_udp_connection udp_conn;
 static unsigned long ct_start;
 static struct etimer reset_timer;
 //static int conf_num = 48;
-static int tp[4] = {5,3,1,-1};//{7,5,3,1,-1};
-static int tp_c = 0;
-static int run_time = 602;
-static int num_conf = 27;
+int tp[4] = {5,3,1,-1};//{7,5,3,1,-1};
+int tp_c = 0;
+int run_time = 602;
+const int num_conf = 27;
 static int counter = 0;
-static int per_conf_counter = 0;
+int per_conf_counter = 0;
 const int run_delay = 20;
-static int skew_pad = 0;
+int skew_pad = 0;
 static struct etimer reset_timer;
-
+int i = 1;
 PROCESS(udp_server_process, "UDP server");
 AUTOSTART_PROCESSES(&udp_server_process);
 /*---------------------------------------------------------------------------*/
@@ -141,9 +141,8 @@ PROCESS_THREAD(udp_server_process, ev, data)
     int tp_val = tp[tp_c];
     int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
     rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
-    printf("\nP__TP %d:-:M__TPSTATE %d:-:M__TPSETTIME %lu\n",tp_val,rd,clock_seconds());
+    printf("\nP__TP,%d:-:M__TPSTATE,%d:-:M__TPSETTIME,%lu\n",tp_val,rd,clock_seconds());
 
-    static int i = 1;
     while (i <= num_conf)
     {
       printf("\n\n_______________Configuration Number_______________%d\n\n",i+(tp_c*num_conf));
@@ -176,6 +175,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
       //NETSTACK_MAC.on();
       //tsch_set_coordinator(1);
     }
+    i = 1;
   }
   
   printf("M__TOTALPKTSRECVD,%d:-:",counter);
