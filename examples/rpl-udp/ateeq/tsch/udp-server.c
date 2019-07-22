@@ -20,7 +20,7 @@ static struct etimer reset_timer;
 //static int conf_num = 48;
 int tp[4] = {5,3,1,-1};//{7,5,3,1,-1};
 int tp_c = 0;
-int run_time = 602;
+int run_time = 5;//605;
 const int num_conf = 27;
 static int counter = 0;
 int per_conf_counter = 0;
@@ -169,7 +169,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
       per_conf_counter = 0;
       //NETSTACK_MAC.off();
       i++;
-      skew_pad += 9;
+      skew_pad += 11;
       log_energy();
       //NETSTACK_MAC.init();
       //NETSTACK_MAC.on();
