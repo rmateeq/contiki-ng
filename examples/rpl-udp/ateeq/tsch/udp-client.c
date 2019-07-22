@@ -33,7 +33,7 @@ static unsigned long ct_start, ct_reach, ct_unreach;
 static unsigned long ct_reach_total = 0;
 static struct etimer reset_timer;
 //run separately for each power level
-static int tp[1] = {7};//{7,5,3,1,-1}; 
+static int tp[1] = {5};//{7,5,3,1,-1}; 
 static int ps[3] = {27,52,76};
 static int mt[3] = {8,4,1}; 
 //bidirectional:yes,no
