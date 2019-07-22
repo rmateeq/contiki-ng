@@ -168,13 +168,13 @@ PROCESS_THREAD(udp_server_process, ev, data)
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
       printf("\nM__PKTSRECVD,%d:-:CONFNUM,%d\n",per_conf_counter,i+(tp_c*num_conf));
       per_conf_counter = 0;
-      NETSTACK_MAC.off();
+      //NETSTACK_MAC.off();
       i++;
       skew_pad += 9;
       log_energy();
-      NETSTACK_MAC.init();
-      NETSTACK_MAC.on();
-      tsch_set_coordinator(1);
+      //NETSTACK_MAC.init();
+      //NETSTACK_MAC.on();
+      //tsch_set_coordinator(1);
     }
   }
   
