@@ -27,7 +27,7 @@ int per_conf_counter = 0;
 const int run_delay = 1;//20;
 int skew_pad = 0;
 static struct etimer reset_timer;
-//int i = 1;
+int i = 1;
 PROCESS(udp_server_process, "UDP server");
 AUTOSTART_PROCESSES(&udp_server_process);
 /*---------------------------------------------------------------------------*/
@@ -142,7 +142,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
     int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
     rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
     printf("\nP__TP,%d:-:M__TPSTATE,%d:-:M__TPSETTIME,%lu\n",tp_val,rd,clock_seconds());
-    int i = 1;
+    i = 1;
     while (i <= num_conf)
     {
       printf("\n\n_______________Configuration Number_______________%d\n\n",i+(tp_c*num_conf));
