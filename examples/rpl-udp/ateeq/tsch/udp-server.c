@@ -20,11 +20,11 @@ static struct etimer reset_timer;
 //static int conf_num = 48;
 static int tp[1] = {5};//{7,5,3,1,-1};
 static int tp_c = 0;
-static int run_time = 601;
+static int run_time = 605;
 static int num_conf = 27;
 static int counter = 0;
 static int per_conf_counter = 0;
-const int run_delay = 10;
+const int run_delay = 20;
 static int skew_pad = 0;
 static struct etimer reset_timer;
 
@@ -150,7 +150,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
       
       //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*3));
       //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
-      //NETSTACK_MAC.on();
+      NETSTACK_MAC.on();
       //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*7));
       //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
     /* Initialize DAG root */
@@ -168,11 +168,11 @@ PROCESS_THREAD(udp_server_process, ev, data)
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
       printf("\nM__PKTSRECVD,%d:-:CONFNUM,%d\n",per_conf_counter,i+(tp_c*num_conf));
       per_conf_counter = 0;
-      //NETSTACK_MAC.off();
+      NETSTACK_MAC.off();
       i++;
       skew_pad += 9;
       log_energy();
-      //NETSTACK_MAC.init();
+      NETSTACK_MAC.init();
     }
   }
   
