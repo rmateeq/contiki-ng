@@ -15,7 +15,7 @@
 #define UDP_SERVER_PORT 5678
 
 static struct simple_udp_connection udp_conn;
-static unsigned long ct_start;
+//static unsigned long ct_start;
 static struct etimer reset_timer;
 //static int conf_num = 48;
 //int tp[4] = {5,3,1,-1};//{7,5,3,1,-1};
@@ -160,7 +160,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
       etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
       //ct_start = clock_seconds();
-      printf("M__STARTTIME,%lu\n", clock_seconds(););
+      printf("M__STARTTIME,%lu\n", clock_seconds());
       /* Initialize UDP connection */
       simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                           UDP_CLIENT_PORT, udp_rx_callback);
