@@ -55,7 +55,7 @@ static int run_time = 600;
 static int conf_num = 1;
 static int REACH = 0;
 static int counter = 0;
-const int run_delay = 10;
+const int run_delay = 20;
 char* pack = NULL;
 //number of nodes: 8(d,s),16(d,s),24,32
 //dt: real
@@ -183,7 +183,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*3));
           //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
 
-          //NETSTACK_MAC.on();
+          NETSTACK_MAC.on();
           
           //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*7));
           //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
@@ -254,7 +254,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
           //turn off mac and network
           //NETSTACK_RADIO.off()
-          //NETSTACK_MAC.off();
+          NETSTACK_MAC.off();
+          NETSTACK_MAC.init();
           //NETSTACK_NETWORK.off();
           //printf("M__TOTALPKTSSENT-%d:-:",counter);
           //counter = 0;
