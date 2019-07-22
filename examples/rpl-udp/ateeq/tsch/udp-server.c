@@ -18,16 +18,17 @@ static struct simple_udp_connection udp_conn;
 static unsigned long ct_start;
 static struct etimer reset_timer;
 //static int conf_num = 48;
-int tp[4] = {5,3,1,-1};//{7,5,3,1,-1};
-int tp_c = 0;
-int run_time = 609;
+//int tp[4] = {5,3,1,-1};//{7,5,3,1,-1};
+//int tp_c = 0;
+int run_time = 610;//609;
 const int num_conf = 27;
 static int counter = 0;
-int per_conf_counter = 0;
+int tp_val = 3;
+//int per_conf_counter = 0;
 const int run_delay = 20;
-int skew_pad = 0;
+//int skew_pad = 0;
 static struct etimer reset_timer;
-int conf_count = 1;
+//int conf_count = 1;
 PROCESS(udp_server_process, "UDP server");
 AUTOSTART_PROCESSES(&udp_server_process);
 /*---------------------------------------------------------------------------*/
@@ -104,7 +105,7 @@ udp_rx_callback(struct simple_udp_connection *c, const uip_ipaddr_t *sender_addr
   uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
   const int countExtracted = extractCount(datalen, (char *) data);
   counter++;
-  per_conf_counter++;
+  //per_conf_counter++;
   printf("\nD__SEQNO,%d:-:",countExtracted);
   char buf[UIPLIB_IPV6_MAX_STR_LEN];
   uiplib_ipaddr_snprint(buf, sizeof(buf), sender_addr);
@@ -135,17 +136,17 @@ PROCESS_THREAD(udp_server_process, ev, data)
 {
   PROCESS_BEGIN();
   
-  for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
-  { 
+//  for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
+//  { 
     //printf("after udp register\n");
-    int tp_val = tp[tp_c];
+//    int tp_val = tp[tp_c];
     int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
     rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
     printf("\nP__TP,%d:-:M__TPSTATE,%d:-:M__TPSETTIME,%lu\n",tp_val,rd,clock_seconds());
     //i = 1;
-    while (conf_count <= num_conf)
-    {
-      printf("\n\n_______________Configuration Number_______________%d\n\n",conf_count+(tp_c*num_conf));
+//    while (conf_count <= num_conf)
+//    {
+//      printf("\n\n_______________Configuration Number_______________%d\n\n",conf_count+(tp_c*num_conf));
       
       //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*3));
       //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
@@ -155,28 +156,29 @@ PROCESS_THREAD(udp_server_process, ev, data)
     /* Initialize DAG root */
       NETSTACK_ROUTING.root_start();
       //per_conf_counter = 0;
-      etimer_set(&reset_timer, ((CLOCK_SECOND*run_delay)+skew_pad));
+//      etimer_set(&reset_timer, ((CLOCK_SECOND*run_delay)+skew_pad));
+      etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
-      ct_start = clock_seconds();
-      printf("M__STARTTIME,%lu\n", ct_start);
+      //ct_start = clock_seconds();
+      printf("M__STARTTIME,%lu\n", clock_seconds(););
       /* Initialize UDP connection */
       simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                           UDP_CLIENT_PORT, udp_rx_callback);
 
-      etimer_set(&reset_timer, (run_time*CLOCK_SECOND));
+      etimer_set(&reset_timer, (run_time*CLOCK_SECOND*num_conf));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
-      printf("\nM__PKTSRECVD,%d:-:CONFNUM,%d\n",per_conf_counter,conf_count+(tp_c*num_conf));
-      per_conf_counter = 0;
+//      printf("\nM__PKTSRECVD,%d:-:CONFNUM,%d\n",per_conf_counter,conf_count+(tp_c*num_conf));
+//      per_conf_counter = 0;
       //NETSTACK_MAC.off();
-      conf_count += 1;
-      skew_pad += 8;
+//      conf_count += 1;
+//      skew_pad += 8;
       log_energy();
       //NETSTACK_MAC.init();
       //NETSTACK_MAC.on();
       //tsch_set_coordinator(1);
-    }
-    conf_count = 1;
-  }
+//    }
+//    conf_count = 1;
+//  }
   
   printf("M__TOTALPKTSRECVD,%d:-:",counter);
   printf("\nM__ENDTIME,%lu\n<**********>\n<**********>\n", clock_seconds());
