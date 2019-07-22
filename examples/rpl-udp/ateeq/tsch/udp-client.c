@@ -183,7 +183,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*3));
           //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
 
-          NETSTACK_MAC.on();
+          //NETSTACK_MAC.on();
           
           //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*7));
           //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
