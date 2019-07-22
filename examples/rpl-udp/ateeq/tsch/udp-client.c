@@ -33,7 +33,7 @@ static unsigned long ct_start, ct_reach, ct_unreach;
 static unsigned long ct_reach_total = 0;
 static struct etimer reset_timer;
 //run separately for each power level
-static int tp[1] = {5};//{7,5,3,1,-1}; 
+static int tp[4] = {5,3,1,-1};//{7,5,3,1,-1}; 
 static int ps[3] = {27,52,76};
 static int mt[3] = {8,4,1}; 
 //bidirectional:yes,no
@@ -51,7 +51,7 @@ static int ps_c = 0;
 static int mt_c = 0;
 static int iat_c = 0;
 static float SEND_INTERVAL = 0;
-static int run_time = 15;
+static int run_time = 600;
 static int conf_num = 1;
 static int REACH = 0;
 static int counter = 0;
@@ -200,7 +200,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           //NETSTACK_MAC.on();
           /*Note the start time of current run*/
           ct_start = clock_seconds();
-          printf("\nM__RUNSTARTTIME,%lu:-:", ct_start);
+          printf("\nM__STARTTIME,%lu:-:", ct_start);
 
           static int local_counter = 0;
 
@@ -260,8 +260,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           //NETSTACK_NETWORK.off();
           //printf("M__TOTALPKTSSENT-%d:-:",counter);
           //counter = 0;
-          printf("M__STARTED,%lu:-:M__RUNENDED,%lu:-:M__RUNTIME,%lu\n", ct_start , clock_seconds() , (clock_seconds()-ct_start));
-          printf("M__REACHABLETIME,%lu\n", ct_reach_total);
+          printf("M__RUNENDED,%lu:-:M__RUNTIME,%lu:-:M__REACHABLETIME,%lu\n",clock_seconds() , (clock_seconds()-ct_start), ct_reach_total);
           printf("M__PKTSSENT,%d:-:",local_counter);
           printf("M__CONFNUM,%d ENDS\n<***>\n<***>\n",conf_num++);
         }//mt for ends here
