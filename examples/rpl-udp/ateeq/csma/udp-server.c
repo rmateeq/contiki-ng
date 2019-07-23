@@ -139,7 +139,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
 {
   PROCESS_BEGIN();
   printf("Timer start (clock time): %lu \n", clock_time());  
-  printf("Tiicks per sec: %lu \n", CLOCK_SECOND);
+  printf("Tiicks per sec: %d \n", CLOCK_SECOND);
   clock_init();
   printf("Timer start (clock time after init): %lu \n", clock_time());
   printf("Rtimer: %lu", RTIMER_NOW());
