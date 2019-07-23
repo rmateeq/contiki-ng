@@ -138,7 +138,7 @@ udp_rx_callback(struct simple_udp_connection *c, const uip_ipaddr_t *sender_addr
 PROCESS_THREAD(udp_server_process, ev, data)
 {
   PROCESS_BEGIN();
-  printf("Rtimer: %lu", (unsigned long) (RTIMER_NOW()/RTIMER_SECOND*100));
+  printf("Rtimer: %lu", (unsigned long) ((double)RTIMER_NOW()/(double)RTIMER_SECOND*100));
   printf("Timer start (clock time): %lu \n", clock_time());
    printf("Timer start (clock sec): %lu \n", clock_seconds());
   printf("Tiicks per sec: %d \n", CLOCK_SECOND);
