@@ -215,7 +215,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
               if (local_counter == 0)
               {
                 ct_reach = clock_seconds();
-                printf("M__RUNREACHTIME,%lu:-:", clock_seconds());
+                printf("M__FIRSTRUNREACHTIME,%lu:-:", clock_seconds());
               }
               else if (REACH == 0)
                 ct_reach = clock_seconds();
@@ -259,9 +259,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
           //NETSTACK_NETWORK.off();
           //printf("M__TOTALPKTSSENT-%d:-:",counter);
           //counter = 0;
-          printf("M__RUNENDED,%lu:-:M__RUNTIME,%lu:-:M__REACHABLETIME,%lu\n",clock_seconds() , (clock_seconds()-ct_start), ct_reach_total);
-          printf("M__PKTSSENT,%d:-:",local_counter);
-          printf("M__CONFNUM,%d ENDS\n<***>\n<***>\n",conf_num++);
+          printf("M__RUNENDED,%lu:-:M__RUNTIME,%lu:-:M__RUNREACHABLETIME,%lu\n",clock_seconds() , (clock_seconds()-ct_start), ct_reach_total);
+          printf("M__RUNPKTSSENT,%d:-:",local_counter);
+          printf("M__RUNCONFNUM,%d ENDS\n<***>\n<***>\n",conf_num++);
           local_counter = 0;
         }//mt for ends here
       }//iat for ends here
