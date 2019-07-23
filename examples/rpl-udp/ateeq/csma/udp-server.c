@@ -138,14 +138,13 @@ udp_rx_callback(struct simple_udp_connection *c, const uip_ipaddr_t *sender_addr
 PROCESS_THREAD(udp_server_process, ev, data)
 {
   PROCESS_BEGIN();
+  printf("Rtimer sec: %d", RTIMER_SECOND);
   printf("Rtimer: %lu", (unsigned long) ((double)RTIMER_NOW()/(double)RTIMER_SECOND*1000));
   printf("Timer start (clock time): %lu \n", clock_time());
    printf("Timer start (clock sec): %lu \n", clock_seconds());
   printf("Tiicks per sec: %d \n", CLOCK_SECOND);
   clock_init();
   printf("Timer start (clock time after init): %lu \n", clock_time());
-  
-  //printf("Rtimer sec: %d", RTIMER_SECOND);
   
 //  for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
 //  { 
@@ -175,6 +174,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
       /* Initialize UDP connection */
       simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                           UDP_CLIENT_PORT, udp_rx_callback);
+  printf("Rtimer sec: %d", RTIMER_SECOND);
 printf("Rtimer: %lu", (unsigned long) ((double) RTIMER_NOW()/(double) RTIMER_SECOND*1000));
       etimer_set(&reset_timer, (run_time*CLOCK_SECOND*num_conf));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
