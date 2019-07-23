@@ -9,4 +9,3 @@ CONTIKI=../../../../
 MAKE_MAC = MAKE_MAC_CSMA
 
 include $(CONTIKI)/Makefile.include
-© 2019 GitHub, Inc.
