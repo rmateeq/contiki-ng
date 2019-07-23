@@ -56,6 +56,7 @@ static int conf_num = 1;
 static int REACH = 0;
 static int counter = 0;
 const int run_delay = 20;
+int local_counter = 0;
 char* pack = NULL;
 //number of nodes: 8(d,s),16(d,s),24,32
 //dt: real
@@ -201,9 +202,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           /*Note the start time of current run*/
           ct_start = clock_seconds();
           printf("\nM__STARTTIME,%lu:-:", ct_start);
-
-          static int local_counter = 0;
-
+          
           /* Initialize timer for send interval */
           etimer_set(&periodic_timer, random_rand() % (int) SEND_INTERVAL); //
           
@@ -263,6 +262,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
           printf("M__RUNENDED,%lu:-:M__RUNTIME,%lu:-:M__REACHABLETIME,%lu\n",clock_seconds() , (clock_seconds()-ct_start), ct_reach_total);
           printf("M__PKTSSENT,%d:-:",local_counter);
           printf("M__CONFNUM,%d ENDS\n<***>\n<***>\n",conf_num++);
+          local_counter = 0;
         }//mt for ends here
       }//iat for ends here
     }//ps for ends here
