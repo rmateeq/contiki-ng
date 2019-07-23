@@ -32,18 +32,18 @@
 static unsigned long ct_start, ct_reach, ct_unreach;
 static unsigned long ct_reach_total = 0;
 static struct etimer reset_timer;
-
-static int tp[5] = {-3,-1,1,3,5}; 
-static int ps[3] = {75,50,26};
-static int mt[3] = {1,4,8}; 
+//run separately for each power level
+static int tp[1] = {1};//{5,3,1,-1};//{7,5,3,1,-1}; 
+static int ps[3] = {27,52,76};
+static int mt[3] = {8,4,1}; 
 //bidirectional:yes,no
 
 #if DENSITY == 1
-static float iat[4] = {0.5,1,2,4};
+static float iat[3] = {5,4,3};
 #elif DENSITY == 2
-static float iat[4] = {1,2,4,8};
+static float iat[3] = {10,8,6};
 #elif DENSITY == 3
-static float iat[4] = {2,4,8,16};
+static float iat[3] = {15,12,9};
 #endif
 
 static int tp_c = 0;
@@ -55,6 +55,8 @@ static int run_time = 600;
 static int conf_num = 1;
 static int REACH = 0;
 static int counter = 0;
+const int run_delay = 20;
+int local_counter = 0;
 char* pack = NULL;
 //number of nodes: 8(d,s),16(d,s),24,32
 //dt: real
@@ -105,7 +107,9 @@ static void set_params()
   printf("P__TP,%d:-:",tp_val);
   printf("P__PS,%d:-:",ps[ps_c]);
   SEND_INTERVAL = (iat[iat_c] * CLOCK_SECOND);
-  printf("P__IAT,%.1f:-:",iat[iat_c]);
+  //printf("P__IAT,%f:-:",iat[iat_c]);
+  printf("P__IAT,%d:-:",(int)iat[iat_c]);
+  //printf("interval,%f",SEND_INTERVAL);
   printf("P__MT,%d:-:",mt[mt_c]);
 }
 /*---------------------------------------------------------------------------*/
@@ -173,28 +177,32 @@ PROCESS_THREAD(udp_client_process, ev, data)
       for (iat_c = 0; iat_c < (sizeof(iat) / sizeof(iat[0])); iat_c++ )
       {
         for (mt_c = 0; mt_c < (sizeof(mt) / sizeof(mt[0])); mt_c++ )
-        {
-
-          NETSTACK_MAC.on();
-          //NETSTACK_ROUTING.global_repair("simple reset");
-          
+        {          
           //set parameter configuration
           set_params();
+          
+          //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*3));
+          //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+
+          //NETSTACK_MAC.on();
+          
+          //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*7));
+          //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+          
+          //NETSTACK_ROUTING.global_repair("simple reset");
     
           /* Initialize UDP connection */
           simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
 
           /* 20sec pause before starting each new configuration run */
-          etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*30));
+          etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
           PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
 
           //NETSTACK_MAC.on();
           /*Note the start time of current run*/
           ct_start = clock_seconds();
-          printf("\nM__RUNSTARTTIME,%lu:-:", ct_start);
-
-          static int local_counter = 0;
-
+          printf("\nM__STARTTIME,%lu:-:", ct_start);
+          
           /* Initialize timer for send interval */
           etimer_set(&periodic_timer, random_rand() % (int) SEND_INTERVAL); //
           
@@ -207,7 +215,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
               if (local_counter == 0)
               {
                 ct_reach = clock_seconds();
-                printf("M__RUNREACHTIME,%lu:-:", clock_seconds());
+                printf("M__FIRSTRUNREACHTIME,%lu:-:", clock_seconds());
               }
               else if (REACH == 0)
                 ct_reach = clock_seconds();
@@ -246,13 +254,15 @@ PROCESS_THREAD(udp_client_process, ev, data)
           //turn off mac and network
           //NETSTACK_RADIO.off()
           NETSTACK_MAC.off();
+          NETSTACK_MAC.init();
+          NETSTACK_MAC.on();
           //NETSTACK_NETWORK.off();
           //printf("M__TOTALPKTSSENT-%d:-:",counter);
           //counter = 0;
-          printf("M__STARTED,%lu:-:M__RUNENDED,%lu:-:M__RUNTIME,%lu\n", ct_start , clock_seconds() , (clock_seconds()-ct_start));
-          printf("M__REACHABLETIME,%lu\n", ct_reach_total);
-          printf("M__PKTSSENT,%d:-:",local_counter);
-          printf("M__CONFNUM,%d ENDS\n<***>\n<***>\n",conf_num++);
+          printf("M__RUNENDED,%lu:-:M__RUNTIME,%lu:-:M__RUNREACHABLETIME,%lu\n",clock_seconds() , (clock_seconds()-ct_start), ct_reach_total);
+          printf("M__RUNPKTSSENT,%d:-:",local_counter);
+          printf("M__RUNCONFNUM,%d ENDS\n<***>\n<***>\n",conf_num++);
+          local_counter = 0;
         }//mt for ends here
       }//iat for ends here
     }//ps for ends here
