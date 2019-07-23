@@ -144,8 +144,8 @@ PROCESS_THREAD(udp_server_process, ev, data)
   printf("Tiicks per sec: %d \n", CLOCK_SECOND);
   clock_init();
   printf("Timer start (clock time after init): %lu \n", clock_time());
-  printf("Rtimer: %lu", (unsigned long) RTIMER_NOW());
-  printf("Rtimer sec: %d", RTIMER_SECOND);
+  
+  //printf("Rtimer sec: %d", RTIMER_SECOND);
   
 //  for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
 //  { 
@@ -175,7 +175,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
       /* Initialize UDP connection */
       simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                           UDP_CLIENT_PORT, udp_rx_callback);
-
+printf("Rtimer: %lu", (unsigned long) RTIMER_NOW());
       etimer_set(&reset_timer, (run_time*CLOCK_SECOND*num_conf));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
 //      printf("\nM__PKTSRECVD,%d:-:CONFNUM,%d\n",per_conf_counter,conf_count+(tp_c*num_conf));
