@@ -228,7 +228,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
               
               //const uint64_t network_uptime = tsch_get_network_uptime_ticks();
               char* packet = NULL;
-              packet = constructPacket(ps[ps_c], tsch_get_network_uptime_ticks(), ++counter);
+              packet = constructPacket(ps[ps_c], 10UL, ++counter);
               free(pack);
               //printf("Message sent: %s",packet);
               //printf("M__MSGLEN %d",strlen(packet));
