@@ -145,6 +145,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
   clock_init();
   printf("Timer start (clock time after init): %lu \n", clock_time());
   printf("Rtimer: %lu", RTIMER_NOW());
+  printf("Rtimer sec: %d", RTIMER_SECOND);
   
 //  for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
 //  { 
