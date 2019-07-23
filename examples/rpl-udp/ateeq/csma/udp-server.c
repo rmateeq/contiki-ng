@@ -1,7 +1,7 @@
 #include "contiki.h"
 #include "net/routing/routing.h"
 #include "net/netstack.h"
-#include "net/mac/tsch/tsch.h"
+//#include "net/mac/tsch/tsch.h"
 #include "net/ipv6/simple-udp.h"
 #include "net/ipv6/uiplib.h"
 #include "random.h"
@@ -101,7 +101,7 @@ udp_rx_callback(struct simple_udp_connection *c, const uip_ipaddr_t *sender_addr
          uint16_t receiver_port, const uint8_t *data, uint16_t datalen)
 {
   
-  uint64_t local_time_clock_ticks = tsch_get_network_uptime_ticks();
+  uint64_t local_time_clock_ticks = 20UL; //tsch_get_network_uptime_ticks();
   uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
   const int countExtracted = extractCount(datalen, (char *) data);
   counter++;
@@ -123,7 +123,10 @@ udp_rx_callback(struct simple_udp_connection *c, const uip_ipaddr_t *sender_addr
   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_RSSI, &rssi_val);
   printf("M__RSSISTATE,%d:-:M__RSSI,%d\n",rd,rssi_val);
   //printf("rssi: %d::\n",rssi_val);
-         
+  
+  int lts_val;
+  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_PACKET_TIMESTAMP, &lts_val);
+  printf("\nM__LTSSTATE,%d:-:M__LTS,%d:-:",rd,lts_val);
          
   #if WITH_SERVER_REPLY
     /* send back the same string to the client as an echo reply */
