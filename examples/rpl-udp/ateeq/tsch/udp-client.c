@@ -58,6 +58,7 @@ static int counter = 0;
 const int run_delay = 20;
 int local_counter = 0;
 char* pack = NULL;
+double rtimer_mul = 0.03051758;
 //number of nodes: 8(d,s),16(d,s),24,32
 //dt: real
 //mac: tsch,mac
@@ -170,7 +171,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
   PROCESS_BEGIN();
   printf("\nM__RTIMER_SECOND,%d:-:", RTIMER_SECOND);
-  printf("M__RTIMER_START,%lu:-:", (unsigned long) ((double) RTIMER_NOW()*RTIMER_MUL));
+  printf("M__RTIMER_START,%lu:-:", (unsigned long) ((double) RTIMER_NOW()*rtimer_mul));
   printf("M__CLOCKTIMET_START,%lu\n", clock_time());
   
   for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
@@ -231,7 +232,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
               
               //const uint64_t network_uptime = tsch_get_network_uptime_ticks();
               char* packet = NULL;
-              packet = constructPacket(ps[ps_c], (unsigned long) ((double) RTIMER_NOW()*RTIMER_MUL), ++counter);
+              packet = constructPacket(ps[ps_c], (unsigned long) ((double) RTIMER_NOW()*rtimer_mul), ++counter);
               free(pack);
               //printf("Message sent: %s",packet);
               //printf("M__MSGLEN %d",strlen(packet));
