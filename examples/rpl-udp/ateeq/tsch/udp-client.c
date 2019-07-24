@@ -55,7 +55,7 @@ static int run_time = 600;
 static int conf_num = 1;
 static int REACH = 0;
 static int counter = 0;
-const int run_delay = 60;
+const int run_delay = 15;
 int local_counter = 0;
 char* pack = NULL;
 //number of nodes: 8(d,s),16(d,s),24,32
@@ -168,12 +168,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   static struct etimer periodic_timer;
   uip_ipaddr_t dest_ipaddr;
 
-  PROCESS_BEGIN();
-  
-  simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
-  /* 20sec pause before starting each new configuration run */
-  etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
-  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
+  PROCESS_BEGIN(); 
   
   for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
   {  
@@ -197,12 +192,12 @@ PROCESS_THREAD(udp_client_process, ev, data)
           //NETSTACK_ROUTING.global_repair("simple reset");
     
           /* Initialize UDP connection */
-          //simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
+          simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
           //if (counter == 0)
           //{
           //  /* 20sec pause before starting each new configuration run */
-          //  etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
-          //  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
+            etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
           //}
 
           //NETSTACK_MAC.on();
@@ -260,9 +255,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
           //turn off mac and network
           //NETSTACK_RADIO.off()
-          //NETSTACK_MAC.off();
-          //NETSTACK_MAC.init();
-          //NETSTACK_MAC.on();
+          NETSTACK_MAC.off();
+          NETSTACK_MAC.init();
+          NETSTACK_MAC.on();
           //NETSTACK_NETWORK.off();
           //printf("M__TOTALPKTSSENT-%d:-:",counter);
           //counter = 0;
