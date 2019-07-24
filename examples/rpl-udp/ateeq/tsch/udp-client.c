@@ -170,6 +170,11 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
   PROCESS_BEGIN();
   
+  simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
+  /* 20sec pause before starting each new configuration run */
+  etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
+  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
+  
   for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
   {  
     for (ps_c = 0; ps_c < (sizeof(ps) / sizeof(ps[0])); ps_c++ )
@@ -192,13 +197,13 @@ PROCESS_THREAD(udp_client_process, ev, data)
           //NETSTACK_ROUTING.global_repair("simple reset");
     
           /* Initialize UDP connection */
-          simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
-          if (counter == 0)
-          {
-            /* 20sec pause before starting each new configuration run */
-            etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
-          }
+          //simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
+          //if (counter == 0)
+          //{
+          //  /* 20sec pause before starting each new configuration run */
+          //  etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
+          //  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
+          //}
 
           //NETSTACK_MAC.on();
           /*Note the start time of current run*/
