@@ -101,7 +101,7 @@ udp_rx_callback(struct simple_udp_connection *c, const uip_ipaddr_t *sender_addr
          uint16_t receiver_port, const uint8_t *data, uint16_t datalen)
 {
   
-  uint64_t local_time_clock_ticks = 20UL; //tsch_get_network_uptime_ticks();
+  uint64_t local_time_clock_ticks = (unsigned long) ((double) RTIMER_NOW()*RTIMER_MUL);//20UL; //tsch_get_network_uptime_ticks();
   uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
   const int countExtracted = extractCount(datalen, (char *) data);
   counter++;
@@ -138,13 +138,10 @@ udp_rx_callback(struct simple_udp_connection *c, const uip_ipaddr_t *sender_addr
 PROCESS_THREAD(udp_server_process, ev, data)
 {
   PROCESS_BEGIN();
-  printf("Rtimer sec: %d", RTIMER_SECOND);
-  printf("Rtimer: %lu", (unsigned long) ((double)RTIMER_NOW()/(double)RTIMER_SECOND*1000));
-  printf("Timer start (clock time): %lu \n", clock_time());
-   printf("Timer start (clock sec): %lu \n", clock_seconds());
-  printf("Tiicks per sec: %d \n", CLOCK_SECOND);
-  clock_init();
-  printf("Timer start (clock time after init): %lu \n", clock_time());
+  
+  printf("\nM__RTIMER_SECOND,%d":-:, RTIMER_SECOND);
+  printf("M__RTIMER_START,%lu:-:", (unsigned long) ((double) RTIMER_NOW()*RTIMER_MUL));
+  printf("M__CLOCKTIMET_START,%lu\n", clock_time());
   
 //  for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
 //  { 
@@ -174,8 +171,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
       /* Initialize UDP connection */
       simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                           UDP_CLIENT_PORT, udp_rx_callback);
-  printf("Rtimer sec: %d", RTIMER_SECOND);
-printf("Rtimer: %lu", (unsigned long) ((double) RTIMER_NOW()/(double) RTIMER_SECOND*1000));
+  
       etimer_set(&reset_timer, (run_time*CLOCK_SECOND*num_conf));
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
 //      printf("\nM__PKTSRECVD,%d:-:CONFNUM,%d\n",per_conf_counter,conf_count+(tp_c*num_conf));
