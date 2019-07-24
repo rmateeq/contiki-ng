@@ -95,6 +95,7 @@ char* constructPacket(int packSize, unsigned long networkUptime, int count)
   if (pack == NULL) {
     printf("\n ---------------------NULL AGAIN--------------\n");
   }
+  printf("Packet:::::::::::::::::::%s",pack);
   return pack;
 }
 /*---------------------------------------------------------------------------*/
