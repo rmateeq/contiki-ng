@@ -169,7 +169,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   uip_ipaddr_t dest_ipaddr;
 
   PROCESS_BEGIN();
-  printf("\nM__RTIMER_SECOND,%d":-:, RTIMER_SECOND);
+  printf("\nM__RTIMER_SECOND,%d:-:", RTIMER_SECOND);
   printf("M__RTIMER_START,%lu:-:", (unsigned long) ((double) RTIMER_NOW()*RTIMER_MUL));
   printf("M__CLOCKTIMET_START,%lu\n", clock_time());
   
