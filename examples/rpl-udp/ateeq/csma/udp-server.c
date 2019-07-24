@@ -26,6 +26,7 @@ static int counter = 0;
 int tp_val = 1;
 //int per_conf_counter = 0;
 const int run_delay = 20;
+double rtimer_mul = 0.03051758;
 //int skew_pad = 0;
 static struct etimer reset_timer;
 //int conf_count = 1;
@@ -101,7 +102,7 @@ udp_rx_callback(struct simple_udp_connection *c, const uip_ipaddr_t *sender_addr
          uint16_t receiver_port, const uint8_t *data, uint16_t datalen)
 {
   
-  uint64_t local_time_clock_ticks = (unsigned long) ((double) RTIMER_NOW()*RTIMER_MUL);//20UL; //tsch_get_network_uptime_ticks();
+  uint64_t local_time_clock_ticks = (unsigned long) ((double) RTIMER_NOW()*rtimer_mul);//20UL; //tsch_get_network_uptime_ticks();
   uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
   const int countExtracted = extractCount(datalen, (char *) data);
   counter++;
@@ -140,7 +141,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
   PROCESS_BEGIN();
   
   printf("\nM__RTIMER_SECOND,%d:-:", RTIMER_SECOND);
-  printf("M__RTIMER_START,%lu:-:", (unsigned long) ((double) RTIMER_NOW()*RTIMER_MUL));
+  printf("M__RTIMER_START,%lu:-:", (unsigned long) ((double) RTIMER_NOW()*rtimer_mul));
   printf("M__CLOCKTIMET_START,%lu\n", clock_time());
   
 //  for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
