@@ -63,6 +63,7 @@
 //#ifndef CC2538_RF_CONF_TX_POWER
 //#define CC2538_RF_CONF_TX_POWER 0xC5
 //#define RTIMER_CONF_CLOCK_SIZE 8
+double RTIMER_MUL = 0.03051758; 
 #define ENERGEST_CONF_ON 1
 //#endif
 /***Logging***/
