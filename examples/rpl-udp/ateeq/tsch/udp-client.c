@@ -193,10 +193,12 @@ PROCESS_THREAD(udp_client_process, ev, data)
     
           /* Initialize UDP connection */
           simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
-
-          /* 20sec pause before starting each new configuration run */
-          etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
-          PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
+          if (counter == 0)
+          {
+            /* 20sec pause before starting each new configuration run */
+            etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
+          }
 
           //NETSTACK_MAC.on();
           /*Note the start time of current run*/
@@ -253,9 +255,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
           //turn off mac and network
           //NETSTACK_RADIO.off()
-          NETSTACK_MAC.off();
-          NETSTACK_MAC.init();
-          NETSTACK_MAC.on();
+          //NETSTACK_MAC.off();
+          //NETSTACK_MAC.init();
+          //NETSTACK_MAC.on();
           //NETSTACK_NETWORK.off();
           //printf("M__TOTALPKTSSENT-%d:-:",counter);
           //counter = 0;
