@@ -40,7 +40,7 @@
 //#define UIP_CONF_ND6_SEND_RA 1
 //#define UIP_CONF_IP_FORWARD  1
  #define RPL_CONF_SUPPORTED_OFS {&rpl_of0, &rpl_mrhof}
- #define RPL_CONF_OF_OCP RPL_OCP_OF0
+ #define RPL_CONF_OF_OCP RPL_OCP_MRHOF //_OF0
  #define RPL_CONF_TRICKLE_REFRESH_DAO_ROUTES 6 //by default dao refreshal is done every 4secs.
  #define RPL_CONF_DIO_INTERVAL_MIN 12 //13 will result in 8sec. default is 12, resulting in 4 sec.
  #define RPL_CONF_DEFAULT_LIFETIME_UNIT 60 //defualt redefined due to confusion in rpl-conf.h
