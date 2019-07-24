@@ -55,7 +55,7 @@ static int run_time = 600;
 static int conf_num = 1;
 static int REACH = 0;
 static int counter = 0;
-const int run_delay = 20;
+const int run_delay = 60;
 int local_counter = 0;
 char* pack = NULL;
 //number of nodes: 8(d,s),16(d,s),24,32
