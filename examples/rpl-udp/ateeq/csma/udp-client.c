@@ -4,7 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "sys/energest.h"
-#include "net/mac/tsch/tsch.h"
+//#include "net/mac/tsch/tsch.h"
+#include "rtcc.h"
 //#include "sys/node-id.h"
 //>>my includes<<
 
