@@ -20,8 +20,8 @@ static struct etimer reset_timer;
 //static int conf_num = 48;
 //int tp[4] = {5,3,1,-1};//{7,5,3,1,-1};
 //int tp_c = 0;
-//int run_time = 625;
-//const int num_conf = 27;
+int run_time = 650;
+const int num_conf = 27;
 static int counter = 0;
 int tp_val = 1;
 //int per_conf_counter = 0;
@@ -165,8 +165,8 @@ PROCESS_THREAD(udp_server_process, ev, data)
       simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                           UDP_CLIENT_PORT, udp_rx_callback);
 
-//      etimer_set(&reset_timer, (run_time*CLOCK_SECOND*num_conf));
-//      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+      etimer_set(&reset_timer, (run_time*CLOCK_SECOND*num_conf));
+      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
 //      printf("\nM__PKTSRECVD,%d:-:CONFNUM,%d\n",per_conf_counter,conf_count+(tp_c*num_conf));
 //      per_conf_counter = 0;
       //NETSTACK_MAC.off();
