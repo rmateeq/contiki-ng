@@ -70,6 +70,8 @@ static struct simple_udp_connection udp_conn;
 PROCESS(udp_client_process, "UDP client");
 AUTOSTART_PROCESSES(&udp_client_process);
 /*---------------------------------------------------------------------------*/
+static uint8_t rtc_buffer[sizeof(simple_td_map)];
+static simple_td_map *simple_td = (simple_td_map *)rtc_buffer;
 
 char* constructPacket(int packSize, unsigned long networkUptime, int count)
 {
@@ -170,6 +172,16 @@ PROCESS_THREAD(udp_client_process, ev, data)
   uip_ipaddr_t dest_ipaddr;
 
   PROCESS_BEGIN();
+  
+  if(rtcc_get_time_date(simple_td) == AB08_ERROR) {
+    printf("Fail: Couldn't read time and date\n");
+    PROCESS_EXIT();
+  }
+
+  /* ...or for visualization only, just print the date directly from the RTCC */
+  printf("Configured time: ");
+  rtcc_print(RTCC_PRINT_DATE_DEC);
+
   
   printf("\nM__RTIMER_SECOND,%d:-:", RTIMER_SECOND);
   printf("M__RTIMER_START,%lu:-:", (unsigned long) ((double) RTIMER_NOW()*rtimer_mul));
