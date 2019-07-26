@@ -23,7 +23,7 @@ static struct etimer reset_timer;
 int run_time = 650;
 const int num_conf = 27;
 static int counter = 0;
-int tp_val = 1;
+int tp_val = 5;
 //int per_conf_counter = 0;
 const int run_delay = 15;
 //int skew_pad = 0;
