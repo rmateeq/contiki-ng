@@ -4,9 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "sys/energest.h"
-//#include "net/mac/tsch/tsch.h"
-#include "rtcc.h"
-//#include "sys/node-id.h"
 //>>my includes<<
 
 #include "contiki.h"
@@ -34,7 +31,7 @@ static unsigned long ct_start, ct_reach, ct_unreach;
 static unsigned long ct_reach_total = 0;
 static struct etimer reset_timer;
 //run separately for each power level
-static int tp[1] = {-7};//{5,3,1,-1};//{7,5,3,1,-1}; 
+static int tp[1] = {5};//{5,3,1,-1};//{7,5,3,1,-1}; 
 static int ps[3] = {27,52,76};
 static int mt[3] = {8,4,1}; 
 //bidirectional:yes,no
@@ -58,7 +55,6 @@ static int REACH = 0;
 static int counter = 0;
 const int run_delay = 60;
 int local_counter = 0;
-double rtimer_mul = 0.03051758;
 char* pack = NULL;
 //number of nodes: 8(d,s),16(d,s),24,32
 //dt: real
@@ -173,19 +169,6 @@ PROCESS_THREAD(udp_client_process, ev, data)
   uip_ipaddr_t dest_ipaddr;
 
   PROCESS_BEGIN();
-  simple_td_map td;
-  if(rtcc_get_time_date(&td) == AB08_ERROR) {
-    printf("Fail: Couldn't read time and date\n");
-    PROCESS_EXIT();
-  }
-
-  /* ...or for visualization only, just print the date directly from the RTCC */
-  printf("Configured time: ");
-  rtcc_print(AB08_SUCCESS);
-
-  
-  printf("\nM__RTIMER_SECOND,%d:-:", RTIMER_SECOND);
-  printf("M__RTIMER_START,%lu:-:", (unsigned long) ((double) RTIMER_NOW()*rtimer_mul));
   printf("M__CLOCKTIMET_START,%lu\n", clock_time());
   
   for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
