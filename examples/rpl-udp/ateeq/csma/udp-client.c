@@ -173,8 +173,8 @@ PROCESS_THREAD(udp_client_process, ev, data)
   uip_ipaddr_t dest_ipaddr;
 
   PROCESS_BEGIN();
-  
-  if(rtcc_get_time_date(simple_td_map *data) == AB08_ERROR) {
+  simple_td_map td;
+  if(rtcc_get_time_date(&td) == AB08_ERROR) {
     printf("Fail: Couldn't read time and date\n");
     PROCESS_EXIT();
   }
