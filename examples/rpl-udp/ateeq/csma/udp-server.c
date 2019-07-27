@@ -19,7 +19,7 @@ static struct etimer reset_timer;
 //static int conf_num = 48;
 //int tp[4] = {5,3,1,-1};//{7,5,3,1,-1};
 //int tp_c = 0;
-int run_time = 630;//609;
+int run_time = 620;//609;
 const int num_conf = 27;
 static int counter = 0;
 int tp_val = -1;
