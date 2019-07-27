@@ -37,11 +37,11 @@ static int mt[3] = {8,4,1};
 //bidirectional:yes,no
 
 #if DENSITY == 1
-static float iat[3] = {5,4,3};
+static int iat[3] = {5,4,3};
 #elif DENSITY == 2
-static float iat[3] = {10,8,6};
+static intt iat[3] = {10,8,6};
 #elif DENSITY == 3
-static float iat[3] = {15,12,9};
+static intt iat[3] = {15,12,9};
 #endif
 
 static int tp_c = 0;
@@ -49,11 +49,11 @@ static int ps_c = 0;
 static int mt_c = 0;
 static int iat_c = 0;
 static float SEND_INTERVAL = 0;
-static int run_time = 600;
+static int run_time = 6;//600;
 static int conf_num = 1;
 static int REACH = 0;
 static int counter = 0;
-const int run_delay = 60;
+const int run_delay = /2;/20;
 int local_counter = 0;
 char* pack = NULL;
 //number of nodes: 8(d,s),16(d,s),24,32
@@ -195,9 +195,12 @@ PROCESS_THREAD(udp_client_process, ev, data)
           /* Initialize UDP connection */
           simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
 
-          /* 20sec pause before starting each new configuration run */
-          etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
-          PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
+          if (counter == 0)
+          {
+            /* 20sec pause before starting each new configuration run */
+            etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
+          }
 
           //NETSTACK_MAC.on();
           /*Note the start time of current run*/
@@ -254,9 +257,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
           //turn off mac and network
           //NETSTACK_RADIO.off()
-          NETSTACK_MAC.off();
-          NETSTACK_MAC.init();
-          NETSTACK_MAC.on();
+          //NETSTACK_MAC.off();
+          //NETSTACK_MAC.init();
+          //NETSTACK_MAC.on();
           //NETSTACK_NETWORK.off();
           //printf("M__TOTALPKTSSENT-%d:-:",counter);
           //counter = 0;
