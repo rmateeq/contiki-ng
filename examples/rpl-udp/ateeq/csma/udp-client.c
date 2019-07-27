@@ -230,9 +230,10 @@ PROCESS_THREAD(udp_client_process, ev, data)
               printf("\nD__SEQNO,%d:-:", counter+1);
               //LOG_INFO_6ADDR(&dest_ipaddr);
               
-              //const uint64_t network_uptime = tsch_get_network_uptime_ticks();
+              //const uint64_t network_uptime = clock_second()*CLOCK_SECOND; //;tsch_get_network_uptime_ticks();
               char* packet = NULL;
-              packet = constructPacket(ps[ps_c], (unsigned long) ((double) RTIMER_NOW()*(0.030518)), ++counter);
+              //(unsigned long) ((double) RTIMER_NOW()*(0.030518)
+              packet = constructPacket(ps[ps_c], (unsigned long) clock_seconds()*CLOCK_SECOND), ++counter);
               free(pack);
               //printf("Message sent: %s",packet);
               //printf("M__MSGLEN %d",strlen(packet));
