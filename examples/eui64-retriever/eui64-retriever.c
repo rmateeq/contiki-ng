@@ -30,8 +30,8 @@ PROCESS_THREAD(eui64_retriever_process, ev, data)
   PROCESS_BEGIN();
 
   /* Setup a periodic timer that expires after 10 seconds. */
-  etimer_set(&timer, CLOCK_SECOND * 1000);
-  printf("I am in..");
+  etimer_set(&timer, CLOCK_SECOND * 10);
+  //printf("I am in..");
   while(1) {
    print_lladdr(&linkaddr_node_addr);
    printf("\n");
