@@ -233,7 +233,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
               //const uint64_t network_uptime = clock_second()*CLOCK_SECOND; //;tsch_get_network_uptime_ticks();
               char* packet = NULL;
               //(unsigned long) ((double) RTIMER_NOW()*(0.030518)
-              packet = constructPacket(ps[ps_c], (unsigned long) clock_seconds()*CLOCK_SECOND), ++counter);
+              packet = constructPacket(ps[ps_c], (unsigned long) (clock_seconds()*CLOCK_SECOND), ++counter);
               free(pack);
               //printf("Message sent: %s",packet);
               //printf("M__MSGLEN %d",strlen(packet));
