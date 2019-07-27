@@ -21,7 +21,7 @@ static struct etimer reset_timer;
 //int tp[4] = {5,3,1,-1};//{7,5,3,1,-1};
 //int tp_c = 0;
 int run_time = 650;
-const int num_conf = 27;
+const int num_conf = 36;
 static int counter = 0;
 int tp_val = 5;
 //int per_conf_counter = 0;
