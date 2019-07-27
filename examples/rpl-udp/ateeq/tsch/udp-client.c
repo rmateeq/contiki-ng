@@ -34,16 +34,16 @@ static unsigned long ct_reach_total = 0;
 static struct etimer reset_timer;
 //run separately for each power level
 static int tp[1] = {5};//{5,3,1,-1};//{7,5,3,1,-1}; 
-static int ps[3] = {27,52,76};
-static int mt[3] = {8,4,1}; 
+static int ps[3] = {27,52,77};
+static int mt[3] = {8,4,2}; 
 //bidirectional:yes,no
 
 #if DENSITY == 1
-static float iat[3] = {5,4,3};
+static float iat[4] = {4,3,2,1};
 #elif DENSITY == 2
-static float iat[3] = {10,8,6};
+static float iat[4] = {8,6,4,2};
 #elif DENSITY == 3
-static float iat[3] = {15,12,9};
+static float iat[4] = {12,9,6,3};
 #endif
 
 static int tp_c = 0;
