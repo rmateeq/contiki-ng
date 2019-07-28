@@ -20,28 +20,20 @@
 #define LOG_LEVEL LOG_LEVEL_INFO
 #endif
 
-#define DENSITY 1 //2,3
+
 
 #define WITH_SERVER_REPLY  0
 #define UDP_CLIENT_PORT 8765
 #define UDP_SERVER_PORT 5678
 
 //<<my vars>>
-static unsigned long ct_start, ct_reach, ct_unreach;
-static unsigned long ct_reach_total = 0;
-static struct etimer reset_timer;
-//run separately for each power level
-static int tp[1] = {-3};//{5,3,1,-1};//{7,5,3,1,-1}; 
-static int ps[3] = {27,52,76};
-static int mt[3] = {8,4,1}; 
-//bidirectional:yes,no
-
+#define DENSITY 3 //2,3
 #if DENSITY == 1
-static int iat[3] = {5,4,3};
+static float iat[4] = {4,3,2,1};
 #elif DENSITY == 2
-static intt iat[3] = {10,8,6};
+static float iat[4] = {8,6,4,2};
 #elif DENSITY == 3
-static intt iat[3] = {15,12,9};
+static float iat[4] = {12,9,6,3};
 #endif
 
 static int tp_c = 0;
@@ -49,11 +41,11 @@ static int ps_c = 0;
 static int mt_c = 0;
 static int iat_c = 0;
 static float SEND_INTERVAL = 0;
-static int run_time = 610;
+static int run_time = 600;
 static int conf_num = 1;
 static int REACH = 0;
 static int counter = 0;
-const int run_delay = 20;
+const int run_delay = 15;
 int local_counter = 0;
 char* pack = NULL;
 //number of nodes: 8(d,s),16(d,s),24,32
@@ -67,8 +59,6 @@ static struct simple_udp_connection udp_conn;
 PROCESS(udp_client_process, "UDP client");
 AUTOSTART_PROCESSES(&udp_client_process);
 /*---------------------------------------------------------------------------*/
-//static uint8_t rtc_buffer[sizeof(simple_td_map)];
-//static simple_td_map *simple_td = (simple_td_map *)rtc_buffer;
 
 char* constructPacket(int packSize, unsigned long networkUptime, int count)
 {
@@ -168,8 +158,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   static struct etimer periodic_timer;
   uip_ipaddr_t dest_ipaddr;
 
-  PROCESS_BEGIN();
-  printf("M__CLOCKTIMET_START,%lu\n", clock_time());
+  PROCESS_BEGIN(); 
   
   for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
   {  
@@ -194,13 +183,12 @@ PROCESS_THREAD(udp_client_process, ev, data)
     
           /* Initialize UDP connection */
           simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
-
-          if (counter == 0)
-          {
-            /* 20sec pause before starting each new configuration run */
+          //if (counter == 0)
+          //{
+          //  /* 20sec pause before starting each new configuration run */
             etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
             PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
-          }
+          //}
 
           //NETSTACK_MAC.on();
           /*Note the start time of current run*/
@@ -258,9 +246,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
           //turn off mac and network
           //NETSTACK_RADIO.off()
-          //NETSTACK_MAC.off();
-          //NETSTACK_MAC.init();
-          //NETSTACK_MAC.on();
+          NETSTACK_MAC.off();
+          NETSTACK_MAC.init();
+          NETSTACK_MAC.on();
           //NETSTACK_NETWORK.off();
           //printf("M__TOTALPKTSSENT-%d:-:",counter);
           //counter = 0;
