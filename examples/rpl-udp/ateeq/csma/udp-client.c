@@ -27,7 +27,7 @@
 #define UDP_SERVER_PORT 5678
 
 //<<my vars>>
-#define DENSITY 3 //2,3
+#define DENSITY 1 //2,3
 #if DENSITY == 1
 static float iat[4] = {4,3,2,1};
 #elif DENSITY == 2
