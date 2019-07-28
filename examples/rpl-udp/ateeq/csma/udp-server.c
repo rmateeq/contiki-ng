@@ -19,12 +19,12 @@ static struct etimer reset_timer;
 //static int conf_num = 48;
 //int tp[4] = {5,3,1,-1};//{7,5,3,1,-1};
 //int tp_c = 0;
-int run_time = 620;//609;
-const int num_conf = 27;
+int run_time = 650;
+const int num_conf = 36;
 static int counter = 0;
 int tp_val = -3;
 //int per_conf_counter = 0;
-const int run_delay = 20;
+const int run_delay = 15;
 //int skew_pad = 0;
 static struct etimer reset_timer;
 //int conf_count = 1;
@@ -98,8 +98,7 @@ static void
 udp_rx_callback(struct simple_udp_connection *c, const uip_ipaddr_t *sender_addr,
          uint16_t sender_port, const uip_ipaddr_t *receiver_addr, 
          uint16_t receiver_port, const uint8_t *data, uint16_t datalen)
-{
-  
+{  
   uint64_t local_time_clock_ticks = clock_seconds()*CLOCK_SECOND;//(unsigned long) ((double) RTIMER_NOW()*(0.030518));//20UL; //tsch_get_network_uptime_ticks();
   uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
   const int countExtracted = extractCount(datalen, (char *) data);
