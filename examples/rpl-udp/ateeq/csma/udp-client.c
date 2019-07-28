@@ -254,9 +254,9 @@ PROCESS_THREAD(udp_client_process, ev, data)
 
           //turn off mac and network
           //NETSTACK_RADIO.off()
-          NETSTACK_MAC.off();
-          NETSTACK_MAC.init();
-          NETSTACK_MAC.on();
+          //NETSTACK_MAC.off();
+          //NETSTACK_MAC.init();
+          //NETSTACK_MAC.on();
           //NETSTACK_NETWORK.off();
           //printf("M__TOTALPKTSSENT-%d:-:",counter);
           //counter = 0;
