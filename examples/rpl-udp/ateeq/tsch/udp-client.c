@@ -22,8 +22,6 @@
 #define LOG_LEVEL LOG_LEVEL_INFO
 #endif
 
-#define DENSITY 3 //2,3
-
 #define WITH_SERVER_REPLY  0
 #define UDP_CLIENT_PORT 8765
 #define UDP_SERVER_PORT 5678
@@ -38,6 +36,7 @@ static int ps[3] = {27,52,77};
 static int mt[3] = {8,4,2}; 
 //bidirectional:yes,no
 
+#define DENSITY 3 //2,3
 #if DENSITY == 1
 static float iat[4] = {4,3,2,1};
 #elif DENSITY == 2
