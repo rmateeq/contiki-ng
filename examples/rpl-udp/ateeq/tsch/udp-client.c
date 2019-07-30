@@ -171,7 +171,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
   int tpval = tp[0];
   int rv = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tpval);
   rv = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tpval);
-  printf("NEWTPVAL,%dSUCCESS,%d",tpval,rv)
+  printf("NEWTPVAL,%dSUCCESS,%d",tpval,rv);
   /* Initialize UDP connection */
   simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
           //if (counter == 0)
