@@ -24,7 +24,7 @@ const int num_conf = 36;
 static int counter = 0;
 int tp_val = -5;
 //int per_conf_counter = 0;
-const int run_delay = 15;
+const int run_delay = 30;
 //int skew_pad = 0;
 static struct etimer reset_timer;
 //int conf_count = 1;
