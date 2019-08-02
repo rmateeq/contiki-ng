@@ -72,10 +72,10 @@ int extractCount(
   return count;
 }
 /*---------------------------------------------------------------------------*/
-static unsigned long to_seconds(uint64_t time)
-{
-  return (unsigned long)(time / ENERGEST_SECOND);
-}
+//static unsigned long to_seconds(uint64_t time)
+//{
+//  return (unsigned long)(time / ENERGEST_SECOND);
+//}
 /*---------------------------------------------------------------------------*/
 
 //static void log_energy()
