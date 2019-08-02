@@ -19,14 +19,14 @@ static struct etimer reset_timer;
 //static int conf_num = 48;
 //int tp[4] = {5,3,1,-1};//{7,5,3,1,-1};
 //int tp_c = 0;
-int run_time = 650;
-const int num_conf = 36;
+//int run_time = 650;
+//const int num_conf = 36;
 static int counter = 0;
-int tp_val = -1;
+int tp_val = -5;
 //int per_conf_counter = 0;
 const int run_delay = 30;
 //int skew_pad = 0;
-static struct etimer reset_timer;
+//static struct etimer reset_timer;
 //int conf_count = 1;
 PROCESS(udp_server_process, "UDP server");
 AUTOSTART_PROCESSES(&udp_server_process);
@@ -167,14 +167,14 @@ PROCESS_THREAD(udp_server_process, ev, data)
       simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
                           UDP_CLIENT_PORT, udp_rx_callback);
   
-      etimer_set(&reset_timer, (run_time*CLOCK_SECOND*num_conf));
-      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
+      //etimer_set(&reset_timer, (run_time*CLOCK_SECOND*num_conf));
+      //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
 //      printf("\nM__PKTSRECVD,%d:-:CONFNUM,%d\n",per_conf_counter,conf_count+(tp_c*num_conf));
 //      per_conf_counter = 0;
       //NETSTACK_MAC.off();
 //      conf_count += 1;
 //      skew_pad += 8;
-      log_energy();
+      //log_energy();
       //NETSTACK_MAC.init();
       //NETSTACK_MAC.on();
       //tsch_set_coordinator(1);
@@ -182,8 +182,8 @@ PROCESS_THREAD(udp_server_process, ev, data)
 //    conf_count = 1;
 //  }
   
-  printf("M__TOTALPKTSRECVD,%d:-:",counter);
-  printf("\nM__ENDTIME,%lu\n<**********>\n<**********>\n", clock_seconds());
+  //printf("M__TOTALPKTSRECVD,%d:-:",counter);
+  //printf("\nM__ENDTIME,%lu\n<**********>\n<**********>\n", clock_seconds());
   
   PROCESS_END();
 }
