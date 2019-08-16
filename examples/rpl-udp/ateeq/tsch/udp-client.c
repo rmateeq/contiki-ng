@@ -36,7 +36,7 @@ static int ps[3] = {27,52,77};
 static int mt[3] = {8,4,2}; 
 //bidirectional:yes,no
 
-#define DENSITY 2 //2,3
+#define DENSITY 3 //2,3
 #if DENSITY == 1
 static float iat[4] = {4,3,2,1};
 #elif DENSITY == 2
