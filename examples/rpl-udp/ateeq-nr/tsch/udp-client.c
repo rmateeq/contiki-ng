@@ -212,18 +212,6 @@ PROCESS_THREAD(udp_client_process, ev, data)
           
           while((clock_seconds()-ct_start) <= run_time) 
           {
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
-
-            if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_ipaddr)) 
-            {
-              if (local_counter == 0)
-              {
-                ct_reach = clock_seconds();
-                printf("M__FIRSTRUNREACHTIME,%lu:-:", clock_seconds());
-              }
-              else if (REACH == 0)
-                ct_reach = clock_seconds();
-              REACH = 1;
               
               uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, mt[mt_c]);
               
@@ -239,15 +227,6 @@ PROCESS_THREAD(udp_client_process, ev, data)
               simple_udp_sendto(&udp_conn, packet, strlen(packet), &dest_ipaddr);
               
               local_counter++;
-            }
-            else
-            {
-              ct_unreach = clock_seconds();
-              if ((ct_unreach > ct_reach) && (REACH == 1))
-              {
-                ct_reach_total += (ct_unreach - ct_reach);
-              }
-              REACH = 0;
             }
             /* Add some jitter */
             etimer_set(&periodic_timer, (int) SEND_INTERVAL - CLOCK_SECOND + (random_rand() % (2 * (int) CLOCK_SECOND)));
