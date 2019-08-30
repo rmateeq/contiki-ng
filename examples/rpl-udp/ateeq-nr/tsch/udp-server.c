@@ -15,7 +15,6 @@
 #define UDP_SERVER_PORT 5678
 
 static struct simple_udp_connection udp_conn;
-static struct etimer reset_timer;
 static int counter = 0;
 int tp_val = -7;
 PROCESS(udp_server_process, "UDP server");
