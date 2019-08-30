@@ -27,7 +27,7 @@
 #define UDP_SERVER_PORT 5678
 
 //<<my vars>>
-static unsigned long ct_start, ct_reach, ct_unreach;
+static unsigned long ct_start;
 static unsigned long ct_reach_total = 0;
 static struct etimer reset_timer;
 //run separately for each power level
@@ -52,15 +52,10 @@ static int iat_c = 0;
 static float SEND_INTERVAL = 0;
 static int run_time = 600;
 static int conf_num = 1;
-static int REACH = 0;
 static int counter = 0;
 const int run_delay = 30;
 int local_counter = 0;
 char* pack = NULL;
-//number of nodes: 8(d,s),16(d,s),24,32
-//dt: real
-//mac: tsch,mac
-//of: 0,mrh
 //>>my vars<<
 
 static struct simple_udp_connection udp_conn;
@@ -227,7 +222,6 @@ PROCESS_THREAD(udp_client_process, ev, data)
               simple_udp_sendto(&udp_conn, packet, strlen(packet), &dest_ipaddr);
               
               local_counter++;
-            }
             /* Add some jitter */
             etimer_set(&periodic_timer, (int) SEND_INTERVAL - CLOCK_SECOND + (random_rand() % (2 * (int) CLOCK_SECOND)));
           } //while ends header
