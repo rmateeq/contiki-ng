@@ -7,7 +7,7 @@
 //#define UIP_CONF_BUFFER_SIZE 165
 //#endif
 #define UIP_CONF_ROUTER 0
-
+#define UIP_CONF_BUFFER_SIZE 165
 /*** MAC Layer ***/
 // select MAC protocol [2+1 options]
 #define NETSTACK_CONF_MAC tschmac_driver //csma_driver //nullmac_driver,
