@@ -16,7 +16,7 @@
 
 static struct simple_udp_connection udp_conn;
 static int counter = 0;
-int tp_val = -7;
+int tp_val = 3;
 PROCESS(udp_server_process, "UDP server");
 AUTOSTART_PROCESSES(&udp_server_process);
 /*---------------------------------------------------------------------------*/
