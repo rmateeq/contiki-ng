@@ -204,10 +204,10 @@ PROCESS_THREAD(udp_client_process, ev, data)
           
           /* Initialize timer for send interval */
           etimer_set(&periodic_timer, random_rand() % (int) SEND_INTERVAL); //
-          
+         
           while((clock_seconds()-ct_start) <= run_time) 
           {
-              
+           if (tsch_is_associated) {   
               uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, mt[mt_c]);
               
               printf("\nD__SEQNO,%d:-:", counter+1);
@@ -224,6 +224,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
               local_counter++;
             /* Add some jitter */
             etimer_set(&periodic_timer, (int) SEND_INTERVAL - CLOCK_SECOND + (random_rand() % (2 * (int) CLOCK_SECOND)));
+           }
           } //while ends header
           //flush energy stats
           log_energy();
