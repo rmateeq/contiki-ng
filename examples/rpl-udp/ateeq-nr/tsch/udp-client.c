@@ -161,14 +161,14 @@ PROCESS_THREAD(udp_client_process, ev, data)
 {
   static struct etimer periodic_timer;
   uip_ipaddr_t dest_ipaddr;
-
+  uip_ip6addr(&dest_ipaddr, 0xfe80,0x0000,0x0000,0x0000,0x0212,0x4b00,0x1003,0x562d0);
   PROCESS_BEGIN(); 
   int tpval = tp[0];
   int rv = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tpval);
   rv = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tpval);
   printf("NEWTPVAL,%dSUCCESS,%d",tpval,rv);
   /* Initialize UDP connection */
-  simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL, UDP_SERVER_PORT, udp_rx_callback);
+  simple_udp_register(&udp_conn, UDP_CLIENT_PORT, dest_ipaddr, UDP_SERVER_PORT, udp_rx_callback);
           //if (counter == 0)
           //{
           //  /* 20sec pause before starting each new configuration run */
