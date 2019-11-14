@@ -5,26 +5,20 @@
 #include <stdlib.h>
 #include "sys/energest.h"
 #include "net/mac/tsch/tsch.h"
-//#include "sys/node-id.h"
+#include "net/nullnet/nullnet.h"
 //>>my includes<<
 
 #include "contiki.h"
-#include "net/routing/routing.h"
 #include "random.h"
 #include "net/netstack.h"
-#include "net/ipv6/simple-udp.h"
-
 #include "sys/log.h"
+
 #ifndef LOG_MODULE
 #define LOG_MODULE "App"
 #endif
 #ifndef LOG_LEVEL
 #define LOG_LEVEL LOG_LEVEL_INFO
 #endif
-
-#define WITH_SERVER_REPLY  0
-#define UDP_CLIENT_PORT 8765
-#define UDP_SERVER_PORT 5678
 
 //<<my vars>>
 static unsigned long ct_start;
@@ -60,8 +54,8 @@ char* pack = NULL;
 
 static struct simple_udp_connection udp_conn;
 /*---------------------------------------------------------------------------*/
-PROCESS(udp_client_process, "UDP client");
-AUTOSTART_PROCESSES(&udp_client_process);
+PROCESS(tsch_client_process, "TSCH client");
+AUTOSTART_PROCESSES(&tsch_client_process);
 /*---------------------------------------------------------------------------*/
 
 char* constructPacket(int packSize, unsigned long networkUptime, int count)
@@ -130,52 +124,18 @@ static void log_energy()
         - energest_type_time(ENERGEST_TYPE_LISTEN)));
 }
 /*---------------------------------------------------------------------------*/
-static void
-udp_rx_callback(struct simple_udp_connection *c, const uip_ipaddr_t *sender_addr,
- uint16_t sender_port, const uip_ipaddr_t *receiver_addr, uint16_t receiver_port,
- const uint8_t *data, uint16_t datalen)
-{
-//  LOG_INFO("RSSI: %d",packetbuf_attr(PACKETBUF_ATTR_RSSI));
-  //LOG_INFO("Received response '%.*s' from ", datalen, (char *) data);
-  LOG_INFO("Received response from ");
-  LOG_INFO_6ADDR(sender_addr);
-  LOG_INFO("At node ");
-  LOG_INFO_6ADDR(receiver_addr);
-  int lqi_val;
-  int rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_LINK_QUALITY, &lqi_val);
-  LOG_INFO("lqi state %d",rd);
-  LOG_INFO("lqi: %d",lqi_val);
-  int rssi_val;
-  rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_RSSI, &rssi_val); //RADIO_PARAM_LAST_RSSI, RADIO_PARAM_LAST_PACKET_TIMESTAMP
-  LOG_INFO("rssi state %d \n",rd);
-  LOG_INFO("rssi: %d \n",rssi_val);
-
-#if LLSEC802154_CONF_ENABLED
-  LOG_INFO_(" LLSEC LV:%d", uipbuf_get_attr(UIPBUF_ATTR_LLSEC_LEVEL));
-#endif
-  LOG_INFO_("\n");
-  LOG_INFO_("\n");
-}
 /*---------------------------------------------------------------------------*/
-PROCESS_THREAD(udp_client_process, ev, data)
+PROCESS_THREAD(tsch_client_process, ev, data)
 {
   static struct etimer periodic_timer;
-  uip_ipaddr_t dest_ipaddr;
-  uip_ip6addr(&dest_ipaddr, 0xfe80,0x0000,0x0000,0x0000,0x0212,0x4b00,0x1003,0x562d0);
   PROCESS_BEGIN(); 
   int tpval = tp[0];
   int rv = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tpval);
   rv = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tpval);
   printf("NEWTPVAL,%dSUCCESS,%d",tpval,rv);
   /* Initialize UDP connection */
-  simple_udp_register(&udp_conn, UDP_CLIENT_PORT, &dest_ipaddr, UDP_SERVER_PORT, udp_rx_callback);
-          //if (counter == 0)
-          //{
-          //  /* 20sec pause before starting each new configuration run */
-  etimer_set(&reset_timer, (CLOCK_SECOND*run_delay));
-  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer)); 
-          //}
-
+  
+  
   for (tp_c = 0; tp_c < (sizeof(tp) / sizeof(tp[0])); tp_c++ )
   {  
     for (ps_c = 0; ps_c < (sizeof(ps) / sizeof(ps[0])); ps_c++ )
@@ -187,17 +147,6 @@ PROCESS_THREAD(udp_client_process, ev, data)
           //set parameter configuration
           set_params();
           
-          //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*3));
-          //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
-
-          //NETSTACK_MAC.on();
-          
-          //etimer_set(&reset_timer, random_rand() % (CLOCK_SECOND*7));
-          //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&reset_timer));
-          
-          //NETSTACK_ROUTING.global_repair("simple reset");
-    
-          //NETSTACK_MAC.on();
           /*Note the start time of current run*/
           ct_start = clock_seconds();
           printf("\nM__STARTTIME,%lu:-:", ct_start);
@@ -219,8 +168,10 @@ PROCESS_THREAD(udp_client_process, ev, data)
               free(pack);
               //printf("Message sent: %s",packet);
               //printf("M__MSGLEN %d",strlen(packet));
-              simple_udp_sendto(&udp_conn, packet, strlen(packet), &dest_ipaddr);
-              
+              uint8_t payload[64] = { 0 };
+              nullnet_buf = packet; /* Point NullNet buffer to 'payload' */
+              nullnet_len = ps[ps_c]; /* Tell NullNet that the payload length is two bytes */
+              NETSTACK_NETWORK.output(NULL); /* Send as broadcast */            
               local_counter++;
             /* Add some jitter */
             etimer_set(&periodic_timer, (int) SEND_INTERVAL - CLOCK_SECOND + (random_rand() % (2 * (int) CLOCK_SECOND)));
@@ -237,7 +188,6 @@ PROCESS_THREAD(udp_client_process, ev, data)
           //NETSTACK_NETWORK.off();
           //printf("M__TOTALPKTSSENT-%d:-:",counter);
           //counter = 0;
-          printf("M__RUNENDED,%lu:-:M__RUNTIME,%lu:-:M__RUNREACHABLETIME,%lu\n",clock_seconds() , (clock_seconds()-ct_start), ct_reach_total);
           printf("M__RUNPKTSSENT,%d:-:",local_counter);
           printf("M__RUNCONFNUM,%d ENDS\n<***>\n<***>\n",conf_num++);
           local_counter = 0;
