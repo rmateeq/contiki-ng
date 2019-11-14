@@ -7,8 +7,6 @@
 //#define UIP_CONF_BUFFER_SIZE 165
 //#endif
 #define UIP_CONF_ROUTER 0
-#define UIP_CONF_BUFFER_SIZE 165
-//#define UIP_CONF_IP_FORWARD  0
 /*** MAC Layer ***/
 // select MAC protocol [2+1 options]
 #define NETSTACK_CONF_MAC tschmac_driver //csma_driver //nullmac_driver,
@@ -18,7 +16,5 @@
 #define ENERGEST_CONF_ON 1
 //#endif
 /***Logging***/
-#define LOG_CONF_LEVEL_IPV6                        LOG_LEVEL_DBG
 #define LOG_CONF_LEVEL_MAC                         LOG_LEVEL_DBG
-#define LOG_CONF_LEVEL_RPL                         LOG_LEVEL_DBG
 #endif /* PROJECT_CONF_H_ */
