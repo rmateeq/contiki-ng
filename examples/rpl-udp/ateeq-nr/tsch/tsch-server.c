@@ -16,8 +16,8 @@
 static struct simple_udp_connection udp_conn;
 static int counter = 0;
 int tp_val = 3;
-PROCESS(udp_server_process, "UDP server");
-AUTOSTART_PROCESSES(&udp_server_process);
+PROCESS(tsch_server_process, "TSCH server");
+AUTOSTART_PROCESSES(&tsch_server_process);
 /*---------------------------------------------------------------------------*/
 
 unsigned long extractNetworkUptime(
@@ -93,7 +93,7 @@ void input_callback(const void *data, uint16_t datalen,
   //printf("rssi: %d::\n",rssi_val);
 }
 /*---------------------------------------------------------------------------*/
-PROCESS_THREAD(udp_server_process, ev, data)
+PROCESS_THREAD(tsch_server_process, ev, data)
 {
   PROCESS_BEGIN();
     tsch_set_coordinator(1);
