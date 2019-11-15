@@ -91,8 +91,8 @@ void input_callback(const void *data, uint16_t datalen,
 PROCESS_THREAD(tsch_server_process, ev, data)
 {
   PROCESS_BEGIN();
-  static linkaddr_t lladdr;
-  LOG_INFO_LLADDR(&lladdr);
+  //static linkaddr_t lladdr;
+  LOG_INFO_LLADDR(&uip_lladdr);
     tsch_set_coordinator(1);
     int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
     rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
