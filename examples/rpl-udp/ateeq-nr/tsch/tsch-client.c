@@ -22,8 +22,6 @@
 
 //<<my vars>>
 static unsigned long ct_start;
-static unsigned long ct_reach_total = 0;
-static struct etimer reset_timer;
 //run separately for each power level
 static int tp[1] = {3};//{-3}; 
 static int ps[3] = {27,52,77};
@@ -52,7 +50,6 @@ int local_counter = 0;
 char* pack = NULL;
 //>>my vars<<
 
-static struct simple_udp_connection udp_conn;
 /*---------------------------------------------------------------------------*/
 PROCESS(tsch_client_process, "TSCH client");
 AUTOSTART_PROCESSES(&tsch_client_process);
@@ -168,8 +165,8 @@ PROCESS_THREAD(tsch_client_process, ev, data)
               free(pack);
               //printf("Message sent: %s",packet);
               //printf("M__MSGLEN %d",strlen(packet));
-              uint8_t payload[64] = { 0 };
-              nullnet_buf = packet; /* Point NullNet buffer to 'payload' */
+              //uint8_t payload[64] = { 0 };
+              nullnet_buf = *packet; /* Point NullNet buffer to 'payload' */
               nullnet_len = ps[ps_c]; /* Tell NullNet that the payload length is two bytes */
               NETSTACK_NETWORK.output(NULL); /* Send as broadcast */            
               local_counter++;
