@@ -166,7 +166,7 @@ PROCESS_THREAD(tsch_client_process, ev, data)
               //printf("Message sent: %s",packet);
               //printf("M__MSGLEN %d",strlen(packet));
               //uint8_t payload[64] = { 0 };
-              nullnet_buf = *packet; /* Point NullNet buffer to 'payload' */
+              nullnet_buf = (uint8_t *) packet; /* Point NullNet buffer to 'payload' */
               nullnet_len = ps[ps_c]; /* Tell NullNet that the payload length is two bytes */
               NETSTACK_NETWORK.output(NULL); /* Send as broadcast */            
               local_counter++;
