@@ -9,11 +9,6 @@
 #define LOG_MODULE "App"
 #define LOG_LEVEL LOG_LEVEL_INFO
 
-#define WITH_SERVER_REPLY  0
-#define UDP_CLIENT_PORT 8765
-#define UDP_SERVER_PORT 5678
-
-static struct simple_udp_connection udp_conn;
 static int counter = 0;
 int tp_val = 3;
 PROCESS(tsch_server_process, "TSCH server");
@@ -75,8 +70,8 @@ void input_callback(const void *data, uint16_t datalen,
   //per_conf_counter++;
   printf("\nD__SEQNO,%d:-:",countExtracted);
   
-  PRINTLLADDR(src);
-  PRINTLLADDR(dest);
+  LOG_LLADDR(src);
+  LOG_LLADDR(dest);
   
   //LOG_INFO_6ADDR(sender_addr);
   printf("\nM__CREATETIME,%lu:-:M__CURRENTTIME,%lu:-:M__DELAY,%lu",
