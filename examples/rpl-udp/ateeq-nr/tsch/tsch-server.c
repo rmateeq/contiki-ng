@@ -70,8 +70,8 @@ void input_callback(const void *data, uint16_t datalen,
   //per_conf_counter++;
   printf("\nD__SEQNO,%d:-:",countExtracted);
   
-  log_lladdr(src);
-  log_lladdr(dest);
+  LOG_INFO_LLADDR(src);
+  LOG_INFO_LLADDR(dest);
   
   //LOG_INFO_6ADDR(sender_addr);
   printf("\nM__CREATETIME,%lu:-:M__CURRENTTIME,%lu:-:M__DELAY,%lu",
@@ -91,6 +91,8 @@ void input_callback(const void *data, uint16_t datalen,
 PROCESS_THREAD(tsch_server_process, ev, data)
 {
   PROCESS_BEGIN();
+  static linkaddr_t lladdr;
+  LOG_INFO_LLADDR(&lladdr);
     tsch_set_coordinator(1);
     int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
     rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
