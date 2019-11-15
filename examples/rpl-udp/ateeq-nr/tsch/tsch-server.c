@@ -70,8 +70,8 @@ void input_callback(const void *data, uint16_t datalen,
   //per_conf_counter++;
   printf("\nD__SEQNO,%d:-:",countExtracted);
   
-  LOG_LLADDR(src);
-  LOG_LLADDR(dest);
+  log_lladdr(src);
+  log_lladdr(dest);
   
   //LOG_INFO_6ADDR(sender_addr);
   printf("\nM__CREATETIME,%lu:-:M__CURRENTTIME,%lu:-:M__DELAY,%lu",
