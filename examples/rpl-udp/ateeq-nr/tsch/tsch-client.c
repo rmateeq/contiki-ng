@@ -27,7 +27,7 @@ static int tp[1] = {3};//{-3};
 static int ps[3] = {27,52,77};
 static int mt[3] = {8,4,2}; 
 //bidirectional:yes,no
-
+static linkaddr_t dest_addr =         {{ 0x00, 0x12, 0x4b, 0x00, 0x10, 0x03, 0x56, 0x2d }};
 #define DENSITY 1 //2,3
 #if DENSITY == 1
 static float iat[4] = {4,3,2,1};
@@ -168,7 +168,7 @@ PROCESS_THREAD(tsch_client_process, ev, data)
               //uint8_t payload[64] = { 0 };
               nullnet_buf = (uint8_t *) packet; /* Point NullNet buffer to 'payload' */
               nullnet_len = ps[ps_c]; /* Tell NullNet that the payload length is two bytes */
-              NETSTACK_NETWORK.output(NULL); /* Send as broadcast */            
+              NETSTACK_NETWORK.output(&dest_addr); /* Send as broadcast */            
               local_counter++;
             /* Add some jitter */
             etimer_set(&periodic_timer, (int) SEND_INTERVAL - CLOCK_SECOND + (random_rand() % (2 * (int) CLOCK_SECOND)));
