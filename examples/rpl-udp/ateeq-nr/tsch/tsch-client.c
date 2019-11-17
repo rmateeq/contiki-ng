@@ -153,7 +153,9 @@ PROCESS_THREAD(tsch_client_process, ev, data)
          
           while((clock_seconds()-ct_start) <= run_time) 
           {
+            printf("inside while \n");
            if (tsch_is_associated) {   
+             printf("associated \n");
               //uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, mt[mt_c]);
               
               printf("\nD__SEQNO,%d:-:", counter+1);
