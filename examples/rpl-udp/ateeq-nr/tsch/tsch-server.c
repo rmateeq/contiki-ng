@@ -62,7 +62,7 @@ int extractCount(
 void input_callback(const void *data, uint16_t datalen,
   const linkaddr_t *src, const linkaddr_t *dest)
 {
-  
+  printf("packet received\n\n");
   uint64_t local_time_clock_ticks = tsch_get_network_uptime_ticks();
   uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
   const int countExtracted = extractCount(datalen, (char *) data);
