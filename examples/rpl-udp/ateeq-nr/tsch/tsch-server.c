@@ -110,6 +110,7 @@ PROCESS_THREAD(tsch_server_process, ev, data)
   PROCESS_BEGIN();
   //static linkaddr_t lladdr;
 //  LOG_INFO_LLADDR((linkaddr_t *) &uip_lladdr.addr);
+  //tsch_set_coordinator(linkaddr_cmp(&linkaddr_node_addr, &linkaddr_node_addr));
     tsch_set_coordinator(1);
     int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
     rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
