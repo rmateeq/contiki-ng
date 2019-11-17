@@ -88,17 +88,35 @@ void input_callback(const void *data, uint16_t datalen,
   //printf("rssi: %d::\n",rssi_val);
 }
 /*---------------------------------------------------------------------------*/
+void
+print_lladdr(const linkaddr_t *lladdr)
+{
+  if(lladdr == NULL) {
+     printf("(NULL LL addr)");
+     return;
+  } else {
+    unsigned int i;
+    for(i = 0; i < LINKADDR_SIZE; i++) {
+       if(i > 0) {
+            printf("-");
+       }
+       printf("%02x", lladdr->u8[i]);
+    }
+  }
+}
+/*---------------------------------------------------------------------------*/
 PROCESS_THREAD(tsch_server_process, ev, data)
 {
   PROCESS_BEGIN();
   //static linkaddr_t lladdr;
-  LOG_INFO_LLADDR((linkaddr_t *) &uip_lladdr.addr);
+//  LOG_INFO_LLADDR((linkaddr_t *) &uip_lladdr.addr);
     tsch_set_coordinator(1);
     int rd = NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, tp_val);
     rd = NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &tp_val);
     printf("\nP__TP,%d:-:M__TPSTATE,%d:-:M__TPSETTIME,%lu\n",tp_val,rd,clock_seconds());
       printf("M__STARTTIME,%lu\n", clock_seconds());
   
+  print_lladdr(&linkaddr_node_addr);
   nullnet_set_input_callback(input_callback);
       /* Initialize UDP connection */
 //      simple_udp_register(&udp_conn, UDP_SERVER_PORT, NULL,
