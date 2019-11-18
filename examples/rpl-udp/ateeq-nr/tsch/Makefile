@@ -1,4 +1,4 @@
-CONTIKI_PROJECT = tsch-client tsch-server
+CONTIKI_PROJECT = tsch-client tsch-server nrpu
 all: $(CONTIKI_PROJECT)
 
 DEFINES+=PROJECT_CONF_H=\"project-conf.h\"
