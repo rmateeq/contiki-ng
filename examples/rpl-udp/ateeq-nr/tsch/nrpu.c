@@ -137,7 +137,7 @@ PROCESS(nrpu_process, "NRPU");
 AUTOSTART_PROCESSES(&nrpu_process);
 
 /*---------------------------------------------------------------------------*/
-void input_callback(const void *data, uint16_t len,
+/*void input_callback(const void *data, uint16_t len,
   const linkaddr_t *src, const linkaddr_t *dest)
 {
   if(len == sizeof(unsigned)) {
@@ -147,7 +147,7 @@ void input_callback(const void *data, uint16_t len,
     LOG_INFO_LLADDR(src);
     LOG_INFO_("\n");
   }
-}
+}*/
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(nrpu_process, ev, data)
 {
