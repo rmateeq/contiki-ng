@@ -4,6 +4,7 @@
 #include "sys/energest.h"
 #include <string.h>
 #include <stdio.h> /* For printf() */
+#include <stdlib.h>
 
 /* Log configuration */
 #include "sys/log.h"
@@ -11,7 +12,7 @@
 #define LOG_LEVEL LOG_LEVEL_INFO
 
 /* Configuration */
-#define SEND_INTERVAL (8 * CLOCK_SECOND)
+//#define SEND_INTERVAL (8 * CLOCK_SECOND)
 static linkaddr_t dest_addr =         {{ 0x00, 0x12, 0x4b, 0x00, 0x10, 0x03, 0x56, 0x2d }};
 
 #if MAC_CONF_WITH_TSCH
@@ -26,7 +27,7 @@ static int tp[1] = {3};//{-3};
 static int ps[3] = {27,52,77};
 static int mt[3] = {8,4,2}; 
 //bidirectional:yes,no
-static linkaddr_t dest_addr =         {{ 0x00, 0x12, 0x4b, 0x00, 0x10, 0x03, 0x56, 0x2d }};
+//static linkaddr_t dest_addr =         {{ 0x00, 0x12, 0x4b, 0x00, 0x10, 0x03, 0x56, 0x2d }};
 #define DENSITY 1 //2,3
 #if DENSITY == 1
 static float iat[4] = {4,3,2,1};
