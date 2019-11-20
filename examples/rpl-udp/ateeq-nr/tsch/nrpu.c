@@ -97,7 +97,7 @@ void input_callback(const void *data, uint16_t datalen,
   const linkaddr_t *src, const linkaddr_t *dest)
 {
     //if(datalen == sizeof(unsigned)) {
-    unsigned count;
+    //unsigned count;
     //memcpy(&count, data, sizeof(count));
     //LOG_INFO("---------------Received %u from ", count);
   // printf("---------------Received %u from ", count);
