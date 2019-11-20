@@ -100,7 +100,7 @@ void input_callback(const void *data, uint16_t datalen,
     unsigned count;
     memcpy(&count, data, sizeof(count));
     LOG_INFO("---------------Received %u from ", count);
-    printf("---------------Received %u from ", count);
+  // printf("---------------Received %u from ", count);
     LOG_INFO_LLADDR(src);
     LOG_INFO("\nAt");
     LOG_INFO_LLADDR(dest);
@@ -109,20 +109,20 @@ void input_callback(const void *data, uint16_t datalen,
 
 
   // printf("packet received\n\n");
-  // uint64_t local_time_clock_ticks = tsch_get_network_uptime_ticks();
-  // uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
-  // const int countExtracted = extractCount(datalen, (char *) data);
-  // counter++;
+   uint64_t local_time_clock_ticks = tsch_get_network_uptime_ticks();
+   uint64_t remote_time_clock_ticks = extractNetworkUptime(datalen, (char *) data);
+   const int countExtracted = extractCount(datalen, (char *) data);
+   counter++;
   // //per_conf_counter++;
-  // printf("\nD__SEQNO,%d:-:",countExtracted);
+   printf("\nD__SEQNO,%d:-:",countExtracted);
   
-  // LOG_INFO_LLADDR(src);
-  // LOG_INFO_LLADDR(dest);
+   LOG_INFO_LLADDR(src);
+   LOG_INFO_LLADDR(dest);
   
   // //LOG_INFO_6ADDR(sender_addr);
-  // printf("\nM__CREATETIME,%lu:-:M__CURRENTTIME,%lu:-:M__DELAY,%lu",
-  //           (unsigned long)remote_time_clock_ticks, (unsigned long)local_time_clock_ticks,
-  //           (unsigned long)(local_time_clock_ticks - remote_time_clock_ticks));
+   printf("\nM__CREATETIME,%lu:-:M__CURRENTTIME,%lu:-:M__DELAY,%lu",
+             (unsigned long)remote_time_clock_ticks, (unsigned long)local_time_clock_ticks,
+             (unsigned long)(local_time_clock_ticks - remote_time_clock_ticks));
 
   // int lqi_val;
   // int rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_LINK_QUALITY, &lqi_val);
