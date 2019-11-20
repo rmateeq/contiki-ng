@@ -307,7 +307,6 @@ PROCESS_THREAD(nrpu_process, ev, data)
               local_counter++;
             /* Add some jitter */
             etimer_set(&periodic_timer, (int) SEND_INTERVAL - CLOCK_SECOND + (random_rand() % (2 * (int) CLOCK_SECOND)));
-           }
           } //while ends header
           log_energy();
 
