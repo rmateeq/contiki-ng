@@ -96,7 +96,7 @@ int extractCount(
 void input_callback(const void *data, uint16_t datalen,
   const linkaddr_t *src, const linkaddr_t *dest)
 {
-    if(datalen == sizeof(unsigned)) {
+    //if(datalen == sizeof(unsigned)) {
     unsigned count;
     memcpy(&count, data, sizeof(count));
     LOG_INFO("---------------Received %u from ", count);
@@ -105,7 +105,7 @@ void input_callback(const void *data, uint16_t datalen,
     LOG_INFO("\nAt");
     LOG_INFO_LLADDR(dest);
     LOG_INFO_("\n");
-  }
+  //}
 
 
   // printf("packet received\n\n");
