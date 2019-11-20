@@ -290,7 +290,9 @@ PROCESS_THREAD(nrpu_process, ev, data)
           while((clock_seconds()-ct_start) <= run_time) 
           {
               //uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, mt[mt_c]);
-            TSCH_MAC_MAX_FRAME_RETRIES = mt[mt_c];
+            //TSCH_MAC_MAX_FRAME_RETRIES = mt[mt_c];
+            packetbuf_set_attr(PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS,mt[mt_c]);
+            printf("max tx set to %d;;;",TSCH_MAC_MAX_FRAME_RETRIES);
               
               printf("\nD__SEQNO,%d:-:", counter+1);
               //LOG_INFO_6ADDR(&dest_ipaddr);
