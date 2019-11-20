@@ -25,7 +25,7 @@ static unsigned long ct_start;
 //run separately for each power level
 static int tp[1] = {7};//{-3}; 
 static int ps[3] = {27,52,77};
-static int mt[3] = {7,5,3,1}; 
+static int mt[3] = {6,4,2}; 
 //bidirectional:yes,no
 //static linkaddr_t dest_addr =         {{ 0x00, 0x12, 0x4b, 0x00, 0x10, 0x03, 0x56, 0x2d }};
 #define DENSITY 1 //2,3
