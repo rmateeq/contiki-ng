@@ -30,7 +30,7 @@ static int mt[3] = {6,4,2};
 //static linkaddr_t dest_addr =         {{ 0x00, 0x12, 0x4b, 0x00, 0x10, 0x03, 0x56, 0x2d }};
 #define DENSITY 1 //2,3
 #if DENSITY == 1
-static float iat[4] = {4,3,2,1};
+static float iat[4] = {12,9,6,3};//{4,3,2,1};
 #elif DENSITY == 2
 static float iat[4] = {8,6,4,2};
 #elif DENSITY == 3
