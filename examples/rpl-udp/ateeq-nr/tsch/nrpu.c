@@ -289,6 +289,7 @@ PROCESS_THREAD(nrpu_process, ev, data)
          
           while((clock_seconds()-ct_start) <= run_time) 
           {
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
               //uipbuf_set_attr(UIPBUF_ATTR_MAX_MAC_TRANSMISSIONS, mt[mt_c]);
             //TSCH_MAC_MAX_FRAME_RETRIES = mt[mt_c];
             packetbuf_set_attr(PACKETBUF_ATTR_MAX_MAC_TRANSMISSIONS,mt[mt_c]);
