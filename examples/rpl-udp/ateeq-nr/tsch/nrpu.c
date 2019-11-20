@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdio.h> /* For printf() */
 #include <stdlib.h>
-
+#include "random.h"
 /* Log configuration */
 #include "sys/log.h"
 #define LOG_MODULE "App"
