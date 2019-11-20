@@ -98,12 +98,12 @@ void input_callback(const void *data, uint16_t datalen,
 {
     //if(datalen == sizeof(unsigned)) {
     unsigned count;
-    memcpy(&count, data, sizeof(count));
-    LOG_INFO("---------------Received %u from ", count);
+    //memcpy(&count, data, sizeof(count));
+    //LOG_INFO("---------------Received %u from ", count);
   // printf("---------------Received %u from ", count);
-    LOG_INFO_LLADDR(src);
-    LOG_INFO("\nAt");
-    LOG_INFO_LLADDR(dest);
+    //LOG_INFO_LLADDR(src);
+    //LOG_INFO("\nAt");
+    //LOG_INFO_LLADDR(dest);
     LOG_INFO_("\n");
   //}
 
@@ -124,13 +124,13 @@ void input_callback(const void *data, uint16_t datalen,
              (unsigned long)remote_time_clock_ticks, (unsigned long)local_time_clock_ticks,
              (unsigned long)(local_time_clock_ticks - remote_time_clock_ticks));
 
-  // int lqi_val;
-  // int rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_LINK_QUALITY, &lqi_val);
-  // printf("\nM__LQISTATE,%d:-:M__LQI,%d:-:",rd,lqi_val);
+   int lqi_val;
+   int rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_LINK_QUALITY, &lqi_val);
+   printf("\nM__LQISTATE,%d:-:M__LQI,%d:-:",rd,lqi_val);
   
-  // int rssi_val;
-  // rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_RSSI, &rssi_val);
-  // printf("M__RSSISTATE,%d:-:M__RSSI,%d\n",rd,rssi_val);
+   int rssi_val;
+   rd = NETSTACK_RADIO.get_value(RADIO_PARAM_LAST_RSSI, &rssi_val);
+   printf("M__RSSISTATE,%d:-:M__RSSI,%d\n",rd,rssi_val);
   //printf("rssi: %d::\n",rssi_val);
 }
 /*---------------------------------------------------------------------------*/
