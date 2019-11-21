@@ -287,10 +287,10 @@ PROCESS_THREAD(nrpu_process, ev, data)
           
           /* Initialize timer for send interval */
           etimer_set(&periodic_timer, random_rand() % (int) SEND_INTERVAL); //
-          #ifdef TSCH_CONF_MAC_MAX_FRAME_RETRIES
-          #undef TSCH_CONF_MAC_MAX_FRAME_RETRIES
+          #ifdef TSCH_MAC_MAX_FRAME_RETRIES
+          #undef TSCH_MAC_MAX_FRAME_RETRIES
           #endif
-          #define TSCH_CONF_MAC_MAX_FRAME_RETRIES mt[mt_c]
+          #define TSCH_MAC_MAX_FRAME_RETRIES mt[mt_c]
           while((clock_seconds()-ct_start) <= run_time) 
           {
             PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
