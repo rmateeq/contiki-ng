@@ -23,7 +23,7 @@ static linkaddr_t coordinator_addr =  {{ 0x00, 0x12, 0x4b, 0x00, 0x10, 0x03, 0x5
 //<<my vars>>
 static unsigned long ct_start;
 //run separately for each power level
-static int tp[1] = {1};//{-3}; 
+static int tp[1] = {-5};//{-3}; 
 static int ps[3] = {27,52,77};
 static int mt[3] = {6,4,2}; 
 //bidirectional:yes,no
