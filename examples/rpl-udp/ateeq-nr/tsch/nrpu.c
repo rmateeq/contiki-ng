@@ -23,12 +23,12 @@ static linkaddr_t coordinator_addr =  {{ 0x00, 0x12, 0x4b, 0x00, 0x10, 0x03, 0x5
 //<<my vars>>
 static unsigned long ct_start;
 //run separately for each power level
-static int tp[1] = {-1};//{-3}; 
+static int tp[1] = {-7};//{-3}; 
 static int ps[3] = {27,52,77};
 static int mt[3] = {6,4,2}; 
 //bidirectional:yes,no
 //static linkaddr_t dest_addr =         {{ 0x00, 0x12, 0x4b, 0x00, 0x10, 0x03, 0x56, 0x2d }};
-#define DENSITY 1 //2,3
+#define DENSITY 3 //2,3
 #if DENSITY == 1
 static float iat[4] = {4,3,2,1};
 #elif DENSITY == 2
